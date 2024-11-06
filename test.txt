@@ -1,0 +1,174 @@
+var locations = [
+    { id: 0, name: "Love", color: "#b4403e" },
+...
+  ];
+
+  var flows = [
+    { from: 0, to: 0, quantity: 0 },
+   ...
+  ];
+  
+  var totalCount = 0;
+  var matrix = [];
+  var firstChord = null;  // Currently selected first chord
+  var secondChord = null; // Currently selected second chord
+  
+  //Map list of data to matrix
+  flows.forEach(function(flow) {
+    if (!matrix[flow.from]) {
+      matrix[flow.from] = [];
+    }
+    matrix[flow.from][flow.to] = flow.quantity;
+    totalCount += flow.quantity;
+  });
+  
+ ...
+ 
+  /*Extra Functions */
+  
+  /*Returns an array of tick angles and labels, given a group*/
+  function groupTicks(d) {
+    var anglePerPerson = (d.endAngle - d.startAngle) / d.value;
+    var personsPerPercent = totalCount / 100;
+    return d3.range(0, d.value, personsPerPercent).map(function(v, i) {
+      return {
+        angle: v * anglePerPerson + d.startAngle,
+        label: i % 5 ? null : v / personsPerPercent + "%"
+      };
+    });
+  };
+  
+  
+  function highlightChords(index) {
+    const arcSelector = `.group.${index} .arc`;
+    const textSelector = `.group.${index} .titles`;
+
+    if (firstChord === null) {
+        firstChord = index;
+        showAllConnections(firstChord);
+        applyVisualFeedback();
+        return;
+    }
+
+    if (firstChord === index && secondChord === null) {
+        firstChord = null; // Reset firstChord
+        applyVisualFeedback();
+        showAllChords(); // Show all connections for the first chord
+        return;
+    }
+
+    // If the clicked chord is the same as firstChord and secondChord is set
+    if (firstChord === index && secondChord !== null) {
+        showAllConnections(secondChord);
+        firstChord = secondChord; // Promote secondChord to firstChord
+        secondChord = null; // Reset secondChord
+        applyVisualFeedback();
+        return;
+    }
+
+    // If secondChord is not set, set it to the clicked index
+    if (secondChord === null) {
+        secondChord = index;
+        var hasConnection = checkConnection(firstChord, secondChord);
+
+        if (hasConnection) {
+            console.log(`Highlighting connection between: ${firstChord} and ${secondChord}`);
+            // Highlight only the connection between firstChord and secondChord
+            hideAllChords();
+            highlightConnection(firstChord, secondChord);
+          } else {
+            showAllConnections(secondChord);
+            firstChord = secondChord; // Promote secondChord to firstChord
+            secondChord = null; // Reset secondChord
+        }
+        applyVisualFeedback();
+        return;
+    } else {
+        // If secondChord is set, check if it's the same as the clicked index
+        if (secondChord === index) {
+            secondChord = null;
+            showAllConnections(firstChord);
+            applyVisualFeedback();
+        } else {
+            secondChord = index;
+            var hasConnection = checkConnection(firstChord, secondChord);
+
+            if (hasConnection) {
+                hideAllChords();
+                highlightConnection(firstChord, secondChord);
+            } else {
+                showAllConnections(secondChord);
+                firstChord = secondChord; // Promote secondChord to firstChord
+                secondChord = null; // Reset secondChord
+            }
+            applyVisualFeedback();
+        }
+    }
+}
+
+// Function to apply visual feedback
+function applyVisualFeedback() {
+    // Select all arc elements
+    d3.selectAll("g.group .arc")
+        .style("opacity", function(d) {
+            // Check if the arc index matches either of the selected chords
+            if (firstChord !== null && d.index === firstChord) {
+                return 1; // Full opacity for firstChord
+            }
+            if (secondChord !== null && d.index === secondChord) {
+                return 1; // Full opacity for secondChord
+            }
+            return 0.3; // Dim all other arcs
+        });
+}
+
+// Function to show all connections for a given chord
+function showAllConnections(chordIndex) {
+    hideAllChords(); // Hide all first
+    d3.selectAll(".chord-source-" + chordIndex + ", .chord-target-" + chordIndex)
+        .style("fill-opacity", "0.7")
+        .style("stroke-opacity", "1");
+}
+
+// Function to highlight the connection between two chords
+function highlightConnection(chord1Index, chord2Index) {
+    // Clear previous highlights
+    hideAllChords();
+
+    // Highlight only the specific connection
+    d3.selectAll("path.chord")
+        .filter(function(d) {
+            return (d.source.index === chord1Index && d.target.index === chord2Index) ||
+                   (d.source.index === chord2Index && d.target.index === chord1Index);
+        })
+        .style("fill-opacity", "0.7")
+        .style("stroke-opacity", "1");
+}
+
+// Function to check if there is a connection between two chords
+function checkConnection(chord1Index, chord2Index) {
+  return flows.some(flow => 
+    ((flow.from === chord1Index && flow.to === chord2Index) || 
+    (flow.from === chord2Index && flow.to === chord1Index)) && flow.quantity > 0
+  );
+}
+
+function showAllChords() {
+    // Reset all arcs to be fully visible
+    d3.selectAll("g.group .arc")
+    .style("opacity", 1); // Set all arcs to full opacity
+    
+    svg.selectAll("path.chord")
+        .style("fill-opacity", "0.7")
+        .style("stroke-opacity", "1");
+
+    // Reset indices
+    firstChord = null;
+    secondChord = null;
+}
+
+function hideAllChords() {
+    svg.selectAll("path.chord")
+        .style("fill-opacity", "0")
+        .style("stroke-opacity", "0");
+}
