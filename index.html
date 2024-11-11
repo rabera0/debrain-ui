@@ -5,103 +5,165 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+    <script src="chord.js" defer></script> <!-- Use defer to ensure the script runs after the DOM is loaded -->
     <title>Document</title>
 </head>
 <body>
-    <!-- <section id="intro">
-        <p>WELCOME TO</p>
-        <br />
-        <br />
-        <br />
-        <br />
-        <h1>pulse</h1>
-        <p>By COX</p>
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <button> GET STARTED </button>
-    </section>
-    <section id="header">
-        <img src="./assets/Logo.png" alt="Logo"  width="100" height="100">
-    </section> -->
-    <!-- <section>
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <h2>PLACE YOUR FINGER ON </h2>
-        <h2>THE SENSOR TO VISUALIZE</h2>     
-        <h2>YOUR PULSE</h2>
-        <img src="./assets/finger-gif.gif" id="fingerprint" alt="fingerprint"  width="100" height="100">
-    </section> -->
-    <!-- <section>
-        <h4>WE'VE GOT YOUR PULSE</h4>       
-    </section> -->
-    <!-- <section>
-        <h3>WHAT MAKES</h3>
-        <h3>YOUR HEART BEAT</h3>
-        <p>CHOOSE ONE</p>
-        <div id="quiz">
-            <button> LOVE </button>
-            <button> RECOGNITION </button>
-            <button> SUCCESS </button>
-            <button> PURPOSE </button>
-            <button> HOPE </button>
-            <button> EXCITEMENT </button>
+        <!-- Intro Section -->
+        <section id="intro">
+            <p>WELCOME TO</p>
+            <br />
+            <br />
+            <br />
+            <h1>pulse</h1>
+            <p>By COX</p>
+            <br />
+            <br />
+            <br />
+            <button class="next" data-next="1">GET STARTED</button>
+        </section>
+    
+        <!-- Header Section -->
+        <div id="header">
+            <img src="./assets/Logo.png" alt="Logo"  width="100" height="100">
         </div>
-        <button id="next"> NEXT&nbsp;&nbsp;&nbsp;&nbsp;→</button>
-    </section> -->
-    <!-- <section>
-        <h3>WHAT MAKES</h3> 
-        <h3>YOUR HEART BEAT</h3>
-        <h5>RECOGNITION</h5>
-        <br />
-        <p>Acknowlegement or appreciation of an achievement</p>
-        <button id="back">←&nbsp;&nbsp;&nbsp;&nbsp;BACK</button>
-        <button id="next"> NEXT&nbsp;&nbsp;&nbsp;&nbsp;→</button>
-    </section> -->
-     <!-- <section>
-        <h3>WHAT MAKES</h3>
-        <h3>YOUR HEART RACE</h3>
-        <p>CHOOSE ONE</p>
-        <div id="quiz">
-            <button> JOY </button>
-            <button> INSPIRATION </button>
-            <button> GRATITUDE </button>
-            <button> ANTICIPATION </button>
-            <button> PASSION </button>
-            <button> FEAR </button>
-        </div>
-        <button id="back">←&nbsp;&nbsp;&nbsp;&nbsp;BACK</button>
-        <button id="next"> NEXT&nbsp;&nbsp;&nbsp;&nbsp;→</button>
-    </section> -->
-    <!-- <section>
-        <h3>WHAT MAKES</h3>
-        <h3>YOUR HEART RACE</h3>
-        <h5>JOY</h5>
-        <br />
-        <p>Feeling of great pleasure or happiness</p>
-        <button id="back">←&nbsp;&nbsp;&nbsp;&nbsp;BACK</button>
-        <button id="next"> NEXT&nbsp;&nbsp;&nbsp;&nbsp;→</button>
-    </section> -->
-    <section>
-        <h5 id="word">RECOGNITION +</h5>
-        <h5 id="word">JOY</h5>
-        <p>You find great joy in acheiving your goals and love to celebreate the warm glow of recognition for your effortgs</p>
-        <button id="back">←&nbsp;&nbsp;&nbsp;&nbsp;BACK</button>
-        <button id="next"> NEXT&nbsp;&nbsp;&nbsp;&nbsp;→</button>
-    </section>
-    <!-- <section id="portrait">
-        <div>
-            <h2>Take Your Portrait</h2>
-            <button> Take Photo </button>
-        </div>
-    </section>
-    <section id="explore">
-    </section> -->
+    
+        <!-- Pulse Visualization Section -->
+        <section>
+            <h2>PLACE YOUR FINGER ON</h2>
+            <h2>THE SENSOR TO VISUALIZE</h2>
+            <h2>YOUR PULSE</h2>
+            <img src="./assets/finger-gif.gif" id="fingerprint" alt="fingerprint" width="100" height="100">
+            <button class="next" id="next" data-next="2">NEXT →</button>
+        </section>
+    
+        <!-- Pulse Confirmed Section -->
+        <section>
+            <h4>WE'VE GOT YOUR PULSE</h4>
+            <button class="next" id="next" data-next="3">NEXT →</button>
+        </section>
+    
+        <!-- Emotion Question 1 Section -->
+        <section>
+            <h3>WHAT MAKES</h3>
+            <h3>YOUR HEART BEAT</h3>
+            <p>CHOOSE ONE</p>
+            <p id="quiz1_warning" style="color: red; display: none;">Please select an emotion.</p>
+            <div id="quiz1">
+                <button>LOVE</button>
+                <button>RECOGNITION</button>
+                <button>SUCCESS</button>
+                <button>PURPOSE</button>
+                <button>HOPE</button>
+                <button>EXCITEMENT</button>
+            </div>
+            <button class="next" id="next" data-next="4">NEXT →</button>
+        </section>
+    
+        <!-- Emotion 1 Message Section -->
+        <section style="display: none;">
+            <h3>WHAT MAKES</h3>
+            <h3>YOUR HEART BEAT</h3>
+            <h5 id="emotion1"></h5>
+            <br />
+            <p id="emotion1_message"></p>
+            <button class="back" id="back" data-back="3">← BACK</button>
+            <button class="next" id="next" data-next="5">NEXT →</button>
+        </section>
+    
+        <!-- Emotion Question 2 Section -->
+        <section style="display: none;">
+            <h3>WHAT MAKES</h3>
+            <h3>YOUR HEART RACE</h3>
+            <p>CHOOSE ONE</p>
+            
+ <p id="quiz2_warning" style="color: red; display: none;">Please select an emotion.</p>
+            <div id="quiz2">
+                <button>JOY</button>
+                <button>INSPIRATION</button>
+                <button>GRATITUDE</button>
+                <button>ANTICIPATION</button>
+                <button>PASSION</button>
+                <button>FEAR</button>
+            </div>
+            <button class="back" id="back" data-back="4">← BACK</button>
+            <button class="next" id="next" data-next="6">NEXT →</button>
+        </section>
+    
+        <!-- Emotion 2 Message Section -->
+        <section style="display: none;">
+            <h3>WHAT MAKES</h3>
+            <h3>YOUR HEART RACE</h3>
+            <h5 id="emotion2"></h5>
+            <br />
+            <p id="emotion2_message"></p>
+            <button class="back" id="back"data-back="5">← BACK</button>
+            <button class="next" id="next" data-next="7">NEXT →</button>
+        </section>
+    
+        <!-- Combined Emotion Message Section -->
+        <section style="display: none;">
+            <h5 id="word"></h5>
+            <p id="emotion_pair_message"></p>
+            <!-- <button class="back" id="back" data-back="6">← BACK</button> -->
+            <button class="next" id="next" data-next="8">CONTINUE →</button>
+        </section>
+
+        <!-- Portrait Start Section -->
+        <section style="display: none;">
+            <h3> HOLD FOR A PORTRAIT </h3>
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <button class="next" data-next="9"> I'M READY </button>
+        </section>
+    
+        <!-- Mid Photo Section -->
+        <section style="display: none;">
+            <h5> LOOK UP </h5>
+            <h3> SMILE! </h3>
+            <button class="next" id="next" data-next="10">NEXT →</button>
+        </section>
+
+        <!-- Mid Photo Section -->
+        <section style="display: none;">
+            <button class="next" id="redo" data-next="9"> REDO </button>
+            <br />
+            <button class="next" id="save" data-next="11"> SAVE </button>
+            <!-- <button class="back" id="back" data-back="6">← BACK</button> -->
+            <!-- <button class="next" id="next" data-next="9">NEXT →</button> -->
+        </section>
+
+        <!-- PORTRAIT END PAGE -->
+        <section style="display: none;">
+            <h6> THANK YOU </h6>
+            <p> We've got your vibe. </p>
+            <p> Now look up. </p>
+            <button class="next" id="next" data-next="12">FINISH →</button>
+        </section>
+
+        <!-- Start of Explore Page -->
+        <section style="display: none;">
+            <h6> SEE OTHER </h6>
+            <h6> RESPONSES </h6>
+            <br />
+            <button class="next" id="explore" data-next="13"> Explore </button>
+        </section>
+
+        <!-- PORTRAIT END PAGE -->
+        <section style="display: none;">
+            <div id="chart">
+            </div>
+            <button class="next" id="finish" data-next="0">FINISH →</button>
+        </section>
+        
+        
+
+
+
+    <script type="module" src="app.js" defer></script>
 </body>
 </html>

@@ -12,119 +12,52 @@
   font-style: normal;
 }
 
+/* General Styles */
 body {
   font-family: 'Gotham', -apple-system, BlinkMacSystemFont, "Lucida Handwriting",
-  "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
-  "Droid Sans", "Helvetica Neue", sans-serif;
--webkit-font-smoothing: antialiased;
--moz-osx-font-smoothing: grayscale;
-    background-color: #111111;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0;
-}
-
-.arc {
-    cursor: pointer;
-    stroke: #fff;
-    stroke-width: 1.5px;
-}
-
-section {
-    text-align: center;
-}
-
-#header {
-  position: absolute;
-  top: 0; /* Align to top of the page */
-  left: 50%;
-  transform: translateX(-50%); /* Center horizontally */
-  height: 15vmin; /* Responsive height */
-  pointer-events: none; /* Prevent interactions */
-}
-
-#next {
-  position: absolute;
-  bottom:0;
-  right:0;
-  font-size: 14px;
-  font-weight: bold;
-  max-width: 10%;
-  margin: 3% 4%;
-}
-
-#back {
-  position: absolute;
-  bottom:0;
-  left:0;
-  font-size: 14px;
-  font-weight: bold;
-  max-width: 10%;
-  margin: 3% 4%;
-}
-
-img {
-  margin:20px 0 0 0;
-}
-
-#fingerprint {
-  padding:5%;
-}
-
-#quiz {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr); /* Two equal columns */
-  gap: 40px; /* Space between buttons */
-  margin-top: 20px;
-  padding-top: 10%;
-  width: 650px;
-}
-
-
-
-button {
-  color: white;
-  font-weight: bold;
-  text-align: center;
+    "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
+    "Droid Sans", "Helvetica Neue", sans-serif;
+  background-color: #111111;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin: 0;
-  background-color: transparent;
-  border: 1px solid white; /* Use a solid border to ensure visibility */
-  border-radius: 50px; /* Rounded corners */
-  padding: 22px; /* Equal padding for consistency */
-  font-size: 15px; /* Consistent font size */
-  width: 100%; /* Make buttons take the full width of the column */
-  box-sizing: border-box; /* Ensures padding doesn't affect width */
-  cursor: pointer; /* Pointer cursor for interactivity */
-  transition: all 0.3s ease; /* Smooth transition for hover effect */
-  letter-spacing: 2px
+  flex-direction: column;
 }
 
-/* button:hover {
-  color: gold;
-  border: 2px solid gold;
-} */
+/* Hide all sections by default */
+section {
+  display: none;
+  text-align: center;
+}
+
+#intro {
+  display: block; /* Show intro section by default */
+}
+
+#chart {
+  scale: 0.8;
+}
+h1, h2, h3, h4, h5, p {
+  color: white;
+  margin: 0;
+}
 
 h1 {
-    color: #f8efdb;
-    font-size: 100px;
-    font-weight: bold;
-    text-align: center;
-    margin: 0;
-    letter-spacing: 18px;
+  font-size: 100px;
+  letter-spacing: 10px;
+  font-weight: bold;
 }
 
 h2 {
-  color: white;
   font-size: 60px;
   font-weight: bold;
   text-align: center;
-  margin: -15px;
+  margin: -15px
 }
 
 h3 {
-  color: white;
   font-size: 40px;
   font-weight: bold;
   text-align: center;
@@ -132,7 +65,6 @@ h3 {
 }
 
 h4 {
-  color: white;
   font-size: 60px;
   font-weight: normal;
   text-align: center;
@@ -149,13 +81,204 @@ h5 {
   padding: 140px;
 }
 
-
+h6 {
+  color: white;
+  font-size: 80px;
+  font-weight: bold;
+  text-align: center;
+  margin: 0;
+}
 
 p {
-  color: white;
   margin: 25px;
 }
 
+button {
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  margin: 0;
+  background-color: transparent;
+  border: 1px solid white; /* Use a solid border to ensure visibility */
+  border-radius: 50px; /* Rounded corners */
+  padding: 22px; /* Equal padding for consistency */
+  font-size: 15px; /* Consistent font size */
+  width: 100%; /* Make buttons take the full width of the column */
+  max-width: 400px;
+  box-sizing: border-box; /* Ensures padding doesn't affect width */
+  cursor: pointer; /* Pointer cursor for interactivity */
+  transition: all 0.3s ease; /* Smooth transition for hover effect */
+  letter-spacing: 2px
+}
+
+button:focus {
+  background-color: white;
+  color: #111111;
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+/* Layout adjustments for button positioning */
+#next {
+  position: absolute;
+  bottom:0;
+  right:0;
+  font-size: 14px;
+  font-weight: bold;
+  max-width: 11%;
+  margin: 3% 4%;
+}
+
+#back {
+  position: absolute;
+  bottom:0;
+  left:0;
+  font-size: 14px;
+  font-weight: bold;
+  max-width: 11%;
+  margin: 3% 4%;
+}
+
+#finish {
+  position: absolute;
+  bottom:0;
+  right:0;
+  font-size: 14px;
+  font-weight: bold;
+  max-width: 11%;
+  margin: 3% 4%;
+}
 
 
+img {
+  width: 100px;
+  height: 100px;
+  margin-top: 20px;
+}
 
+/* Styling for sections */
+#fingerprint {
+  width: 100px;
+  height: 100px;
+  margin-top: 10%;
+  margin-bottom: -20%;
+}
+
+section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+#header {
+  position: absolute;
+  top: 0; /* Align to top of the page */
+  left: 50%;
+  transform: translateX(-50%); /* Center horizontally */
+  height: 15vmin; /* Responsive height */
+  pointer-events: none; /* Prevent interactions */
+}
+
+/* Specific Section Styles */
+#header img {
+  margin-bottom: 20px;
+}
+
+#yesButton, #noButton {
+  padding: 5%;
+  margin: 10px 0; 
+}
+
+#quiz1, #quiz2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Two equal columns */
+  gap: 40px; /* Space between buttons */
+  margin-top: 20px;
+  padding-top: 10%;
+  width: 650px;
+}
+
+#quiz1 button, #quiz2 button {
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  margin: 0;
+  background-color: transparent;
+  border: 1px solid white; /* Use a solid border to ensure visibility */
+  border-radius: 50px; /* Rounded corners */
+  padding: 22px; /* Equal padding for consistency */
+  font-size: 15px; /* Consistent font size */
+  width: 100%; /* Make buttons take the full width of the column */
+  box-sizing: border-box; /* Ensures padding doesn't affect width */
+  cursor: pointer; /* Pointer cursor for interactivity */
+  transition: all 0.3s ease; /* Smooth transition for hover effect */
+  letter-spacing: 2px
+}
+
+#quiz1 button:focus, #quiz2 button:focus {
+  color: gold;
+  border:1px solid gold;
+}
+
+/* Added margin for the last sections */
+#emotion1, #emotion2 {
+  font-size: 80px;
+}
+
+#emotion1_message, #emotion2_message {
+  font-size: 20px;
+  color: white;
+  margin-top: 20px;
+  padding: 0 18%;
+}
+
+#word {
+  color: white;
+  font-size: 80px;
+  font-weight: bold;
+  text-align: center;
+  margin: 0;
+  padding: 140px;
+}
+
+#emotion_pair_message {
+  font-size: 24px;
+  color: white;
+  margin-top: 20px;
+  padding: 0 18%;
+}
+
+#redo, #save {
+  padding: 20px 99px 25px 99px;
+  margin: 40px 0 40px 0;
+}
+
+/* For mobile responsiveness */
+@media (max-width: 768px) {
+  #quiz1, #quiz2 {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  #quiz1 button, #quiz2 button {
+    width: 100%;
+  }
+
+  #next, #back {
+    font-size: 14px;
+  }
+
+  h1 {
+    font-size: 60px;
+  }
+
+  h2, h3, h4 {
+    font-size: 30px;
+  }
+
+  h5 {
+    font-size: 40px;
+  }
+}
