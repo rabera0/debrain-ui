@@ -95,9 +95,78 @@ const data = {
   
   let emotion1 = "";
   let emotion2 = "";
+  let currentPage = 1;
   
   let currentSectionIndex = 0;
   
+
+  const socket = new WebSocket('ws://localhost:1000');
+
+  function sendChordData() {
+    const data = {
+        section: "explore",
+        firstChord: "",
+        secondChord: ""
+    };
+    if (socket.readyState === WebSocket.OPEN) {
+        console.log("web socket data:" + JSON.stringify(data));
+        socket.send(JSON.stringify(data));
+    }
+  }
+
+  function sendUserData() {
+    const data = {
+        section: "quiz",
+        page: currentPage,
+        emotion1: emotion1,
+        emotion2: emotion2
+    };
+    if (socket.readyState === WebSocket.OPEN) {
+        console.log("web socket data:" + JSON.stringify(data));
+        socket.send(JSON.stringify(data));
+    }
+  }
+
+    // Function to send data through the WebSocket
+    function sendPortraitData(action) {
+        const data = {
+            section: "portrait",
+            action: action // This will be either "redo" or "save"
+        };
+        if (socket.readyState === WebSocket.OPEN) {
+            console.log("web socket data:", JSON.stringify(data));
+            socket.send(JSON.stringify(data));
+        }
+    }
+
+    // Add event listeners to buttons
+    document.getElementById("start").addEventListener("click", () => {
+        currentPage = "1";  // Set to the page number associated with the "start" button
+        sendUserData();
+    });
+    document.getElementById("explore").addEventListener("click", () => sendChordData());
+    document.getElementById("portrait").addEventListener("click", () => {
+        currentSectionIndex = 9;  // Set the currentSectionIndex to the portrait section (index 9)
+        console.log(`Moving to section: ${currentSectionIndex}`);
+        showCurrentSection(); // Ensure the section is displayed
+        sendPortraitData(""); // Send the portrait data with an empty action (or "save"/"redo" depending on logic)
+    });
+    
+    document.getElementById("redo").addEventListener("click", () => sendPortraitData("redo"));
+    document.getElementById("save").addEventListener("click", () => sendPortraitData("save"));
+
+
+  function sendFinishData() {
+    const data = {
+        section: "idle"
+    };
+    if (socket.readyState === WebSocket.OPEN) {
+        console.log("web socket data:" + JSON.stringify(data));
+        socket.send(JSON.stringify(data));
+    }
+  }
+
+
   // Function to hide all sections
   function hideAllSections() {
       const sections = document.querySelectorAll('section');
@@ -183,6 +252,8 @@ const data = {
           showCurrentSection();
           console.log("Proceeding to next section:", currentSectionIndex);
       }
+      currentPage = 4;
+      sendUserData()
   });
   
   // Specific listener for the "Next" button in the "heart race" question
@@ -196,6 +267,8 @@ const data = {
           showCurrentSection();
           console.log("Proceeding to next section:", currentSectionIndex);
       }
+      currentPage = 6;
+      sendUserData()
   });
   
   // Display combined emotion message
@@ -212,43 +285,62 @@ const data = {
       document.getElementById('emotion_pair_message').innerText = combinationMessage;
   
       console.log(`Displaying combined message for emotions: ${emotion1} and ${emotion2}`);
+      currentPage = 7;
+      sendUserData()
   });
   
-  // General "Next" listener excluding sections with specific checks
-  document.querySelectorAll('.next').forEach(button => {
-      button.addEventListener('click', () => {
-          const nextSection = parseInt(button.getAttribute('data-next'), 10);
-          if (
-              (currentSectionIndex === 3 && !emotion1) || // Quiz 1 not answered
-              (currentSectionIndex === 5 && !emotion2)    // Quiz 2 not answered
-          ) {
-              displaySelectionWarning(
-                  document.getElementById(currentSectionIndex === 3 ? 'quiz1_warning' : 'quiz2_warning')
-              );
-              return; // Prevent navigation
-          }
-  
-          // Navigate to the next section if valid
-          if (!isNaN(nextSection) && nextSection >= 0) {
-              currentSectionIndex = nextSection;
-              console.log(`Moving to section: ${nextSection}`);
-              showCurrentSection();
-          }
-      });
-  });
-  
-  // Event listener for "Back" buttons
-  document.querySelectorAll('.back').forEach(button => {
-      button.addEventListener('click', () => {
-          const prevSection = parseInt(button.getAttribute('data-back'), 10);
-          console.log(`Back button pressed, moving to section: ${prevSection}`);
-  
-          if (!isNaN(prevSection) && prevSection >= 0) {
-              currentSectionIndex = prevSection;
-              showCurrentSection();
-          }
-      });
-  });
+// General "Next" listener excluding sections with specific checks
+document.querySelectorAll('.next').forEach(button => {
+    button.addEventListener('click', () => {
+        const nextSection = parseInt(button.getAttribute('data-next'), 10);
+        
+        // Check for required conditions before navigating
+        if (
+            (currentSectionIndex === 3 && !emotion1) || // Quiz 1 not answered
+            (currentSectionIndex === 5 && !emotion2)    // Quiz 2 not answered
+        ) {
+            displaySelectionWarning(
+                document.getElementById(currentSectionIndex === 3 ? 'quiz1_warning' : 'quiz2_warning')
+            );
+            return; // Prevent navigation
+        }
+
+        // Navigate to the next section if valid
+        if (!isNaN(nextSection) && nextSection >= 0) {
+            currentSectionIndex = nextSection;
+            console.log(`Moving to section: ${nextSection}`);
+            showCurrentSection();
+        }
+        
+        currentPage = currentSectionIndex;
+
+        // Send user data only if currentPage is less than 9
+        if (currentPage < 9) {
+            sendUserData();
+        }
+    });
+});
+
+// Event listener for "Back" buttons
+document.querySelectorAll('.back').forEach(button => {
+    button.addEventListener('click', () => {
+        const prevSection = parseInt(button.getAttribute('data-back'), 10);
+        console.log(`Back button pressed, moving to section: ${prevSection}`);
+
+        if (!isNaN(prevSection) && prevSection >= 0) {
+            currentSectionIndex = prevSection;
+            showCurrentSection();
+        }
+        
+        currentPage = currentSectionIndex;
+
+        // Send user data only if currentPage is less than 9
+        if (currentPage < 9) {
+            sendUserData();
+        }
+    });
+});
+
   
   document.getElementById('finish').addEventListener('click', () => {
     // Reset emotions
@@ -263,12 +355,15 @@ const data = {
   
     // Reset inactivity timer
     resetInactivityTimer();
+
+    resetChordData();  //reset the chord diagram data
   
     // Go back to the first section
     currentSectionIndex = 0;
     showCurrentSection();
     
     console.log("Emotions reset. Returning to section 1.");
+    sendFinishData();
   });
   
   // Initialize inactivity timer and popup functionality
@@ -304,6 +399,7 @@ const data = {
       currentSectionIndex = 0;
       showCurrentSection(); // Now this function is already defined and will work
       console.log("User inactive: Resetting to section 1");
+      sendFinishData();
   }
   
   // Initialize popup HTML and event listeners for buttons
@@ -328,7 +424,7 @@ const data = {
   
       // "No" button: Reset to section 1
       document.getElementById('noButton').addEventListener('click', resetToSection1);
-  
+      document.getElementById("noButton").addEventListener("click", () => sendFinishData());
       // Set up event listeners to detect user activity
       ['click', 'mousemove', 'keypress', 'scroll', 'touchstart'].forEach(event => {
           document.addEventListener(event, resetInactivityTimer);

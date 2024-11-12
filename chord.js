@@ -174,6 +174,24 @@ flows.forEach(function(flow) {
   totalCount += flow.quantity;
 });
 
+function resetChordData() {
+  // Reset the selected chords
+  firstChord = null;
+  secondChord = null;
+  showAllChords()
+
+  // Clear the matrix and reset any relevant data
+  // matrix = {};  // Assuming matrix is the data structure used for chord diagram flows
+  // totalCount = 0; // Reset total count if you are tracking the sum of the flow quantities
+
+  // // You might also want to reset the chart rendering here, depending on how the chart is drawn
+  // if (chart) {
+  //     chart.update(); // Assuming you have a chart object with an update method to redraw or reset it
+  // }
+
+  console.log("Chord data reset.");
+}
+
 /*//////////////////////////////////////////////////////////
 /////////////// Initiate Chord Diagram /////////////////////
 //////////////////////////////////////////////////////////*/
@@ -398,18 +416,22 @@ function groupTicks(d) {
 // Create a WebSocket connection to the server
 
 const socket = new WebSocket('ws://localhost:1000');
-// Simple test message
-// const data = { test: "Hello from the browser!" };
-// socket.send(JSON.stringify(data));
-// Function to send data to TouchDesigner
+
+function getChordNameById(id) {
+  const location = locations.find(location => location.id === id);
+  return location ? location.name : null; // Return name if found, otherwise null
+}
+
 function sendChordData() {
   const data = {
-      firstChord: firstChord,
-      secondChord: secondChord
+    section: "explore",
+    firstChord: getChordNameById(firstChord), // Convert firstChord id to name
+    secondChord: getChordNameById(secondChord) // Convert secondChord id to name
   };
+  
   if (socket.readyState === WebSocket.OPEN) {
-      console.log("web socket data:" + JSON.stringify(data));
-      socket.send(JSON.stringify(data));
+    console.log("web socket data:", JSON.stringify(data));
+    socket.send(JSON.stringify(data));
   }
 }
 
