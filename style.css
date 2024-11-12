@@ -218,10 +218,10 @@ section {
   letter-spacing: 2px
 }
 
-#quiz1 button:focus, #quiz2 button:focus {
+/* #quiz1 button:focus, #quiz2 button:focus {
   color: gold;
   border:1px solid gold;
-}
+} */
 
 /* Added margin for the last sections */
 #emotion1, #emotion2 {

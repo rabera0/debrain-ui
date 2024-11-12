@@ -92,6 +92,21 @@ const data = {
         "36": "A passionate pursuer of many goals, you thrive on the recognition you receive when you achieve them."
     }
   };
+
+const colors = [
+{ love: "#DD524E" },
+{ recognition: "#D6B036" },
+{ success: "#006850" },
+{ purpose: "#7A2791" },
+{ hope: "#FFBB00" },
+{ excitement: "#7CF2F6" },
+{ joy: "#ED88AD" },
+{ inspiration: "#BF77F5" },
+{ gratitude: "#ffffff" },
+{ anticipation: "#38B0DD" },
+{ passion: "#019C60" },
+{ fear: "#FF7222" }
+];
   
   let emotion1 = "";
   let emotion2 = "";
@@ -154,6 +169,7 @@ const data = {
   function sendChordData() {
     const data = {
         section: "explore",
+        page: currentSectionIndex,
         firstChord: "",
         secondChord: ""
     };
@@ -182,6 +198,7 @@ const data = {
     function sendPortraitData(action) {
         const data = {
             section: "portrait",
+            page: currentSectionIndex,
             action: action // This will be either "redo" or "save"
         };
         if (socket.readyState === WebSocket.OPEN) {
@@ -209,7 +226,8 @@ const data = {
 
     function sendFinishData() {
         const data = {
-            section: "idle"
+            section: "idle",
+            page: currentSectionIndex
         };
     
         // Check if WebSocket is open
@@ -247,53 +265,95 @@ const data = {
       console.log(`Showing section with index: ${currentSectionIndex}`);
   }
   
-  // Function to display a warning message if no selection is made
-  function displaySelectionWarning(messageElement) {
-      messageElement.innerText = "Please select an emotion.";
-      messageElement.style.display = "block";
+///////////QUIZ BUTTON HANDLING
+function getColorByEmotion(emotion) {
+    const emotionColor = colors.find(colorObj => colorObj[emotion.toLowerCase()]);
+    return emotionColor ? emotionColor[emotion.toLowerCase()] : "#000000"; // Default to black if not found
   }
   
-  // Hide all warning messages when a selection is made
-  function hideSelectionWarning(messageElement) {
-      messageElement.style.display = "none";
-  }
+  // Track the selected button for both quizzes
+  let selectedButton1 = null; // To store the previously selected button in #quiz1
+  let selectedButton2 = null; // To store the previously selected button in #quiz2
   
   // Handle selection for "heart beat" question (emotion1)
-  document.querySelectorAll('#quiz1 button').forEach(button => {
-      button.addEventListener('click', (event) => {
-          emotion1 = event.target.innerText;
-          console.log("User selected emotion1:", emotion1);
+document.querySelectorAll('#quiz1 button').forEach(button => {
+    button.addEventListener('click', (event) => {
+      // Deselect the previously selected button if any
+      if (selectedButton1) {
+        selectedButton1.style.color = ''; // Reset text color
+        selectedButton1.style.borderColor = ''; // Reset border color
+      }
   
-          const emotion1Message = getEmotionMessage(emotion1);
-          console.log("Emotion1 message:", emotion1Message);
+      // Get the selected emotion
+      emotion1 = event.target.innerText;
+      console.log("User selected emotion1:", emotion1);
   
-          // Update the UI with selected emotion and message
-          document.querySelector('#emotion1').innerText = emotion1;
-          document.querySelector('#emotion1_message').innerText = emotion1Message;
+      // Get the corresponding color for the selected emotion
+      const color1 = getColorByEmotion(emotion1);
+      console.log("Emotion1 color:", color1);
   
-          // Hide warning if an option is selected
-          hideSelectionWarning(document.getElementById('quiz1_warning'));
-      });
+      // Update the UI with selected emotion and message
+      const emotion1Message = getEmotionMessage(emotion1);  // Assuming this function exists
+      console.log("Emotion1 message:", emotion1Message);
+  
+      document.querySelector('#emotion1').innerText = emotion1;
+      document.querySelector('#emotion1_message').innerText = emotion1Message;
+  
+      // Change the button color based on the emotion
+      event.target.style.color = color1;  // Change text color
+      event.target.style.borderColor = color1;  // Change border color
+  
+      // Store the selected button for future deselection
+      selectedButton1 = event.target;
+  
+      // Make the "NEXT" button visible
+      const nextButton = document.querySelector('[data-next="4"]');
+      nextButton.style.display = 'inline-block'; // Or 'block', depending on layout
+  
+      // Log for debugging
+      console.log("Next button displayed: ", nextButton.style.display);
+    });
   });
+  
   
   // Handle selection for "heart race" question (emotion2)
   document.querySelectorAll('#quiz2 button').forEach(button => {
-      button.addEventListener('click', (event) => {
-          emotion2 = event.target.innerText;
-          console.log("User selected emotion2:", emotion2);
+    button.addEventListener('click', (event) => {
+      // Deselect the previously selected button if any
+      if (selectedButton2) {
+        selectedButton2.style.color = ''; // Reset text color
+        selectedButton2.style.borderColor = ''; // Reset border color
+      }
   
-          const emotion2Message = getEmotionMessage(emotion2);
-          console.log("Emotion2 message:", emotion2Message);
+      // Get the selected emotion
+      emotion2 = event.target.innerText;
+      console.log("User selected emotion2:", emotion2);
   
-          // Update the UI with selected emotion and message
-          document.querySelector('#emotion2').innerText = emotion2;
-          document.querySelector('#emotion2_message').innerText = emotion2Message;
+      // Get the corresponding color for the selected emotion
+      const color2 = getColorByEmotion(emotion2);
+      console.log("Emotion2 color:", color2);
   
-          // Hide warning if an option is selected
-          hideSelectionWarning(document.getElementById('quiz2_warning'));
-      });
+      // Update the UI with selected emotion and message
+      const emotion2Message = getEmotionMessage(emotion2);  // Assuming this function exists
+      console.log("Emotion2 message:", emotion2Message);
+  
+      document.querySelector('#emotion2').innerText = emotion2;
+      document.querySelector('#emotion2_message').innerText = emotion2Message;
+  
+      // Change the button color based on the emotion
+      event.target.style.color = color2;  // Change text color
+      event.target.style.borderColor = color2;  // Change border color
+  
+      // Store the selected button for future deselection
+      selectedButton2 = event.target;
+  
+      // Make the "NEXT" button visible
+      const nextButton = document.querySelector('[data-next="6"]');
+      nextButton.style.display = 'inline-block'; // Or 'block', depending on layout
+    });
   });
-  
+
+
   // Function to get emotion message by normalizing the input string
   const getEmotionMessage = (emotion) => {
       const normalizedEmotion = emotion.trim().toUpperCase();
@@ -302,10 +362,7 @@ const data = {
   
   // Specific listener for the "Next" button in the "heart beat" question
   document.querySelector('.next[data-next="4"]').addEventListener('click', () => {
-      if (!emotion1) {
-          displaySelectionWarning(document.getElementById('quiz1_warning'));
-          console.log(`No Answer`);
-      } else {
+      if (emotion1) {
           // Proceed to the next section if an emotion is selected
           currentSectionIndex = 4;
           showCurrentSection();
@@ -317,10 +374,7 @@ const data = {
   
   // Specific listener for the "Next" button in the "heart race" question
   document.querySelector('.next[data-next="6"]').addEventListener('click', () => {
-      if (!emotion2) {
-          displaySelectionWarning(document.getElementById('quiz2_warning'));
-          console.log(`No Answer`);
-      } else {
+      if (emotion2) {
           // Proceed to the next section if an emotion is selected
           currentSectionIndex = 6;
           showCurrentSection();
@@ -352,17 +406,6 @@ const data = {
 document.querySelectorAll('.next').forEach(button => {
     button.addEventListener('click', () => {
         const nextSection = parseInt(button.getAttribute('data-next'), 10);
-        
-        // Check for required conditions before navigating
-        if (
-            (currentSectionIndex === 3 && !emotion1) || // Quiz 1 not answered
-            (currentSectionIndex === 5 && !emotion2)    // Quiz 2 not answered
-        ) {
-            displaySelectionWarning(
-                document.getElementById(currentSectionIndex === 3 ? 'quiz1_warning' : 'quiz2_warning')
-            );
-            return; // Prevent navigation
-        }
 
         // Navigate to the next section if valid
         if (!isNaN(nextSection) && nextSection >= 0) {
