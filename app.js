@@ -137,11 +137,19 @@ const colors = [
         console.log('Received data from server:', data);
     
         // Handle the data received here
-        if (data.pulse === 'pending') {
+        if (data.pulse === 'active') {
             console.log('pulse pending.');
             if (currentSectionIndex === 1) {
                 // Show the fingerprint gif
                 document.getElementById('fingerprint').style.display = 'inline-block';
+            }
+        }
+         // Handle the data received here
+         if (data.pulse === 'Inactive') {
+            console.log('pulse pending.');
+            if (currentSectionIndex === 1) {
+                // Show the fingerprint gif
+                document.getElementById('fingerprint').style.display = 'none';
             }
         }
         if (data.pulse === 'done') {
