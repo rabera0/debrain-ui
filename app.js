@@ -102,6 +102,55 @@ const data = {
 
   const socket = new WebSocket('ws://localhost:1000');
 
+    // Listen for the connection to open
+    socket.addEventListener('open', () => {
+        console.log('Connected to WebSocket server');
+    });
+
+    //////////////LISTENING TO DATA
+    socket.addEventListener('message', async (event) => {
+        let data;
+    
+        // Check if the received data is a Blob
+        if (event.data instanceof Blob) {
+            const text = await event.data.text();  // Convert Blob to text
+            data = JSON.parse(text);               // Parse the text as JSON
+        } else {
+            data = JSON.parse(event.data);         // Parse directly if it's a string
+        }
+    
+        console.log('Received data from server:', data);
+    
+        // Handle the data received here
+        if (data.pulse === 'pending') {
+            console.log('pulse pending.');
+            if (currentSectionIndex === 1) {
+                // Show the fingerprint gif
+                document.getElementById('fingerprint').style.display = 'inline-block';
+            }
+        }
+        if (data.pulse === 'done') {
+            console.log('pulse done.');
+            if (currentSectionIndex === 1) {
+                // Hide the fingerprint gif when pulse is done
+                document.getElementById('fingerprint').style.display = 'none';
+                currentSectionIndex = 2
+                // Move to the next section
+                showCurrentSection(); // Ensure the section is displayed
+            }
+        }
+    });
+
+    // Handle errors
+    socket.addEventListener('error', (error) => {
+        console.error('WebSocket error:', error);
+    });
+
+    // Optionally, handle the WebSocket connection closing
+    socket.addEventListener('close', () => {
+        console.log('WebSocket connection closed');
+    });
+
   function sendChordData() {
     const data = {
         section: "explore",
@@ -113,6 +162,8 @@ const data = {
         socket.send(JSON.stringify(data));
     }
   }
+
+  ////////////////SENDING DATA
 
   function sendUserData() {
     const data = {
@@ -156,16 +207,24 @@ const data = {
     document.getElementById("save").addEventListener("click", () => sendPortraitData("save"));
 
 
-  function sendFinishData() {
-    const data = {
-        section: "idle"
-    };
-    if (socket.readyState === WebSocket.OPEN) {
-        console.log("web socket data:" + JSON.stringify(data));
-        socket.send(JSON.stringify(data));
+    function sendFinishData() {
+        const data = {
+            section: "idle"
+        };
+    
+        // Check if WebSocket is open
+        if (socket.readyState === WebSocket.OPEN) {
+            // WebSocket is open, send the data
+            console.log("Sending WebSocket data: " + JSON.stringify(data));
+            socket.send(JSON.stringify(data));
+        } else {
+            // WebSocket isn't open yet, add an event listener for when it opens
+            socket.addEventListener('open', function() {
+                console.log("WebSocket opened, sending data: " + JSON.stringify(data));
+                socket.send(JSON.stringify(data));
+            });
+        }
     }
-  }
-
 
   // Function to hide all sections
   function hideAllSections() {
@@ -404,6 +463,7 @@ document.querySelectorAll('.back').forEach(button => {
   
   // Initialize popup HTML and event listeners for buttons
   document.addEventListener('DOMContentLoaded', function () {
+    sendFinishData();
       const popupHtml = `
         <div id="inactivityPopup" style="display: none; position: fixed; border-radius: 25px; top: 50%; left: 50%; transform: translate(-50%, -50%);
             padding: 20px; font-size: 25px; background: #000; border: 1px solid #ccc; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); z-index: 1000;">

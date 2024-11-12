@@ -12,7 +12,9 @@ wss.on('connection', (ws) => {
         
         // Broadcast the received message to all connected clients
         wss.clients.forEach((client) => {
-            client.send(message);
+            if (client.readyState === WebSocket.OPEN) {
+                client.send(message);
+            }
         });
     });
 });

@@ -178,7 +178,7 @@ function resetChordData() {
   // Reset the selected chords
   firstChord = null;
   secondChord = null;
-  showAllChords()
+  showAllChords();
 
   // Clear the matrix and reset any relevant data
   // matrix = {};  // Assuming matrix is the data structure used for chord diagram flows
