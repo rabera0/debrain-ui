@@ -142,6 +142,7 @@ const colors = [
             if (currentSectionIndex === 1) {
                 // Show the fingerprint gif
                 document.getElementById('fingerprint').style.display = 'inline-block';
+                // document.getElementById('sensor').style.display = 'inline-block';
             }
         }
          // Handle the data received here
