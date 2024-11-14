@@ -478,13 +478,13 @@ document.querySelectorAll('.next').forEach(button => {
             sendUserData();
         } else if (currentPage >=9 && currentPage < 12) {
             document.body.style.background = `radial-gradient(${color1}, ${color2}, #A5A5A5)`; //combo
+            if(currentPage < 11) {
+                document.body.style.background = `radial-gradient(${color1}, ${color2}, #A5A5A5)`; //combo 
+            } else {
+                document.body.style.background = `radial-gradient(#0080BF, #111111)`; //default
+            }
             if (!isPortraitDataSent) {
                 sendPortraitData("", currentPage)
-                if(currentPage < 11) {
-                    document.body.style.background = `radial-gradient(${color1}, ${color2}, #A5A5A5)`; //combo 
-                } else {
-                    document.body.style.background = `radial-gradient(#0080BF, #111111)`; //default
-                }
             }
            
         } else if (currentPage >= 12 && currentPage <= 13) {
@@ -547,7 +547,7 @@ document.querySelectorAll('.back').forEach(button => {
   // Reset inactivity timer on user interaction
   function resetInactivityTimer() {
       clearTimeout(inactivityTimeout);
-      inactivityTimeout = setTimeout(showInactivityPopup, 60000); // 60 seconds of inactivity
+      inactivityTimeout = setTimeout(showInactivityPopup, 60000000); // 60 seconds of inactivity
   }
   
   // Show inactivity popup after timeout
@@ -565,10 +565,11 @@ document.querySelectorAll('.back').forEach(button => {
   
   // Reset the page to section 1
   function resetToSection1() {
-      // Hide the popup if it's still visible
-      document.body.style.background = `radial-gradient(#0080BF, #111111)`; //default
-      document.getElementById('inactivityPopup').style.display = 'none';
-      clearTimeout(popupTimeout); // Clear popup timeout if user didn't respond in time
+    isPortraitDataSent = false
+    // Hide the popup if it's still visible
+    document.body.style.background = `radial-gradient(#0080BF, #111111)`; //default
+    document.getElementById('inactivityPopup').style.display = 'none';
+    clearTimeout(popupTimeout); // Clear popup timeout if user didn't respond in time
        // Reset emotions
     emotion1 = "";
     emotion2 = "";
