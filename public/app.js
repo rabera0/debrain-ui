@@ -115,7 +115,7 @@ const colors = [
   let currentSectionIndex = 0;
   
 
-  const socket = new WebSocket('ws://localhost:1000');
+  const socket = new WebSocket(`wss://${window.location.host}`);
 
     // Listen for the connection to open
     socket.addEventListener('open', () => {

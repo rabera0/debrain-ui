@@ -415,7 +415,7 @@ function groupTicks(d) {
 
 // Create a WebSocket connection to the server
 
-const socket = new WebSocket('ws://localhost:1000');
+const socket = new WebSocket(`wss://${window.location.host}`);
 
 function getChordNameById(id) {
   const location = locations.find(location => location.id === id);

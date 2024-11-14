@@ -1,27 +1,25 @@
+const express = require('express');
 const http = require('http');
+const path = require('path');
 const WebSocket = require('ws');
 
-const port = process.env.PORT || 1000;
+const app = express();
+const port = process.env.PORT || 3000;
+
+// Serve static files from a "public" folder (place your index.html, app.js, etc., here)
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Create an HTTP server
-const server = http.createServer((req, res) => {
-    if (req.method === 'GET' && req.url === '/') {
-        res.writeHead(200, { 'Content-Type': 'text/html' });
-        res.end('<h1>WebSocket server is running</h1>');
-    } else {
-        res.writeHead(404);
-        res.end();
-    }
-});
+const server = http.createServer(app);
 
 // Attach WebSocket server to the HTTP server
 const wss = new WebSocket.Server({ server });
 
 wss.on('connection', (ws) => {
-    console.log('Client connected');
+    console.log('WebSocket client connected');
     
     ws.on('message', (message) => {
-        console.log(`Received: ${message}`);
+        console.log(`Received message: ${message}`);
         
         // Broadcast the received message to all connected clients
         wss.clients.forEach((client) => {
@@ -32,6 +30,7 @@ wss.on('connection', (ws) => {
     });
 });
 
+// Start the server
 server.listen(port, () => {
-    console.log(`Server is listening on http://localhost:${port}`);
+    console.log(`Server is running on http://localhost:${port}`);
 });
