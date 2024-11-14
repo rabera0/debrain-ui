@@ -140,10 +140,10 @@ const colors = [
         if (data.pulse === 'active') {
             console.log('pulse pending.');
             if (currentSectionIndex === 0) {
+                currentPage = 1;
                 setTimeout(() => {
                     console.log("fingerprint detected next page");
                     currentSectionIndex = 1;
-                    currentPage = 1;
                     sendUserData();
                     showCurrentSection();
                 }, 2000); // 2-second delay
@@ -158,10 +158,10 @@ const colors = [
         
             // Last if statement with 3-second delay
             if (currentSectionIndex === 2) {
+                currentPage = 3;
                 setTimeout(() => {
                     console.log("fingerprint detected next page in 3 secs");
                     currentSectionIndex = 3;
-                    currentPage = 1;
                     sendUserData();
                     showCurrentSection();
                 }, 2000); // 3-second delay
