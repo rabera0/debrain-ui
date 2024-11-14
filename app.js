@@ -174,6 +174,28 @@ const colors = [
         console.log('WebSocket connection closed');
     });
 
+
+      ////////////////SENDING DATA
+      function sendFinishData() {
+        const data = {
+            section: "idle",
+            page: 0
+        };
+    
+        // Check if WebSocket is open
+        if (socket.readyState === WebSocket.OPEN) {
+            // WebSocket is open, send the data
+            console.log("Sending WebSocket data: " + JSON.stringify(data));
+            socket.send(JSON.stringify(data));
+        } else {
+            // WebSocket isn't open yet, add an event listener for when it opens
+            socket.addEventListener('open', function() {
+                console.log("WebSocket opened, sending data: " + JSON.stringify(data));
+                socket.send(JSON.stringify(data));
+            });
+        }
+    }
+    
   function sendChordData() {
     const data = {
         section: "explore",
@@ -187,7 +209,6 @@ const colors = [
     }
   }
 
-  ////////////////SENDING DATA
 
   function sendUserData() {
     const data = {
@@ -219,37 +240,22 @@ const colors = [
         currentPage = "1";  // Set to the page number associated with the "start" button
         sendUserData();
     });
-    document.getElementById("explore").addEventListener("click", () => sendChordData());
-    document.getElementById("portrait").addEventListener("click", () => {
-        console.log(`Moving to section: ${currentSectionIndex}`);
-        showCurrentSection(); // Ensure the section is displayed
-        sendPortraitData("save", currentSectionIndex); // Send the portrait data with an empty action (or "save"/"redo" depending on logic)
+    
+    let isPortraitDataSent = false; // Flag to track if portrait data has been sent
+
+    // Handling "redo" and "save" buttons to mark portrait data as sent
+    document.getElementById("redo").addEventListener("click", () => {
+        isPortraitDataSent = true;  // Set the flag when redo is pressed
+        sendPortraitData("redo", 9);
     });
     
-    // Event listeners with specific page values for "redo" and "save"
-    document.getElementById("redo").addEventListener("click", () => sendPortraitData("redo", 8));
-    document.getElementById("save").addEventListener("click", () => sendPortraitData("save", 10));
+    document.getElementById("save").addEventListener("click", () => {
+        isPortraitDataSent = true;  // Set the flag when save is pressed
+        sendPortraitData("save", 11);
+    });
 
 
-    function sendFinishData() {
-        const data = {
-            section: "idle",
-            page: 0
-        };
-    
-        // Check if WebSocket is open
-        if (socket.readyState === WebSocket.OPEN) {
-            // WebSocket is open, send the data
-            console.log("Sending WebSocket data: " + JSON.stringify(data));
-            socket.send(JSON.stringify(data));
-        } else {
-            // WebSocket isn't open yet, add an event listener for when it opens
-            socket.addEventListener('open', function() {
-                console.log("WebSocket opened, sending data: " + JSON.stringify(data));
-                socket.send(JSON.stringify(data));
-            });
-        }
-    }
+  
 
   // Function to hide all sections
   function hideAllSections() {
@@ -261,6 +267,10 @@ const colors = [
   
   // Function to show the current section and control header visibility
   function showCurrentSection() {
+    if (currentSectionIndex == 14) {
+        currentSectionIndex = 0;
+    }
+       
       const sections = document.querySelectorAll('section');
       const header = document.getElementById('header');
       hideAllSections();
@@ -424,14 +434,21 @@ document.querySelectorAll('.next').forEach(button => {
         currentPage = currentSectionIndex;
         
         // Send user data only if currentPage is less than 9
-        if (currentPage < 9) {
+        if (currentPage > 1 && currentPage < 9 && currentPage != 6 && currentPage !=4 && currentPage !=7) {
             sendUserData();
         } else if (currentPage >=9 && currentPage < 12) {
-            sendPortraitData("", currentPage)
-        } else if (currentPage < 14) {
+            if (!isPortraitDataSent) {
+                sendPortraitData("", currentPage)
+            }
+           
+        } else if (currentPage >= 12 && currentPage <= 13) {
             sendChordData();
-        }
+        } 
     });
+    if (currentPage >= 9 && currentPage < 12) {
+        isPortraitDataSent = false; // Reset the flag when moving away from portrait pages
+    }
+
 });
 
 // Event listener for "Back" buttons
