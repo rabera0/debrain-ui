@@ -157,6 +157,11 @@ const colors = [
                 // Show the fingerprint gif
                 document.getElementById('fingerprint').style.display = 'inline-block';
                 document.getElementById('sensor').style.display = 'inline-block';
+                setTimeout(() => {
+                    console.log("fingerprint detected next page in 4 secs");
+                    currentSectionIndex = 2;
+                    showCurrentSection();
+                }, 4000); // 3-second delay
             }
         
             // Last if statement with 3-second delay
@@ -176,6 +181,14 @@ const colors = [
             if (currentSectionIndex === 1) {
                 // Show the fingerprint gif
                 document.getElementById('fingerprint').style.display = 'none';
+            } else if (currentSectionIndex == 2) {
+                sendUserData();
+                currentPage = 3;
+                setTimeout(() => {
+                    console.log("nofingerprint detected, next page in 3 secs");
+                    currentSectionIndex = 3;
+                    showCurrentSection();
+                }, 3000); // 3-second delay
             }
         }
         if (data.pulse === 'done') {
@@ -188,6 +201,14 @@ const colors = [
                 showCurrentSection(); // Ensure the section is displayed
                 currentPage = 2;
                 sendUserData();
+            } else if (currentSectionIndex == 2) {
+                sendUserData();
+                currentPage = 3;
+                setTimeout(() => {
+                    console.log("nofingerprint detected, next page in 3 secs");
+                    currentSectionIndex = 3;
+                    showCurrentSection();
+                }, 3000); // 3-second delay
             }
         }
     });
@@ -260,6 +281,7 @@ const colors = [
         console.log("web socket data:", JSON.stringify(data));
         socket.send(JSON.stringify(data));
     }
+    isPortraitDataSent = false;
 }
 
     // Add event listeners to buttons
@@ -274,6 +296,12 @@ const colors = [
     document.getElementById("redo").addEventListener("click", () => {
         isPortraitDataSent = true;  // Set the flag when redo is pressed
         sendPortraitData("redo", 9);
+        setTimeout(() => {
+            currentSectionIndex = 10;
+            sendPortraitData("", 10);
+            showCurrentSection();
+        }, 7000); // 7-second delay
+
     });
     
     document.getElementById("save").addEventListener("click", () => {
@@ -433,6 +461,15 @@ document.querySelectorAll('#quiz1 button').forEach(button => {
       currentPage = 6;
       sendUserData()
   });
+
+  // 7 second timer to the next page
+  document.querySelector('.next[data-next="9"]').addEventListener('click', () => {
+        setTimeout(() => {
+            currentSectionIndex = 10;
+            sendPortraitData("", 10);
+            showCurrentSection();
+        }, 7000); // 7-second delay
+  });
   
   // Display combined emotion message
   document.querySelector('.next[data-next="7"]').addEventListener('click', () => {
@@ -513,7 +550,7 @@ document.querySelectorAll('.back').forEach(button => {
 
         // Send user data only if currentPage is less than 9
         if (currentPage < 9) {
-            if (currentPage == 4 || currentPage == 6) {
+            if (currentPage == 4) {
                 document.body.style.background = `radial-gradient(${color1}, #A5A5A5)`; //combo 
             } else if (currentPage == 6) {
                     document.body.style.background = `radial-gradient(${color2}, #A5A5A5)`; //combo }
