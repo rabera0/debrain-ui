@@ -17,7 +17,7 @@ body {
   font-family: 'Gotham', -apple-system, BlinkMacSystemFont, "Lucida Handwriting",
     "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
     "Droid Sans", "Helvetica Neue", sans-serif;
-  background-color: #111111;
+  background: radial-gradient(#0080BF, #111111);
   height: 100vh;
   display: flex;
   justify-content: center;
@@ -97,6 +97,9 @@ button {
   color: white;
   font-weight: bold;
   text-align: center;
+  touch-action: manipulation; /* Prevents long-press and double-tap zoom */
+  user-select: none; /* Prevents text selection */
+  -webkit-user-select: none; /* For Safari */
   margin: 0;
   background-color: transparent;
   border: 1px solid white; /* Use a solid border to ensure visibility */

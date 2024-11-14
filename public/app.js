@@ -112,9 +112,12 @@ const colors = [
   let emotion2 = "";
   let currentPage = 1;
   
+  function changeGradient(color1, color2) {
+    document.body.style.background = `radial-gradient(${color1}, ${color2})`;
+}
+
   let currentSectionIndex = 0;
   
-
   const socket = new WebSocket(`wss://${window.location.host}`);
 
     // Listen for the connection to open
@@ -313,6 +316,8 @@ function getColorByEmotion(emotion) {
   // Track the selected button for both quizzes
   let selectedButton1 = null; // To store the previously selected button in #quiz1
   let selectedButton2 = null; // To store the previously selected button in #quiz2
+  let color1 = "#0080BF";
+  let color2 = "#0080BF";
   
   // Handle selection for "heart beat" question (emotion1)
 document.querySelectorAll('#quiz1 button').forEach(button => {
@@ -328,7 +333,7 @@ document.querySelectorAll('#quiz1 button').forEach(button => {
       console.log("User selected emotion1:", emotion1);
   
       // Get the corresponding color for the selected emotion
-      const color1 = getColorByEmotion(emotion1);
+      color1 = getColorByEmotion(emotion1);
       console.log("Emotion1 color:", color1);
   
       // Update the UI with selected emotion and message
@@ -369,7 +374,7 @@ document.querySelectorAll('#quiz1 button').forEach(button => {
       console.log("User selected emotion2:", emotion2);
   
       // Get the corresponding color for the selected emotion
-      const color2 = getColorByEmotion(emotion2);
+      color2 = getColorByEmotion(emotion2);
       console.log("Emotion2 color:", color2);
   
       // Update the UI with selected emotion and message
@@ -401,6 +406,8 @@ document.querySelectorAll('#quiz1 button').forEach(button => {
   
   // Specific listener for the "Next" button in the "heart beat" question
   document.querySelector('.next[data-next="4"]').addEventListener('click', () => {
+    document.body.style.background = `radial-gradient(${color1}, #A5A5A5)`; //color1
+    document.querySelector('#quiz1').parentNode.style.display = "none";
       if (emotion1) {
           // Proceed to the next section if an emotion is selected
           currentSectionIndex = 4;
@@ -413,6 +420,8 @@ document.querySelectorAll('#quiz1 button').forEach(button => {
   
   // Specific listener for the "Next" button in the "heart race" question
   document.querySelector('.next[data-next="6"]').addEventListener('click', () => {
+    document.body.style.background = `radial-gradient(${color2}, #A5A5A5)`; //color 2
+    document.querySelector('#quiz2').parentNode.style.display = "none";
       if (emotion2) {
           // Proceed to the next section if an emotion is selected
           currentSectionIndex = 6;
@@ -425,6 +434,7 @@ document.querySelectorAll('#quiz1 button').forEach(button => {
   
   // Display combined emotion message
   document.querySelector('.next[data-next="7"]').addEventListener('click', () => {
+     document.body.style.background = `radial-gradient(${color1}, ${color2}, #A5A5A5)`; //combo
       const emotionPairKey = Object.keys(data.emotion_pairs).find(key => {
           const pair = data.emotion_pairs[key];
           return pair[0] === emotion1.toUpperCase() && pair[1] === emotion2.toUpperCase();
@@ -457,13 +467,26 @@ document.querySelectorAll('.next').forEach(button => {
         
         // Send user data only if currentPage is less than 9
         if (currentPage > 1 && currentPage < 9 && currentPage != 6 && currentPage !=4 && currentPage !=7) {
+            if(currentPage == 8) {
+                document.body.style.background = `radial-gradient(${color1}, ${color2}, #A5A5A5)`; //combo
+            } else {
+                document.body.style.background = `radial-gradient(#0080BF, #111111)`; //default
+            }
+            
             sendUserData();
         } else if (currentPage >=9 && currentPage < 12) {
+            document.body.style.background = `radial-gradient(${color1}, ${color2}, #A5A5A5)`; //combo
             if (!isPortraitDataSent) {
                 sendPortraitData("", currentPage)
             }
+            if(currentPage < 11) {
+                document.body.style.background = `radial-gradient(${color1}, ${color2}, #A5A5A5)`; //combo 
+            } else {
+                document.body.style.background = `radial-gradient(#0080BF, #111111)`; //default
+            }
            
         } else if (currentPage >= 12 && currentPage <= 13) {
+            document.body.style.background = `radial-gradient(#0080BF, #111111)`; //default
             sendChordData();
         } 
     });
@@ -488,6 +511,13 @@ document.querySelectorAll('.back').forEach(button => {
 
         // Send user data only if currentPage is less than 9
         if (currentPage < 9) {
+            if (currentPage == 4 || currentPage == 6) {
+                document.body.style.background = `radial-gradient(${color1}, #A5A5A5)`; //combo 
+            } else if (currentPage == 6) {
+                    document.body.style.background = `radial-gradient(${color2}, #A5A5A5)`; //combo }
+            } else {
+                document.body.style.background = `radial-gradient(#0080BF, #111111)`; //default 
+            }
             sendUserData();
         }
     });
@@ -534,6 +564,7 @@ document.querySelectorAll('.back').forEach(button => {
   // Reset the page to section 1
   function resetToSection1() {
       // Hide the popup if it's still visible
+      document.body.style.background = `radial-gradient(#0080BF, #111111)`; //default
       document.getElementById('inactivityPopup').style.display = 'none';
       clearTimeout(popupTimeout); // Clear popup timeout if user didn't respond in time
        // Reset emotions
