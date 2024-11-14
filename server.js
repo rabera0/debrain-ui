@@ -1,7 +1,8 @@
 const WebSocket = require('ws');
 
-// Create WebSocket server on port 1000
-const wss = new WebSocket.Server({ port: 1000 });
+// Use the port from the environment variable (Heroku sets this), or default to 1000 for local use
+const port = process.env.PORT || 1000;
+const wss = new WebSocket.Server({ port });
 
 wss.on('connection', (ws) => {
     console.log('Client connected');
@@ -19,4 +20,4 @@ wss.on('connection', (ws) => {
     });
 });
 
-console.log('WebSocket server is running on ws://localhost:1000');
+console.log(`WebSocket server is running on ws://localhost:${port}`);
