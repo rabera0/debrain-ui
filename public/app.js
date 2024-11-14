@@ -473,7 +473,48 @@ document.querySelectorAll('.back').forEach(button => {
 
   
   document.getElementById('finish').addEventListener('click', () => {
-    // Reset emotions
+
+    // Reset inactivity timer
+    resetInactivityTimer();
+
+    resetChordData();  //reset the chord diagram data
+  
+    // Go back to the first section
+    resetToSection1();
+    
+    console.log("Emotions reset. Returning to section 1.");
+    sendFinishData();
+  });
+  
+  // Initialize inactivity timer and popup functionality
+  let inactivityTimeout;
+  let popupTimeout;
+  
+  // Reset inactivity timer on user interaction
+  function resetInactivityTimer() {
+      clearTimeout(inactivityTimeout);
+      inactivityTimeout = setTimeout(showInactivityPopup, 30000); // 30 seconds of inactivity
+  }
+  
+  // Show inactivity popup after timeout
+  function showInactivityPopup() {
+      if (currentSectionIndex === 0) return; // Skip popup if on Section 1
+  
+      const popup = document.getElementById('inactivityPopup');
+      popup.style.display = 'block';
+  
+      // Start 5-second countdown for user to respond
+      popupTimeout = setTimeout(() => {
+          resetToSection1();
+      }, 5000); // 5 seconds to respond
+  }
+  
+  // Reset the page to section 1
+  function resetToSection1() {
+      // Hide the popup if it's still visible
+      document.getElementById('inactivityPopup').style.display = 'none';
+      clearTimeout(popupTimeout); // Clear popup timeout if user didn't respond in time
+       // Reset emotions
     emotion1 = "";
     emotion2 = "";
     
@@ -500,54 +541,12 @@ document.querySelectorAll('.back').forEach(button => {
 
     const q2b = document.querySelector('[data-next="6"]');
     q2b.style.display = 'none';
-
-    // Reset inactivity timer
-    resetInactivityTimer();
-
-    resetChordData();  //reset the chord diagram data
-  
-    // Go back to the first section
-    currentSectionIndex = 0;
-    showCurrentSection();
-    
-    console.log("Emotions reset. Returning to section 1.");
-    sendFinishData();
-  });
-  
-  // Initialize inactivity timer and popup functionality
-  let inactivityTimeout;
-  let popupTimeout;
-  
-  // Reset inactivity timer on user interaction
-  function resetInactivityTimer() {
-      clearTimeout(inactivityTimeout);
-      inactivityTimeout = setTimeout(showInactivityPopup, 300000); // 30 seconds of inactivity
-  }
-  
-  // Show inactivity popup after timeout
-  function showInactivityPopup() {
-      if (currentSectionIndex === 0) return; // Skip popup if on Section 1
-  
-      const popup = document.getElementById('inactivityPopup');
-      popup.style.display = 'block';
-  
-      // Start 5-second countdown for user to respond
-      popupTimeout = setTimeout(() => {
-          resetToSection1();
-      }, 5000); // 5 seconds to respond
-  }
-  
-  // Reset the page to section 1
-  function resetToSection1() {
-      // Hide the popup if it's still visible
-      document.getElementById('inactivityPopup').style.display = 'none';
-      clearTimeout(popupTimeout); // Clear popup timeout if user didn't respond in time
-      
       // Reset to the first section
       currentSectionIndex = 0;
       showCurrentSection(); // Now this function is already defined and will work
       console.log("User inactive: Resetting to section 1");
       sendFinishData();
+
   }
   
   // Initialize popup HTML and event listeners for buttons
