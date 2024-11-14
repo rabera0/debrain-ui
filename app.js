@@ -170,7 +170,6 @@ const colors = [
         console.error('WebSocket error:', error);
     });
 
-    // Optionally, handle the WebSocket connection closing
     socket.addEventListener('close', () => {
         console.log('WebSocket connection closed');
     });
@@ -203,18 +202,17 @@ const colors = [
     }
   }
 
-    // Function to send data through the WebSocket
-    function sendPortraitData(action) {
-        const data = {
-            section: "portrait",
-            page: currentSectionIndex,
-            action: action // This will be either "redo" or "save"
-        };
-        if (socket.readyState === WebSocket.OPEN) {
-            console.log("web socket data:", JSON.stringify(data));
-            socket.send(JSON.stringify(data));
-        }
+  function sendPortraitData(action, page) {
+    const data = {
+        section: "portrait",
+        page: page, // Now directly using the page passed as a parameter
+        action: action // This will be either "redo" or "save"
+    };
+    if (socket.readyState === WebSocket.OPEN) {
+        console.log("web socket data:", JSON.stringify(data));
+        socket.send(JSON.stringify(data));
     }
+}
 
     // Add event listeners to buttons
     document.getElementById("start").addEventListener("click", () => {
@@ -223,20 +221,20 @@ const colors = [
     });
     document.getElementById("explore").addEventListener("click", () => sendChordData());
     document.getElementById("portrait").addEventListener("click", () => {
-        currentSectionIndex = 9;  // Set the currentSectionIndex to the portrait section (index 9)
         console.log(`Moving to section: ${currentSectionIndex}`);
         showCurrentSection(); // Ensure the section is displayed
-        sendPortraitData(""); // Send the portrait data with an empty action (or "save"/"redo" depending on logic)
+        sendPortraitData("save", currentSectionIndex); // Send the portrait data with an empty action (or "save"/"redo" depending on logic)
     });
     
-    document.getElementById("redo").addEventListener("click", () => sendPortraitData("redo"));
-    document.getElementById("save").addEventListener("click", () => sendPortraitData("save"));
+    // Event listeners with specific page values for "redo" and "save"
+    document.getElementById("redo").addEventListener("click", () => sendPortraitData("redo", 8));
+    document.getElementById("save").addEventListener("click", () => sendPortraitData("save", 10));
 
 
     function sendFinishData() {
         const data = {
             section: "idle",
-            page: currentSectionIndex
+            page: 0
         };
     
         // Check if WebSocket is open
@@ -424,10 +422,14 @@ document.querySelectorAll('.next').forEach(button => {
         }
         
         currentPage = currentSectionIndex;
-
+        
         // Send user data only if currentPage is less than 9
         if (currentPage < 9) {
             sendUserData();
+        } else if (currentPage >=9 && currentPage < 12) {
+            sendPortraitData("", currentPage)
+        } else if (currentPage < 14) {
+            sendChordData();
         }
     });
 });
@@ -464,6 +466,24 @@ document.querySelectorAll('.back').forEach(button => {
     document.getElementById('emotion2').innerText = '';
     document.getElementById('emotion2_message').innerText = '';
   
+    // Reset button selections for both quizzes
+    if (selectedButton1) {
+        selectedButton1.style.color = ''; // Reset text color
+        selectedButton1.style.borderColor = ''; // Reset border color
+        selectedButton1 = null; // Clear reference
+    }
+    if (selectedButton2) {
+        selectedButton2.style.color = ''; // Reset text color
+        selectedButton2.style.borderColor = ''; // Reset border color
+        selectedButton2 = null; // Clear reference
+    }
+
+    const q1b = document.querySelector('[data-next="4"]');
+    q1b.style.display = 'none';
+
+    const q2b = document.querySelector('[data-next="6"]');
+    q2b.style.display = 'none';
+
     // Reset inactivity timer
     resetInactivityTimer();
 

@@ -425,6 +425,7 @@ function getChordNameById(id) {
 function sendChordData() {
   const data = {
     section: "explore",
+    page: 13,
     firstChord: getChordNameById(firstChord), // Convert firstChord id to name
     secondChord: getChordNameById(secondChord) // Convert secondChord id to name
   };
