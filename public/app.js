@@ -541,6 +541,7 @@ document.querySelectorAll('.back').forEach(button => {
     document.getElementById('emotion1_message').innerText = '';
     document.getElementById('emotion2').innerText = '';
     document.getElementById('emotion2_message').innerText = '';
+    document.getElementById('sensor').style.display = 'none';
   
     // Reset button selections for both quizzes
     if (selectedButton1) {
