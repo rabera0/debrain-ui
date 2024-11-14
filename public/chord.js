@@ -205,7 +205,7 @@ var margin = {
 var width = size - margin.left - margin.right;
 var height = size - margin.top - margin.bottom;
 var innerRadius = Math.min(width, height) * .39;
-var outerRadius = innerRadius * 1.08;
+var outerRadius = innerRadius * 1.22;
 var focusedChordGroupIndex = null;
 
 /*Initiate the SVG*/
@@ -255,20 +255,22 @@ g.append("svg:path")
 
 
 g.append("svg:text")
-.each(function(d) {
-  d.angle = (d.startAngle + d.endAngle) / 2;  // Midpoint angle for each arc
-})
-.attr("dy", ".35em")
-.attr("class", "titles")
-.style("font-size", "14px")
-.style("font-family", "sans-serif")
-.attr("fill", "#FFF")
-.attr("text-anchor", function(d) {
-  return d.angle > Math.PI ? "end" : "start";  // Text alignment (left or right)
-})
+  .each(function(d) {
+    d.angle = (d.startAngle + d.endAngle) / 2;  // Midpoint angle for each arc
+  })
+  .attr("dy", ".35em")
+  .attr("class", "titles")
+  .style("font-size", "20px")
+  .style("font-family", "Gotham, sans-serif")  // Change font family to Gotham
+  .style("font-weight", "bold")               // Set font weight to bold
+  .attr("fill", "#FFF")
+  .attr("text-anchor", function(d) {
+    return d.angle > Math.PI ? "end" : "start";  // Text alignment (left or right)
+  })
+  
 .attr("transform", function(d) {
   const angle = (d.angle * 180) / Math.PI - 90;  // Midpoint angle converted to degrees
-  const radius = innerRadius + 50;
+  const radius = innerRadius + 110;
 
   // Calculate the text width and offset for centering
   const textWidth = this.getBBox().width;
