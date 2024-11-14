@@ -140,16 +140,18 @@ const colors = [
         if (data.pulse === 'active') {
             console.log('pulse pending.');
             if (currentSectionIndex === 0) {
-                console.log("fingerprint detected next page");
-                currentSectionIndex = 1;
-                showCurrentSection();
+                setTimeout(() => {
+                    console.log("fingerprint detected next page");
+                    currentSectionIndex = 1;
+                    showCurrentSection();
+                }, 2000); // 2-second delay
             }
         
             // Second if statement
             if (currentSectionIndex === 1) {
                 // Show the fingerprint gif
                 document.getElementById('fingerprint').style.display = 'inline-block';
-                // document.getElementById('sensor').style.display = 'inline-block';
+                document.getElementById('sensor').style.display = 'inline-block';
             }
         
             // Last if statement with 3-second delay
@@ -509,7 +511,7 @@ document.querySelectorAll('.back').forEach(button => {
   // Reset inactivity timer on user interaction
   function resetInactivityTimer() {
       clearTimeout(inactivityTimeout);
-      inactivityTimeout = setTimeout(showInactivityPopup, 30000); // 30 seconds of inactivity
+      inactivityTimeout = setTimeout(showInactivityPopup, 60000); // 60 seconds of inactivity
   }
   
   // Show inactivity popup after timeout
@@ -522,7 +524,7 @@ document.querySelectorAll('.back').forEach(button => {
       // Start 5-second countdown for user to respond
       popupTimeout = setTimeout(() => {
           resetToSection1();
-      }, 5000); // 5 seconds to respond
+      }, 10000); // 10 seconds to respond
   }
   
   // Reset the page to section 1

@@ -141,6 +141,29 @@ button:active {
   margin: 3% 4%;
 }
 
+#sensor {
+  position: absolute;
+  bottom: 10%;
+  letter-spacing: 9px;
+  left: 50%;  /* Center horizontally */
+  transform: translateX(-50%); /* Adjust for exact center alignment */
+  font-size: 25px;
+  margin: 0; /* Remove existing margin to avoid any offset */
+  text-align: center; /* Ensure text is centered */
+  width: 100%; /* Optional, ensures the div spans the full width of the page */
+  animation: fadeInOut 2s infinite; /* Apply the animation */
+}
+
+/* Keyframes for opacity fade */
+@keyframes fadeInOut {
+  0%, 100% {
+    opacity: 1; /* Full opacity at the start and end */
+  }
+  50% {
+    opacity: 0.5; /* Half opacity at the midpoint */
+  }
+}
+
 #finish {
   position: absolute;
   bottom:0;
