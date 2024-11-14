@@ -158,6 +158,7 @@ const colors = [
                 document.getElementById('fingerprint').style.display = 'inline-block';
                 document.getElementById('sensor').style.display = 'inline-block';
                 setTimeout(() => {
+                    sendUserData();
                     console.log("fingerprint detected next page in 4 secs");
                     currentSectionIndex = 2;
                     showCurrentSection();
@@ -166,12 +167,12 @@ const colors = [
         
             // Last if statement with 3-second delay
             if (currentSectionIndex === 2) {
-                sendUserData();
                 currentPage = 3;
                 setTimeout(() => {
                     console.log("fingerprint detected next page in 3 secs");
                     currentSectionIndex = 3;
                     showCurrentSection();
+                    sendUserData();
                 }, 3000); // 3-second delay
             }
         }
@@ -202,10 +203,10 @@ const colors = [
                 currentPage = 2;
                 sendUserData();
             } else if (currentSectionIndex == 2) {
-                sendUserData();
-                currentPage = 3;
                 setTimeout(() => {
+                    currentPage = 3;
                     console.log("nofingerprint detected, next page in 3 secs");
+                    sendUserData();
                     currentSectionIndex = 3;
                     showCurrentSection();
                 }, 3000); // 3-second delay
@@ -505,13 +506,12 @@ document.querySelectorAll('.next').forEach(button => {
         currentPage = currentSectionIndex;
         
         // Send user data only if currentPage is less than 9
-        if (currentPage > 1 && currentPage < 9 && currentPage != 6 && currentPage !=4 && currentPage !=7) {
+        if (currentPage > 2 && currentPage < 9 && currentPage != 6 && currentPage !=4 && currentPage !=7) {
             if(currentPage == 8) {
                 document.body.style.background = `radial-gradient(${color1}, ${color2}, #A5A5A5)`; //combo
             } else {
                 document.body.style.background = `radial-gradient(#0080BF, #111111)`; //default
             }
-            
             sendUserData();
         } else if (currentPage >=9 && currentPage < 12) {
             document.body.style.background = `radial-gradient(${color1}, ${color2}, #A5A5A5)`; //combo
