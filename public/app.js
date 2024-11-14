@@ -139,10 +139,26 @@ const colors = [
         // Handle the data received here
         if (data.pulse === 'active') {
             console.log('pulse pending.');
+            if (currentSectionIndex === 0) {
+                console.log("fingerprint detected next page");
+                currentSectionIndex = 1;
+                showCurrentSection();
+            }
+        
+            // Second if statement
             if (currentSectionIndex === 1) {
                 // Show the fingerprint gif
                 document.getElementById('fingerprint').style.display = 'inline-block';
                 // document.getElementById('sensor').style.display = 'inline-block';
+            }
+        
+            // Last if statement with 3-second delay
+            if (currentSectionIndex === 2) {
+                setTimeout(() => {
+                    console.log("fingerprint detected next page in 3 secs");
+                    currentSectionIndex = 3;
+                    showCurrentSection();
+                }, 3000); // 3-second delay
             }
         }
          // Handle the data received here
