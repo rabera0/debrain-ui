@@ -143,6 +143,7 @@ const colors = [
                 setTimeout(() => {
                     console.log("fingerprint detected next page");
                     currentSectionIndex = 1;
+                    currentPage = 1;
                     sendUserData();
                     showCurrentSection();
                 }, 2000); // 2-second delay
@@ -160,6 +161,7 @@ const colors = [
                 setTimeout(() => {
                     console.log("fingerprint detected next page in 3 secs");
                     currentSectionIndex = 3;
+                    currentPage = 1;
                     sendUserData();
                     showCurrentSection();
                 }, 2000); // 3-second delay
@@ -257,7 +259,7 @@ const colors = [
 
     // Add event listeners to buttons
     document.getElementById("start").addEventListener("click", () => {
-        currentPage = "1";  // Set to the page number associated with the "start" button
+        currentPage = 1;  // Set to the page number associated with the "start" button
         sendUserData();
     });
     
