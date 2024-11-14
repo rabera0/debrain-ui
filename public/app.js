@@ -143,6 +143,7 @@ const colors = [
                 setTimeout(() => {
                     console.log("fingerprint detected next page");
                     currentSectionIndex = 1;
+                    sendUserData();
                     showCurrentSection();
                 }, 2000); // 2-second delay
             }
@@ -159,8 +160,9 @@ const colors = [
                 setTimeout(() => {
                     console.log("fingerprint detected next page in 3 secs");
                     currentSectionIndex = 3;
+                    sendUserData();
                     showCurrentSection();
-                }, 3000); // 3-second delay
+                }, 2000); // 3-second delay
             }
         }
          // Handle the data received here
