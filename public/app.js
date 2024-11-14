@@ -161,13 +161,13 @@ const colors = [
         
             // Last if statement with 3-second delay
             if (currentSectionIndex === 2) {
+                sendUserData();
                 currentPage = 3;
                 setTimeout(() => {
                     console.log("fingerprint detected next page in 3 secs");
                     currentSectionIndex = 3;
-                    sendUserData();
                     showCurrentSection();
-                }, 2000); // 3-second delay
+                }, 3000); // 3-second delay
             }
         }
          // Handle the data received here
@@ -186,6 +186,8 @@ const colors = [
                 currentSectionIndex = 2
                 // Move to the next section
                 showCurrentSection(); // Ensure the section is displayed
+                currentPage = 2;
+                sendUserData();
             }
         }
     });
@@ -478,11 +480,11 @@ document.querySelectorAll('.next').forEach(button => {
             document.body.style.background = `radial-gradient(${color1}, ${color2}, #A5A5A5)`; //combo
             if (!isPortraitDataSent) {
                 sendPortraitData("", currentPage)
-            }
-            if(currentPage < 11) {
-                document.body.style.background = `radial-gradient(${color1}, ${color2}, #A5A5A5)`; //combo 
-            } else {
-                document.body.style.background = `radial-gradient(#0080BF, #111111)`; //default
+                if(currentPage < 11) {
+                    document.body.style.background = `radial-gradient(${color1}, ${color2}, #A5A5A5)`; //combo 
+                } else {
+                    document.body.style.background = `radial-gradient(#0080BF, #111111)`; //default
+                }
             }
            
         } else if (currentPage >= 12 && currentPage <= 13) {
