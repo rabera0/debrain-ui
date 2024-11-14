@@ -118,7 +118,7 @@ const colors = [
 
   let currentSectionIndex = 0;
   
-  const socket = new WebSocket(`wss://${window.location.host}`);
+  const socket = new WebSocket(`ws://${window.location.host}`);
 
     // Listen for the connection to open
     socket.addEventListener('open', () => {
@@ -506,7 +506,7 @@ document.querySelectorAll('.next').forEach(button => {
         currentPage = currentSectionIndex;
         
         // Send user data only if currentPage is less than 9
-        if (currentPage > 2 && currentPage < 9 && currentPage != 6 && currentPage !=4 && currentPage !=7) {
+        if (currentPage > 1 && currentPage < 9 && currentPage != 6 && currentPage !=4 && currentPage !=7) {
             if(currentPage == 8) {
                 document.body.style.background = `radial-gradient(${color1}, ${color2}, #A5A5A5)`; //combo
             } else {

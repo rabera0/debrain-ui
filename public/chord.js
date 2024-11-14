@@ -267,7 +267,7 @@ g.append("svg:text")
   .attr("text-anchor", function(d) {
     return d.angle > Math.PI ? "end" : "start";  // Text alignment (left or right)
   })
-  
+
 .attr("transform", function(d) {
   const angle = (d.angle * 180) / Math.PI - 90;  // Midpoint angle converted to degrees
   const radius = innerRadius + 110;
@@ -417,7 +417,7 @@ function groupTicks(d) {
 
 // Create a WebSocket connection to the server
 
-const socket = new WebSocket(`wss://${window.location.host}`);
+const socket = new WebSocket(`ws://${window.location.host}`);
 
 function getChordNameById(id) {
   const location = locations.find(location => location.id === id);
