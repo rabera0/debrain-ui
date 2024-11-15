@@ -155,7 +155,7 @@ const colors = [
                 // Show the fingerprint gif
                 document.getElementById('fingerprint').style.display = 'inline-block';
                 document.getElementById('sensor').style.display = 'inline-block';
-                currentSectionIndex === 2;
+                // currentSectionIndex === 2;
                 setTimeout(() => {
                     sendUserData();
                     console.log("fingerprint detected, moving to section 2 in 4 secs");
