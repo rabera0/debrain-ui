@@ -180,12 +180,12 @@ const colors = [
                 // Show the fingerprint gif
                 document.getElementById('fingerprint').style.display = 'none';
             } else if (currentSectionIndex == 2) {
-                sendUserData();
+                currentSectionIndex = 3;
                 setTimeout(() => {
                     currentPage = 3;
                     console.log("nofingerprint detected, next page in 3 secs");
-                    currentSectionIndex = 3;
                     showCurrentSection();
+                    sendUserData()
                 }, 3000); // 3-second delay
             }
         }
@@ -204,6 +204,7 @@ const colors = [
                     console.log("nofingerprint detected, next page in 3 secs");
                     currentSectionIndex = 3;
                     showCurrentSection();
+                    sendUserData();
                 }, 4000); // 4-second delay
                 
              } 
