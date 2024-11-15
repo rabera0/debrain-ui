@@ -142,18 +142,15 @@ const colors = [
         // Handle the data received here
         if (data.pulse === 'active') {
             console.log('pulse pending.');
-            // if (currentSectionIndex === 0) {
-            //     setTimeout(() => {
-            //         console.log("fingerprint detected next page");
-            //         currentSectionIndex = 1;
-            //         currentPage = 1;
-            //         sendUserData();
-            //         showCurrentSection();
-            //     }, 2000); // 2-second delay
-            // }
-        
-            // Second if statement
-            if (currentSectionIndex === 1) {
+            if (currentSectionIndex === 0) {
+                setTimeout(() => {
+                    console.log("fingerprint detected next page");
+                    currentSectionIndex = 1;
+                    currentPage = 1;
+                    sendUserData();
+                    showCurrentSection();
+                }, 2000); // 2-second delay
+            } else if (currentSectionIndex === 1) {
                 // Show the fingerprint gif
                 document.getElementById('fingerprint').style.display = 'inline-block';
                 document.getElementById('sensor').style.display = 'inline-block';
@@ -163,7 +160,7 @@ const colors = [
                     currentSectionIndex = 2;
                     currentPage = 2;
                     showCurrentSection();
-                }, 4000); // 3-second delay
+                }, 4000); // 4-second delay
             }
         
             // Last if statement with 3-second delay
@@ -203,6 +200,13 @@ const colors = [
                 showCurrentSection(); // Ensure the section is displayed
                 currentPage = 2;
                 sendUserData();
+                setTimeout(() => {
+                    currentPage = 3;
+                    console.log("nofingerprint detected, next page in 3 secs");
+                    currentSectionIndex = 3;
+                    showCurrentSection();
+                }, 4000); // 4-second delay
+                
              } 
             // else if (currentSectionIndex == 2) {
             //     setTimeout(() => {

@@ -277,11 +277,16 @@ section {
   padding: 0 18%;
 }
 
-#redo, #save {
-  padding: 20px 99px 25px 99px;
+#redo{
+  padding: 25px 99px 25px 99px;
   margin: 40px 0 40px 0;
+  max-width: fit-content;
 }
 
+#save {
+  padding: 25px 180px 25px 180px;
+  margin: 40px 0 40px 0;
+}
 /* For mobile responsiveness */
 @media (max-width: 768px) {
   #quiz1, #quiz2 {
