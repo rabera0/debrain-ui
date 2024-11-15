@@ -118,7 +118,7 @@ const colors = [
 
   let currentSectionIndex = 0;
   
-  const socket = new WebSocket(`ws://${window.location.host}`);
+  const socket = new WebSocket(`wss://${window.location.host}`);
 
     // Listen for the connection to open
     socket.addEventListener('open', () => {
@@ -176,7 +176,6 @@ const colors = [
         }
          // Handle the data received here
          if (data.pulse === 'Inactive') {
-            console.log('pulse pending.');
             if (currentSectionIndex === 1) {
                 // Show the fingerprint gif
                 document.getElementById('fingerprint').style.display = 'none';
