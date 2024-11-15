@@ -144,7 +144,7 @@ const colors = [
             console.log('pulse pending.');
             if (currentSectionIndex === 0) {
                 setTimeout(() => {
-                    console.log("fingerprint detected next page");
+                    console.log("fingerprint detected, moving to section 1");
                     currentSectionIndex = 1;
                     currentPage = 1;
                     sendUserData();
@@ -156,68 +156,51 @@ const colors = [
                 document.getElementById('sensor').style.display = 'inline-block';
                 setTimeout(() => {
                     sendUserData();
-                    console.log("fingerprint detected next page in 4 secs");
+                    console.log("fingerprint detected, moving to section 2 in 4 secs");
                     currentSectionIndex = 2;
                     currentPage = 2;
                     showCurrentSection();
                 }, 4000); // 4-second delay
             }
-        
-            // Last if statement with 3-second delay
-            // if (currentSectionIndex === 2) {
-            //     setTimeout(() => {
-            //         console.log("fingerprint detected next page in 3 secs");
-            //         currentSectionIndex = 3;
-            //         showCurrentSection();
-            //         currentPage = 3;
-            //         sendUserData();
-            //     }, 3000); // 3-second delay
-            // }
         }
-         // Handle the data received here
-         if (data.pulse === 'Inactive') {
+        
+        // Handle the data received here for Inactive state
+        if (data.pulse === 'Inactive') {
             if (currentSectionIndex === 1) {
-                // Show the fingerprint gif
+                // Hide the fingerprint gif if inactive in section 1
                 document.getElementById('fingerprint').style.display = 'none';
-            } else if (currentSectionIndex == 2) {
+            } else if (currentSectionIndex === 2) {
                 currentSectionIndex = 3;
                 setTimeout(() => {
                     currentPage = 3;
-                    console.log("nofingerprint detected, next page in 3 secs");
+                    console.log("no fingerprint detected, moving to section 3 in 3 secs");
                     showCurrentSection();
-                    sendUserData()
-                }, 3000); // 3-second delay
+                    sendUserData();  // Ensure socket data is sent on transition to section 3
+                }, 3000); // 3-second delay for section 2 to 3 transition
             }
         }
+        
+        // Handle the data received here for 'done' state
         if (data.pulse === 'done') {
             console.log('pulse done.');
             if (currentSectionIndex === 1) {
-                // Hide the fingerprint gif when pulse is done
+                // Hide the fingerprint gif when pulse is done in section 1
                 document.getElementById('fingerprint').style.display = 'none';
-                currentSectionIndex = 2
+                currentSectionIndex = 2;
                 // Move to the next section
-                showCurrentSection(); // Ensure the section is displayed
+                showCurrentSection();  // Ensure the section is displayed
                 currentPage = 2;
                 sendUserData();
                 setTimeout(() => {
                     currentPage = 3;
-                    console.log("nofingerprint detected, next page in 3 secs");
+                    console.log("no fingerprint detected, moving to section 3 in 4 secs");
                     currentSectionIndex = 3;
                     showCurrentSection();
-                    sendUserData();
-                }, 4000); // 4-second delay
-                
-             } 
-            // else if (currentSectionIndex == 2) {
-            //     setTimeout(() => {
-            //         currentPage = 3;
-            //         console.log("nofingerprint detected, next page in 3 secs");
-            //         sendUserData();
-            //         currentSectionIndex = 3;
-            //         showCurrentSection();
-            //     }, 3000); // 3-second delay
-            // }
+                    sendUserData();  // Ensure socket data is sent after section 2 to 3 transition
+                }, 4000); // 4-second delay after section 2 to section 3 transition
+            }
         }
+        
     });
 
     // Handle errors
