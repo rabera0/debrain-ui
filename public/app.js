@@ -142,15 +142,15 @@ const colors = [
         // Handle the data received here
         if (data.pulse === 'active') {
             console.log('pulse pending.');
-            if (currentSectionIndex === 0) {
-                currentPage = 1;
-                setTimeout(() => {
-                    console.log("fingerprint detected next page");
-                    currentSectionIndex = 1;
-                    sendUserData();
-                    showCurrentSection();
-                }, 2000); // 2-second delay
-            }
+            // if (currentSectionIndex === 0) {
+            //     setTimeout(() => {
+            //         console.log("fingerprint detected next page");
+            //         currentSectionIndex = 1;
+            //         currentPage = 1;
+            //         sendUserData();
+            //         showCurrentSection();
+            //     }, 2000); // 2-second delay
+            // }
         
             // Second if statement
             if (currentSectionIndex === 1) {
@@ -161,20 +161,21 @@ const colors = [
                     sendUserData();
                     console.log("fingerprint detected next page in 4 secs");
                     currentSectionIndex = 2;
+                    currentPage = 2;
                     showCurrentSection();
                 }, 4000); // 3-second delay
             }
         
             // Last if statement with 3-second delay
-            if (currentSectionIndex === 2) {
-                currentPage = 3;
-                setTimeout(() => {
-                    console.log("fingerprint detected next page in 3 secs");
-                    currentSectionIndex = 3;
-                    showCurrentSection();
-                    sendUserData();
-                }, 3000); // 3-second delay
-            }
+            // if (currentSectionIndex === 2) {
+            //     setTimeout(() => {
+            //         console.log("fingerprint detected next page in 3 secs");
+            //         currentSectionIndex = 3;
+            //         showCurrentSection();
+            //         currentPage = 3;
+            //         sendUserData();
+            //     }, 3000); // 3-second delay
+            // }
         }
          // Handle the data received here
          if (data.pulse === 'Inactive') {
@@ -184,8 +185,8 @@ const colors = [
                 document.getElementById('fingerprint').style.display = 'none';
             } else if (currentSectionIndex == 2) {
                 sendUserData();
-                currentPage = 3;
                 setTimeout(() => {
+                    currentPage = 3;
                     console.log("nofingerprint detected, next page in 3 secs");
                     currentSectionIndex = 3;
                     showCurrentSection();
@@ -202,15 +203,16 @@ const colors = [
                 showCurrentSection(); // Ensure the section is displayed
                 currentPage = 2;
                 sendUserData();
-            } else if (currentSectionIndex == 2) {
-                setTimeout(() => {
-                    currentPage = 3;
-                    console.log("nofingerprint detected, next page in 3 secs");
-                    sendUserData();
-                    currentSectionIndex = 3;
-                    showCurrentSection();
-                }, 3000); // 3-second delay
-            }
+             } 
+            // else if (currentSectionIndex == 2) {
+            //     setTimeout(() => {
+            //         currentPage = 3;
+            //         console.log("nofingerprint detected, next page in 3 secs");
+            //         sendUserData();
+            //         currentSectionIndex = 3;
+            //         showCurrentSection();
+            //     }, 3000); // 3-second delay
+            // }
         }
     });
 
