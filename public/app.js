@@ -126,85 +126,112 @@ const colors = [
     });
 
     //////////////LISTENING TO DATA
-    socket.addEventListener('message', async (event) => {
-        let data;
-    
-        // Check if the received data is a Blob
-        if (event.data instanceof Blob) {
-            const text = await event.data.text();  // Convert Blob to text
-            data = JSON.parse(text);               // Parse the text as JSON
-        } else {
-            data = JSON.parse(event.data);         // Parse directly if it's a string
-        }
-    
-        console.log('Received data from server:', data);
-    
-        // Handle the data received here
-        if (data.pulse === 'active') {
-            console.log('pulse pending.');
-            if (currentSectionIndex === 0) {
-                currentSectionIndex === 1;
-                setTimeout(() => {
-                    console.log("fingerprint detected, moving to section 1");
-                    currentSectionIndex = 1;
-                    currentPage = 1;
-                    sendUserData();
-                    showCurrentSection();
-                }, 2000); // 2-second delay
-            } else if (currentSectionIndex === 1) {
-                // Show the fingerprint gif
-                document.getElementById('fingerprint').style.display = 'inline-block';
-                document.getElementById('sensor').style.display = 'inline-block';
-                // currentSectionIndex === 2;
-                setTimeout(() => {
-                    sendUserData();
-                    console.log("fingerprint detected, moving to section 2 in 4 secs");
-                    currentSectionIndex = 2;
-                    currentPage = 2;
-                    showCurrentSection();
-                }, 4000); // 4-second delay
-            }
-        }
-        
-        // Handle the data received here for Inactive state
-        if (data.pulse === 'Inactive') {
-            if (currentSectionIndex === 1) {
-                // Hide the fingerprint gif if inactive in section 1
-                document.getElementById('fingerprint').style.display = 'none';
-            } else if (currentSectionIndex === 2) {
-                currentSectionIndex === 3;
-                setTimeout(() => {
-                    currentPage = 3;
-                    currentSectionIndex = 3;
-                    console.log("no fingerprint detected, moving to section 3 in 3 secs");
-                    showCurrentSection();
-                    sendUserData();  // Ensure socket data is sent on transition to section 3
-                }, 3000); // 3-second delay for section 2 to 3 transition
-            }
-        }
-        
-        // Handle the data received here for 'done' state
-        if (data.pulse === 'done') {
-            console.log('pulse done.');
-            if (currentSectionIndex === 1) {
-                // Hide the fingerprint gif when pulse is done in section 1
-                document.getElementById('fingerprint').style.display = 'none';
-                currentSectionIndex = 2;
-                // Move to the next section
-                showCurrentSection();  // Ensure the section is displayed
-                currentPage = 2;
+// Listening to data from the server
+socket.addEventListener('message', async (event) => {
+    let data;
+
+    // Check if the received data is a Blob
+    if (event.data instanceof Blob) {
+        const text = await event.data.text();  // Convert Blob to text
+        data = JSON.parse(text);               // Parse the text as JSON
+    } else {
+        data = JSON.parse(event.data);         // Parse directly if it's a string
+    }
+
+    console.log('Received data from server:', data);
+
+    // Handle pulse states and transitions between sections
+    if (data.pulse === 'active') {
+        console.log('pulse pending.');
+
+        if (currentSectionIndex === 0) {
+            setTimeout(() => {
+                console.log("fingerprint detected, moving to section 1");
+                currentSectionIndex = 1;
+                currentPage = 1;
                 sendUserData();
-                setTimeout(() => {
-                    currentPage = 3;
-                    console.log("no fingerprint detected, moving to section 3 in 4 secs");
-                    currentSectionIndex = 3;
-                    showCurrentSection();
-                    sendUserData();  // Ensure socket data is sent after section 2 to 3 transition
-                }, 4000); // 4-second delay after section 2 to section 3 transition
-            }
+                showCurrentSection();
+            }, 2000); // 2-second delay
+        } else if (currentSectionIndex === 1) {
+            // Show fingerprint gif and sensor animation
+            document.getElementById('fingerprint').style.display = 'inline-block';
+            document.getElementById('sensor').style.display = 'inline-block';
+
+            setTimeout(() => {
+                sendUserData();
+                console.log("fingerprint detected, moving to section 2 in 4 secs");
+                currentSectionIndex = 2;
+                currentPage = 2;
+                showCurrentSection();
+            }, 4000); // 4-second delay
         }
-        
-    });
+    }
+
+    // Handle 'inactive' pulse state
+    if (data.pulse === 'Inactive') {
+        if (currentSectionIndex === 1) {
+            // Hide fingerprint gif if pulse is inactive in section 1
+            document.getElementById('fingerprint').style.display = 'none';
+        } else if (currentSectionIndex === 2) {
+            setTimeout(() => {
+                currentPage = 3;
+                currentSectionIndex = 3;
+                console.log("No fingerprint detected, moving to section 3 in 3 secs");
+                showCurrentSection();
+                sendUserData();  // Send socket data on transition to section 3
+            }, 3000); // 3-second delay for section 2 to section 3 transition
+        }
+    }
+
+    // Handle 'done' pulse state
+    if (data.pulse === 'done') {
+        console.log('pulse done.');
+
+        if (currentSectionIndex === 1) {
+            // Hide fingerprint gif when pulse is done in section 1
+            document.getElementById('fingerprint').style.display = 'none';
+            currentSectionIndex = 2;  // Move directly to section 2
+            currentPage = 2;
+            showCurrentSection();
+            sendUserData();
+
+            // After 4 seconds, transition to section 3
+            setTimeout(() => {
+                currentSectionIndex = 3;  // Transition to section 3
+                console.log("No fingerprint detected, moving to section 3 in 4 secs");
+                showCurrentSection();
+                sendUserData();  // Send socket data for section 3
+            }, 4000); // 4-second delay after section 2 to section 3 transition
+        }
+    }
+
+    // Section 2 -> Section 3 (Timer-based transition, independent of pulse state)
+    if (currentSectionIndex === 2) {
+        setTimeout(() => {
+            currentPage = 3;
+            currentSectionIndex = 3;
+            console.log("Section 2 to 3: Transitioning in 4 seconds");
+            showCurrentSection();
+            sendUserData();  // Ensure data is sent for section 3
+        }, 4000); // 4-second delay for section 2 to section 3 transition
+    }
+});
+
+// Function to send user data via WebSocket
+function sendUserData() {
+    const data = {
+        section: "quiz",  // Update as necessary
+        page: currentPage,
+        emotion1: emotion1,  // Update as necessary
+        emotion2: emotion2,  // Update as necessary
+    };
+
+    if (socket.readyState === WebSocket.OPEN) {
+        console.log("web socket data:", JSON.stringify(data));
+        socket.send(JSON.stringify(data));
+    }
+}
+
 
     // Handle errors
     socket.addEventListener('error', (error) => {
