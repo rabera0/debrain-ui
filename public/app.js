@@ -217,22 +217,6 @@ socket.addEventListener('message', async (event) => {
     }
 });
 
-// Function to send user data via WebSocket
-function sendUserData() {
-    const data = {
-        section: "quiz",  // Update as necessary
-        page: currentPage,
-        emotion1: emotion1,  // Update as necessary
-        emotion2: emotion2,  // Update as necessary
-    };
-
-    if (socket.readyState === WebSocket.OPEN) {
-        console.log("web socket data:", JSON.stringify(data));
-        socket.send(JSON.stringify(data));
-    }
-}
-
-
     // Handle errors
     socket.addEventListener('error', (error) => {
         console.error('WebSocket error:', error);
