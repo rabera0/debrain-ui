@@ -143,6 +143,7 @@ const colors = [
         if (data.pulse === 'active') {
             console.log('pulse pending.');
             if (currentSectionIndex === 0) {
+                currentSectionIndex === 1;
                 setTimeout(() => {
                     console.log("fingerprint detected, moving to section 1");
                     currentSectionIndex = 1;
@@ -154,6 +155,7 @@ const colors = [
                 // Show the fingerprint gif
                 document.getElementById('fingerprint').style.display = 'inline-block';
                 document.getElementById('sensor').style.display = 'inline-block';
+                currentSectionIndex === 2;
                 setTimeout(() => {
                     sendUserData();
                     console.log("fingerprint detected, moving to section 2 in 4 secs");
@@ -170,9 +172,10 @@ const colors = [
                 // Hide the fingerprint gif if inactive in section 1
                 document.getElementById('fingerprint').style.display = 'none';
             } else if (currentSectionIndex === 2) {
-                currentSectionIndex = 3;
+                currentSectionIndex === 3;
                 setTimeout(() => {
                     currentPage = 3;
+                    currentSectionIndex = 3;
                     console.log("no fingerprint detected, moving to section 3 in 3 secs");
                     showCurrentSection();
                     sendUserData();  // Ensure socket data is sent on transition to section 3
