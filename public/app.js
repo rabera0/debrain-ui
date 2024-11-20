@@ -54,7 +54,7 @@ const data = {
     },
   
     combinationMessages: {
-        "1": "You are absolutely unstoppable when you use the power of love to transform uncertainties into strengths.",
+        "1": "You are unstoppable when you use the power of love to transform uncertainties into strengths.",
         "2": "Your heart overflows with love, and you innately trust in the power of positivity to attract amazing experiences.",
         "3": "Your loving heart allows you to cherish the connections you hold dear and compels you to express your thankfulness for them.",
         "4": "You know that when you open your heart to possibilities, your creativity will make purposeful connections.",
@@ -102,23 +102,56 @@ const colors = [
 { excitement: "#7CF2F6" },
 { joy: "#ED88AD" },
 { inspiration: "#BF77F5" },
-{ gratitude: "#ffffff" },
+{ gratitude: "#003E78" },
 { anticipation: "#38B0DD" },
 { passion: "#019C60" },
 { fear: "#FF7222" }
 ];
+
+const baseColors = [
+{ love: "#0D524E" },
+{ recognition: "#D7B036" },
+{ success: "#003850" },
+{ purpose: "#7A2721" },
+{ hope: "#FFBB00" },
+{ excitement: "#7CF1F6" },
+{ joy: "#ED887D" },
+{ inspiration: "#BF7776" },
+{ gratitude: "#ffff00" },
+{ anticipation: "#38B0DD" },
+{ passion: "#019C60" },
+{ fear: "#FF7222" }
+];
+
+
+function applyRadialGradientAnimation(color1, color2) {
+    // Apply the radial gradient animation with two colors
+    document.body.style.background = `radial-gradient(circle, ${color1}, ${color2})`;
   
+    // Apply the background size and animation
+    document.body.style.backgroundSize = '400% 400%';
+    document.body.style.animation = 'gradient 15s ease infinite';
+  }
+
+  
+  // Function to apply a radial gradient animation with four colors
+function applyComboGradientAnimation(color1, baseColor1, color2, baseColor2) {
+    // Set up the radial gradient with four colors
+    document.body.style.background = `radial-gradient(circle, ${color1}, ${baseColor1}, ${color2}, ${baseColor2})`;
+    
+    // Apply the background size and animation for smooth transition
+    document.body.style.backgroundSize = '400% 400%';
+    document.body.style.animation = 'gradient 15s ease infinite'; // 15s duration for a smooth loop
+  }
+
+
   let emotion1 = "";
   let emotion2 = "";
   let currentPage = 1;
   
-  function changeGradient(color1, color2) {
-    document.body.style.background = `radial-gradient(${color1}, ${color2})`;
-}
-
   let currentSectionIndex = 0;
   
-  const socket = new WebSocket(`ws://${window.location.host}`);
+  const socket = new WebSocket(`wss://${window.location.host}`);
 
     // Listen for the connection to open
     socket.addEventListener('open', () => {
@@ -126,95 +159,96 @@ const colors = [
     });
 
     //////////////LISTENING TO DATA
-    socket.addEventListener('message', async (event) => {
-        let data;
-    
-        // Check if the received data is a Blob
-        if (event.data instanceof Blob) {
-            const text = await event.data.text();  // Convert Blob to text
-            data = JSON.parse(text);               // Parse the text as JSON
-        } else {
-            data = JSON.parse(event.data);         // Parse directly if it's a string
-        }
-    
-        console.log('Received data from server:', data);
-    
-        // Handle the data received here
-        if (data.pulse === 'active') {
-            console.log('pulse pending.');
-            // if (currentSectionIndex === 0) {
-            //     setTimeout(() => {
-            //         console.log("fingerprint detected next page");
-            //         currentSectionIndex = 1;
-            //         currentPage = 1;
-            //         sendUserData();
-            //         showCurrentSection();
-            //     }, 2000); // 2-second delay
-            // }
-        
-            // Second if statement
-            if (currentSectionIndex === 1) {
-                // Show the fingerprint gif
-                document.getElementById('fingerprint').style.display = 'inline-block';
-                document.getElementById('sensor').style.display = 'inline-block';
-                setTimeout(() => {
-                    sendUserData();
-                    console.log("fingerprint detected next page in 4 secs");
-                    currentSectionIndex = 2;
-                    currentPage = 2;
-                    showCurrentSection();
-                }, 4000); // 3-second delay
-            }
-        
-            // Last if statement with 3-second delay
-            // if (currentSectionIndex === 2) {
-            //     setTimeout(() => {
-            //         console.log("fingerprint detected next page in 3 secs");
-            //         currentSectionIndex = 3;
-            //         showCurrentSection();
-            //         currentPage = 3;
-            //         sendUserData();
-            //     }, 3000); // 3-second delay
-            // }
-        }
-         // Handle the data received here
-         if (data.pulse === 'Inactive') {
-            console.log('pulse pending.');
-            if (currentSectionIndex === 1) {
-                // Show the fingerprint gif
-                document.getElementById('fingerprint').style.display = 'none';
-            } else if (currentSectionIndex == 2) {
+// Listening to data from the server
+socket.addEventListener('message', async (event) => {
+    let data;
+
+    // Check if the received data is a Blob
+    if (event.data instanceof Blob) {
+        const text = await event.data.text();  // Convert Blob to text
+        data = JSON.parse(text);               // Parse the text as JSON
+    } else {
+        data = JSON.parse(event.data);         // Parse directly if it's a string
+    }
+
+    console.log('Received data from server:', data);
+
+    // Handle pulse states and transitions between sections
+    if (data.pulse === 'active') {
+        console.log('pulse pending.');
+
+        if (currentSectionIndex === 0) {
+            setTimeout(() => {
+                console.log("fingerprint detected, moving to section 1");
+                currentSectionIndex = 1;
+                currentPage = 1;
                 sendUserData();
-                setTimeout(() => {
-                    currentPage = 3;
-                    console.log("nofingerprint detected, next page in 3 secs");
-                    currentSectionIndex = 3;
-                    showCurrentSection();
-                }, 3000); // 3-second delay
-            }
-        }
-        if (data.pulse === 'done') {
-            console.log('pulse done.');
-            if (currentSectionIndex === 1) {
-                // Hide the fingerprint gif when pulse is done
-                document.getElementById('fingerprint').style.display = 'none';
-                currentSectionIndex = 2
-                // Move to the next section
-                showCurrentSection(); // Ensure the section is displayed
+                showCurrentSection();
+            }, 2000); // 2-second delay
+        } else if (currentSectionIndex === 1) {
+            // Show fingerprint gif and sensor animation
+            document.getElementById('fingerprint').style.display = 'inline-block';
+            document.getElementById('sensor').style.display = 'inline-block';
+
+            setTimeout(() => {
+                sendUserData();
+                console.log("fingerprint detected, moving to section 2 in 4 secs");
+                currentSectionIndex = 2;
                 currentPage = 2;
-                sendUserData();
-             } 
-            // else if (currentSectionIndex == 2) {
-            //     setTimeout(() => {
-            //         currentPage = 3;
-            //         console.log("nofingerprint detected, next page in 3 secs");
-            //         sendUserData();
-            //         currentSectionIndex = 3;
-            //         showCurrentSection();
-            //     }, 3000); // 3-second delay
-            // }
+                showCurrentSection();
+            }, 4000); // 4-second delay
         }
-    });
+    }
+
+    // Handle 'inactive' pulse state
+    if (data.pulse === 'Inactive') {
+        if (currentSectionIndex === 1) {
+            // Hide fingerprint gif if pulse is inactive in section 1
+            document.getElementById('fingerprint').style.display = 'none';
+        } else if (currentSectionIndex === 2) {
+            setTimeout(() => {
+                currentPage = 3;
+                currentSectionIndex = 3;
+                console.log("No fingerprint detected, moving to section 3 in 3 secs");
+                showCurrentSection();
+                sendUserData();  // Send socket data on transition to section 3
+            }, 3000); // 3-second delay for section 2 to section 3 transition
+        }
+    }
+
+    // Handle 'done' pulse state
+    if (data.pulse === 'done') {
+        console.log('pulse done.');
+
+        if (currentSectionIndex === 1) {
+            // Hide fingerprint gif when pulse is done in section 1
+            document.getElementById('fingerprint').style.display = 'none';
+            currentSectionIndex = 2;  // Move directly to section 2
+            currentPage = 2;
+            showCurrentSection();
+            sendUserData();
+
+            // After 4 seconds, transition to section 3
+            setTimeout(() => {
+                currentSectionIndex = 3;  // Transition to section 3
+                console.log("No fingerprint detected, moving to section 3 in 4 secs");
+                showCurrentSection();
+                sendUserData();  // Send socket data for section 3
+            }, 4000); // 4-second delay after section 2 to section 3 transition
+        }
+    }
+
+    // Section 2 -> Section 3 (Timer-based transition, independent of pulse state)
+    if (currentSectionIndex === 2) {
+        setTimeout(() => {
+            currentPage = 3;
+            currentSectionIndex = 3;
+            console.log("Section 2 to 3: Transitioning in 4 seconds");
+            showCurrentSection();
+            sendUserData();  // Ensure data is sent for section 3
+        }, 4000); // 4-second delay for section 2 to section 3 transition
+    }
+});
 
     // Handle errors
     socket.addEventListener('error', (error) => {
@@ -312,8 +346,18 @@ const colors = [
         sendPortraitData("save", 11);
     });
 
+    // Event listener for the info icon
+    document.querySelector('#info-icon').addEventListener('click', () => {
+        const popup = document.querySelector('#info-popup');
+        popup.style.display = 'block'; // Show the popup
+    });
 
-  
+    // Event listener for the close button
+    document.querySelector('#close-popup').addEventListener('click', () => {
+        const popup = document.querySelector('#info-popup');
+        popup.style.display = 'none'; // Hide the popup
+    });
+    
 
   // Function to hide all sections
   function hideAllSections() {
@@ -339,6 +383,8 @@ const colors = [
   
       console.log(`Showing section with index: ${currentSectionIndex}`);
   }
+
+  
   
 ///////////QUIZ BUTTON HANDLING
 function getColorByEmotion(emotion) {
@@ -346,14 +392,22 @@ function getColorByEmotion(emotion) {
     return emotionColor ? emotionColor[emotion.toLowerCase()] : "#000000"; // Default to black if not found
   }
   
+  function getBaseColorByEmotion(emotion) {
+    const emotionColor = baseColors.find(colorObj => colorObj[emotion.toLowerCase()]);
+    return emotionColor ? emotionColor[emotion.toLowerCase()] : "#111111"; // Default if not found
+}
+
+
   // Track the selected button for both quizzes
   let selectedButton1 = null; // To store the previously selected button in #quiz1
   let selectedButton2 = null; // To store the previously selected button in #quiz2
   let color1 = "#0080BF";
   let color2 = "#0080BF";
+  let baseColor1 = "#0080BF";
+  let baseColor2 = "#0080BF";
   
   // Handle selection for "heart beat" question (emotion1)
-document.querySelectorAll('#quiz1 button').forEach(button => {
+  document.querySelectorAll('#quiz1 button').forEach(button => {
     button.addEventListener('click', (event) => {
       // Deselect the previously selected button if any
       if (selectedButton1) {
@@ -367,10 +421,11 @@ document.querySelectorAll('#quiz1 button').forEach(button => {
   
       // Get the corresponding color for the selected emotion
       color1 = getColorByEmotion(emotion1);
+      baseColor1 = getBaseColorByEmotion(emotion1) // Use base color for emotion1
       console.log("Emotion1 color:", color1);
   
       // Update the UI with selected emotion and message
-      const emotion1Message = getEmotionMessage(emotion1);  // Assuming this function exists
+      const emotion1Message = getEmotionMessage(emotion1); // Assuming this function exists
       console.log("Emotion1 message:", emotion1Message);
   
       document.querySelector('#emotion1').innerText = emotion1;
@@ -383,14 +438,21 @@ document.querySelectorAll('#quiz1 button').forEach(button => {
       // Store the selected button for future deselection
       selectedButton1 = event.target;
   
-      // Make the "NEXT" button visible
-      const nextButton = document.querySelector('[data-next="4"]');
-      nextButton.style.display = 'inline-block'; // Or 'block', depending on layout
+      // Hide quiz 1 and show the emotion 1 section
+      document.querySelector('#quiz1').parentNode.style.display = "none"; // Hide quiz1 section
+      document.querySelector('.emotion-section').style.display = "block"; // Show emotion1 section
   
-      // Log for debugging
-      console.log("Next button displayed: ", nextButton.style.display);
+      // Update the background color of the emotion page only
+      applyRadialGradientAnimation(color1, baseColor1);
+      
+      
+      // Move to the next section (emotion page)
+      currentSectionIndex = 4; // Set the correct section index for emotion page
+      console.log(`Moving to section: 4`);
+      showCurrentSection();
     });
   });
+  
   
   
   // Handle selection for "heart race" question (emotion2)
@@ -408,10 +470,11 @@ document.querySelectorAll('#quiz1 button').forEach(button => {
   
       // Get the corresponding color for the selected emotion
       color2 = getColorByEmotion(emotion2);
+      baseColor2 = getBaseColorByEmotion(emotion1) // Use base color for emotion1
       console.log("Emotion2 color:", color2);
   
       // Update the UI with selected emotion and message
-      const emotion2Message = getEmotionMessage(emotion2);  // Assuming this function exists
+      const emotion2Message = getEmotionMessage(emotion2); // Assuming this function exists
       console.log("Emotion2 message:", emotion2Message);
   
       document.querySelector('#emotion2').innerText = emotion2;
@@ -424,12 +487,21 @@ document.querySelectorAll('#quiz1 button').forEach(button => {
       // Store the selected button for future deselection
       selectedButton2 = event.target;
   
-      // Make the "NEXT" button visible
-      const nextButton = document.querySelector('[data-next="6"]');
-      nextButton.style.display = 'inline-block'; // Or 'block', depending on layout
+      // Hide quiz 2 and show the emotion 2 section
+      document.querySelector('#quiz2').parentNode.style.display = "none"; // Hide quiz2 section
+      document.querySelector('.emotion-section').style.display = "block"; // Show emotion2 section
+  
+      // Update the background color of the emotion page only
+      applyRadialGradientAnimation(color2, baseColor2); //change background to color2 based on emotion2
+
+      
+      // Move to the next section (emotion page)
+      currentSectionIndex = 6; // Set the correct section index for emotion page
+      console.log(`Moving to section: 6`);
+      showCurrentSection();
     });
   });
-
+  
 
   // Function to get emotion message by normalizing the input string
   const getEmotionMessage = (emotion) => {
@@ -437,33 +509,17 @@ document.querySelectorAll('#quiz1 button').forEach(button => {
       return data.emotion_message[normalizedEmotion] || "Emotion message not found.";
   };
   
-  // Specific listener for the "Next" button in the "heart beat" question
-  document.querySelector('.next[data-next="4"]').addEventListener('click', () => {
-    document.body.style.background = `radial-gradient(${color1}, #A5A5A5)`; //color1
-    document.querySelector('#quiz1').parentNode.style.display = "none";
-      if (emotion1) {
-          // Proceed to the next section if an emotion is selected
-          currentSectionIndex = 4;
-          showCurrentSection();
-          console.log("Proceeding to next section:", currentSectionIndex);
-      }
-      currentPage = 4;
-      sendUserData()
-  });
-  
-  // Specific listener for the "Next" button in the "heart race" question
-  document.querySelector('.next[data-next="6"]').addEventListener('click', () => {
-    document.body.style.background = `radial-gradient(${color2}, #A5A5A5)`; //color 2
-    document.querySelector('#quiz2').parentNode.style.display = "none";
-      if (emotion2) {
-          // Proceed to the next section if an emotion is selected
-          currentSectionIndex = 6;
-          showCurrentSection();
-          console.log("Proceeding to next section:", currentSectionIndex);
-      }
-      currentPage = 6;
-      sendUserData()
-  });
+
+  // add 3 second delay on the im ready button 
+   document.querySelector('.next[data-next="8"]').addEventListener('click', () => {
+    const button = document.querySelector('#portrait');
+    button.style.display = 'none'; // Initially hide the button
+
+    // Add a 3-second delay before showing the button
+    setTimeout(() => {
+        button.style.display = 'block'; // Show the button after 3 seconds
+    }, 3000); // 3-second delay
+});
 
   // 7 second timer to the next page
   document.querySelector('.next[data-next="9"]').addEventListener('click', () => {
@@ -476,7 +532,7 @@ document.querySelectorAll('#quiz1 button').forEach(button => {
   
   // Display combined emotion message
   document.querySelector('.next[data-next="7"]').addEventListener('click', () => {
-     document.body.style.background = `radial-gradient(${color1}, ${color2}, #A5A5A5)`; //combo
+    applyComboGradientAnimation(color1, baseColor1, color2, baseColor2); // combo
       const emotionPairKey = Object.keys(data.emotion_pairs).find(key => {
           const pair = data.emotion_pairs[key];
           return pair[0] === emotion1.toUpperCase() && pair[1] === emotion2.toUpperCase();
@@ -510,24 +566,24 @@ document.querySelectorAll('.next').forEach(button => {
         // Send user data only if currentPage is less than 9
         if (currentPage > 1 && currentPage < 9 && currentPage != 6 && currentPage !=4 && currentPage !=7) {
             if(currentPage == 8) {
-                document.body.style.background = `radial-gradient(${color1}, ${color2}, #A5A5A5)`; //combo
+                applyComboGradientAnimation(color1, baseColor1, color2, baseColor2); // combo
             } else {
-                document.body.style.background = `radial-gradient(#0080BF, #111111)`; //default
+                applyRadialGradientAnimation('#0080BF', '#0a195a');; //default
             }
             sendUserData();
         } else if (currentPage >=9 && currentPage < 12) {
-            document.body.style.background = `radial-gradient(${color1}, ${color2}, #A5A5A5)`; //combo
+            applyComboGradientAnimation(color1, baseColor1, color2, baseColor2); // combo
             if(currentPage < 11) {
-                document.body.style.background = `radial-gradient(${color1}, ${color2}, #A5A5A5)`; //combo 
+                applyComboGradientAnimation(color1, baseColor1, color2, baseColor2); // combo
             } else {
-                document.body.style.background = `radial-gradient(#0080BF, #111111)`; //default
+                applyRadialGradientAnimation('#0080BF', '#0a195a'); //default
             }
             if (!isPortraitDataSent) {
                 sendPortraitData("", currentPage)
             }
            
         } else if (currentPage >= 12 && currentPage <= 13) {
-            document.body.style.background = `radial-gradient(#0080BF, #111111)`; //default
+            applyRadialGradientAnimation('#0080BF', '#0a195a');; //default
             sendChordData();
         } 
     });
@@ -553,11 +609,13 @@ document.querySelectorAll('.back').forEach(button => {
         // Send user data only if currentPage is less than 9
         if (currentPage < 9) {
             if (currentPage == 4) {
-                document.body.style.background = `radial-gradient(${color1}, #A5A5A5)`; //combo 
+                document.body.style.background = `radial-gradient(${color1}, ${getBaseColorByEmotion(emotion1)})`; // Use base color for emotion1
+s
             } else if (currentPage == 6) {
-                    document.body.style.background = `radial-gradient(${color2}, #A5A5A5)`; //combo }
+                document.body.style.background = `radial-gradient(${color2}, ${getBaseColorByEmotion(emotion2)})`; // Use base color for emotion1
+
             } else {
-                document.body.style.background = `radial-gradient(#0080BF, #111111)`; //default 
+                applyRadialGradientAnimation('#0080BF', '#0a195a'); //default 
             }
             sendUserData();
         }
@@ -569,7 +627,7 @@ document.querySelectorAll('.back').forEach(button => {
 
     // Reset inactivity timer
     resetInactivityTimer();
-
+    updateFlowData(emotion1, emotion2);
     resetChordData();  //reset the chord diagram data
   
     // Go back to the first section
@@ -577,6 +635,7 @@ document.querySelectorAll('.back').forEach(button => {
     
     console.log("Emotions reset. Returning to section 1.");
     sendFinishData();
+   
   });
   
   // Initialize inactivity timer and popup functionality
@@ -606,7 +665,7 @@ document.querySelectorAll('.back').forEach(button => {
   function resetToSection1() {
     isPortraitDataSent = false
     // Hide the popup if it's still visible
-    document.body.style.background = `radial-gradient(#0080BF, #111111)`; //default
+    applyRadialGradientAnimation('#0080BF', '#0a195a'); //default
     document.getElementById('inactivityPopup').style.display = 'none';
     clearTimeout(popupTimeout); // Clear popup timeout if user didn't respond in time
        // Reset emotions

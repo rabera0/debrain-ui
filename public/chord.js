@@ -1,16 +1,16 @@
 var locations = [
-  { id: 0, name: "Love", color: "#DD524E" },
-  { id: 1, name: "Excitement", color: "#7CF2F6" },
-  { id: 2, name: "Purpose", color: "#7A2791" },
-  { id: 3, name: "Hope", color: "#FFBB00" },
-  { id: 4, name: "Success", color: "#006850" },
-  { id: 5, name: "Recognition", color: "#D6B036" },
-  { id: 6, name: "Fear", color: "#FF7222" },
-  { id: 7, name: "Anticipation", color: "#38B0DD" },
-  { id: 8, name: "Gratitude", color: "#ffffff" },
-  { id: 9, name: "Inspiration", color: "#BF77F5" },
-  { id: 10, name: "Joy", color: "#ED88AD" },
-  { id: 11, name: "Passion", color: "#019C60" }
+  { id: 0, name: "LOVE", color: "#DD524E" },
+  { id: 1, name: "EXCITEMENT", color: "#7CF2F6" },
+  { id: 2, name: "PURPOSE", color: "#7A2791" },
+  { id: 3, name: "HOPE", color: "#FFBB00" },
+  { id: 4, name: "SUCCESS", color: "#006850" },
+  { id: 5, name: "RECOGNITION", color: "#D6B036" },
+  { id: 6, name: "FEAR", color: "#FF7222" },
+  { id: 7, name: "ANTICIPATION", color: "#38B0DD" },
+  { id: 8, name: "GRATITUDE", color: "#003E78" },
+  { id: 9, name: "INSPIRATION", color: "#BF77F5" },
+  { id: 10, name: "JOY", color: "#ED88AD" },
+  { id: 11, name: "PASSION", color: "#019C60" }
 ];
 
 var flows = [
@@ -21,125 +21,125 @@ var flows = [
   { from: 0, to: 4, quantity: 0 },
   { from: 0, to: 5, quantity: 0 },
   { from: 0, to: 6, quantity: 0 },
-  { from: 0, to: 7, quantity: 86 },
-  { from: 0, to: 8, quantity: 318 },
-  { from: 0, to: 9, quantity: 30 },
-  { from: 0, to: 10, quantity: 23 },
-  { from: 0, to: 11, quantity: 67 },
+  { from: 0, to: 7, quantity: 1 },
+  { from: 0, to: 8, quantity: 1 },
+  { from: 0, to: 9, quantity: 1 },
+  { from: 0, to: 10, quantity: 1 },
+  { from: 0, to: 11, quantity: 1 },
   { from: 1, to: 0, quantity: 0 },
   { from: 1, to: 1, quantity: 0 },
   { from: 1, to: 2, quantity: 0 },
   { from: 1, to: 3, quantity: 0 },
   { from: 1, to: 4, quantity: 0 },
   { from: 1, to: 5, quantity: 0 },
-  { from: 1, to: 6, quantity: 10 },
-  { from: 1, to: 7, quantity: 78 },
-  { from: 1, to: 8, quantity: 172 },
-  { from: 1, to: 9, quantity: 90 },
-  { from: 1, to: 10, quantity: 2 },
-  { from: 1, to: 11, quantity: 10 },
+  { from: 1, to: 6, quantity: 1 },
+  { from: 1, to: 7, quantity: 1 },
+  { from: 1, to: 8, quantity: 1 },
+  { from: 1, to: 9, quantity: 1 },
+  { from: 1, to: 10, quantity: 1 },
+  { from: 1, to: 11, quantity: 1 },
   { from: 2, to: 0, quantity: 0 },
   { from: 2, to: 1, quantity: 0 },
   { from: 2, to: 2, quantity: 0 },
   { from: 2, to: 3, quantity: 0 },
   { from: 2, to: 4, quantity: 0 },
   { from: 2, to: 5, quantity: 0 },
-  { from: 2, to: 6, quantity: 3 },
-  { from: 2, to: 7, quantity: 11 },
-  { from: 2, to: 8, quantity: 109 },
-  { from: 2, to: 9, quantity: 2 },
-  { from: 2, to: 10, quantity: 3 },
-  { from: 2, to: 11, quantity: 12 },
-  { from: 3, to: 0, quantity: 3 },
+  { from: 2, to: 6, quantity: 1 },
+  { from: 2, to: 7, quantity: 1 },
+  { from: 2, to: 8, quantity: 1 },
+  { from: 2, to: 9, quantity: 1 },
+  { from: 2, to: 10, quantity: 1 },
+  { from: 2, to: 11, quantity: 1 },
+  { from: 3, to: 0, quantity: 1 },
   { from: 3, to: 1, quantity: 0 },
   { from: 3, to: 2, quantity: 0 },
   { from: 3, to: 3, quantity: 0 },
   { from: 3, to: 4, quantity: 0 },
   { from: 3, to: 5, quantity: 0 },
-  { from: 3, to: 6, quantity: 12 },
-  { from: 3, to: 7, quantity: 43 },
-  { from: 3, to: 8, quantity: 126 },
-  { from: 3, to: 9, quantity: 207 },
-  { from: 3, to: 10, quantity: 23 },
-  { from: 3, to: 11, quantity: 10 },
-  { from: 4, to: 0, quantity: 165 },
+  { from: 3, to: 6, quantity: 1 },
+  { from: 3, to: 7, quantity: 1 },
+  { from: 3, to: 8, quantity: 1 },
+  { from: 3, to: 9, quantity: 1 },
+  { from: 3, to: 10, quantity: 1 },
+  { from: 3, to: 11, quantity: 1 },
+  { from: 4, to: 0, quantity: 1 },
   { from: 4, to: 1, quantity: 0 },
   { from: 4, to: 2, quantity: 0 },
   { from: 4, to: 3, quantity: 0 },
   { from: 4, to: 4, quantity: 0 },
   { from: 4, to: 5, quantity: 0 },
-  { from: 4, to: 6, quantity: 10 },
-  { from: 4, to: 7, quantity: 23 },
-  { from: 4, to: 8, quantity: 381 },
-  { from: 4, to: 9, quantity: 40 },
-  { from: 4, to: 10, quantity: 35 },
-  { from: 4, to: 11, quantity: 21 },
+  { from: 4, to: 6, quantity: 1 },
+  { from: 4, to: 7, quantity: 1 },
+  { from: 4, to: 8, quantity: 1 },
+  { from: 4, to: 9, quantity: 1 },
+  { from: 4, to: 10, quantity: 1 },
+  { from: 4, to: 11, quantity: 1 },
   { from: 5, to: 0, quantity: 0 },
   { from: 5, to: 1, quantity: 0 },
   { from: 5, to: 2, quantity: 0 },
   { from: 5, to: 3, quantity: 0 },
   { from: 5, to: 4, quantity: 0 },
   { from: 5, to: 5, quantity: 0 },
-  { from: 5, to: 6, quantity: 22 },
-  { from: 5, to: 7, quantity: 35 },
-  { from: 5, to: 8, quantity: 103 },
-  { from: 5, to: 9, quantity: 67 },
-  { from: 5, to: 10, quantity: 12 },
+  { from: 5, to: 6, quantity: 1 },
+  { from: 5, to: 7, quantity: 1 },
+  { from: 5, to: 8, quantity: 1 },
+  { from: 5, to: 9, quantity: 1 },
+  { from: 5, to: 10, quantity: 1 },
   { from: 5, to: 11, quantity: 0 },
-  { from: 6, to: 0, quantity: 12 },
-  { from: 6, to: 1, quantity: 220 },
-  { from: 6, to: 2, quantity: 70 },
+  { from: 6, to: 0, quantity: 1 },
+  { from: 6, to: 1, quantity: 1 },
+  { from: 6, to: 2, quantity: 1 },
   { from: 6, to: 3, quantity: 0 },
-  { from: 6, to: 4, quantity: 12 },
-  { from: 6, to: 5, quantity: 8 },
+  { from: 6, to: 4, quantity: 1 },
+  { from: 6, to: 5, quantity: 1 },
   { from: 6, to: 6, quantity: 0 },
   { from: 6, to: 7, quantity: 0 },
   { from: 6, to: 8, quantity: 0 },
   { from: 6, to: 9, quantity: 0 },
   { from: 6, to: 10, quantity: 0 },
   { from: 6, to: 11, quantity: 0 },
-  { from: 7, to: 0, quantity: 87 },
-  { from: 7, to: 1, quantity: 20 },
-  { from: 7, to: 2, quantity: 123 },
-  { from: 7, to: 3, quantity: 143 },
-  { from: 7, to: 4, quantity: 9 },
-  { from: 7, to: 5, quantity: 2 },
+  { from: 7, to: 0, quantity: 1 },
+  { from: 7, to: 1, quantity: 1 },
+  { from: 7, to: 2, quantity: 1 },
+  { from: 7, to: 3, quantity: 1 },
+  { from: 7, to: 4, quantity: 1 },
+  { from: 7, to: 5, quantity: 1 },
   { from: 7, to: 6, quantity: 0 },
   { from: 7, to: 7, quantity: 0 },
   { from: 7, to: 8, quantity: 0 },
   { from: 7, to: 9, quantity: 0},
   { from: 7, to: 10, quantity: 0 },
   { from: 7, to: 11, quantity: 0 },
-  { from: 8, to: 0, quantity: 120 },
-  { from: 8, to: 1, quantity: 38 },
-  { from: 8, to: 2, quantity: 96 },
-  { from: 8, to: 3, quantity: 167 },
-  { from: 8, to: 4, quantity: 3 },
-  { from: 8, to: 5, quantity: 23 },
+  { from: 8, to: 0, quantity: 1 },
+  { from: 8, to: 1, quantity: 1 },
+  { from: 8, to: 2, quantity: 1 },
+  { from: 8, to: 3, quantity: 1 },
+  { from: 8, to: 4, quantity: 1 },
+  { from: 8, to: 5, quantity: 1 },
   { from: 8, to: 6, quantity: 0 },
   { from: 8, to: 7, quantity: 0 },
   { from: 8, to: 8, quantity: 0 },
   { from: 8, to: 9, quantity: 0 },
   { from: 8, to: 10, quantity: 0 },
   { from: 8, to: 11, quantity: 0 },
-  { from: 9, to: 0, quantity: 30 },
-  { from: 9, to: 1, quantity: 87 },
-  { from: 9, to: 2, quantity: 9 },
-  { from: 9, to: 3, quantity: 123 },
-  { from: 9, to: 4, quantity: 376 },
-  { from: 9, to: 5, quantity: 233 },
+  { from: 9, to: 0, quantity: 1 },
+  { from: 9, to: 1, quantity: 1 },
+  { from: 9, to: 2, quantity: 1 },
+  { from: 9, to: 3, quantity: 1 },
+  { from: 9, to: 4, quantity: 1 },
+  { from: 9, to: 5, quantity: 1 },
   { from: 9, to: 6, quantity: 0 },
   { from: 9, to: 7, quantity: 0 },
   { from: 9, to: 8, quantity: 0 },
   { from: 9, to: 9, quantity: 0 },
   { from: 9, to: 10, quantity: 0 },
   { from: 9, to: 11, quantity: 0 },
-  { from: 10, to: 0, quantity: 23 },
+  { from: 10, to: 0, quantity: 1 },
   { from: 10, to: 1, quantity: 1 },
-  { from: 10, to: 2, quantity: 9 },
-  { from: 10, to: 3, quantity: 6 },
-  { from: 10, to: 4, quantity: 197 },
-  { from: 10, to: 5, quantity: 201 },
+  { from: 10, to: 2, quantity: 1 },
+  { from: 10, to: 3, quantity: 1 },
+  { from: 10, to: 4, quantity: 1 },
+  { from: 10, to: 5, quantity: 1 },
   { from: 10, to: 6, quantity: 0 },
   { from: 10, to: 7, quantity: 0 },
   { from: 10, to: 8, quantity: 0 },
@@ -147,11 +147,11 @@ var flows = [
   { from: 10, to: 10, quantity: 0 },
   { from: 10, to: 11, quantity: 0 },
   { from: 11, to: 0, quantity: 0 },
-  { from: 11, to: 1, quantity: 2 },
+  { from: 11, to: 1, quantity: 1 },
   { from: 11, to: 2, quantity: 0 },
-  { from: 11, to: 3, quantity: 4 },
-  { from: 11, to: 4, quantity: 67 },
-  { from: 11, to: 5, quantity: 23 },
+  { from: 11, to: 3, quantity: 1 },
+  { from: 11, to: 4, quantity: 1 },
+  { from: 11, to: 5, quantity: 1 },
   { from: 11, to: 6, quantity: 0 },
   { from: 11, to: 7, quantity:0 },
   { from: 11, to: 8, quantity: 0 },
@@ -160,11 +160,52 @@ var flows = [
   { from: 11, to: 11, quantity: 0 }
 ];
 
+
+
+
 var totalCount = 0;
 var matrix = [];
 var firstChord = null;  // Currently selected first chord
 var secondChord = null; // Currently selected second chord
 
+
+function updateFlowData(answer1, answer2) {
+  // Convert the answers to uppercase
+  let answer1Upper = answer1.toUpperCase();
+  let answer2Upper = answer2.toUpperCase();
+
+  // Find location object based on uppercase names
+  let location1 = locations.find(location => location.name === answer1Upper);
+  let location2 = locations.find(location => location.name === answer2Upper);
+
+  // Check if location1 and location2 are found
+  if (!location1 || !location2) {
+    console.error('Invalid location name(s) provided:', answer1Upper, answer2Upper);
+    return; // Early return if any location is not found
+  }
+
+  // Get the ids from the locations
+  let id1 = location1.id;
+  let id2 = location2.id;
+
+  // Find the flow from id1 to id2 and id2 to id1
+  let flow1 = flows.find(flow => flow.from === id1 && flow.to === id2);
+  let flow2 = flows.find(flow => flow.from === id2 && flow.to === id1);
+
+  // Log to check if flows are being found
+  console.log('Flow from ' + id1 + ' to ' + id2 + ':', flow1);
+  console.log('Flow from ' + id2 + ' to ' + id1 + ':', flow2);
+
+  // Increment the quantity for both flows (if they exist)
+  if (flow1) {
+    flow1.quantity += 1;
+    console.log('Updated flow from ' + id1 + ' to ' + id2 + ' quantity:', flow1.quantity);
+  }
+  if (flow2) {
+    flow2.quantity += 1;
+    console.log('Updated flow from ' + id2 + ' to ' + id1 + ' quantity:', flow2.quantity);
+  }
+}
 //Map list of data to matrix
 flows.forEach(function(flow) {
   if (!matrix[flow.from]) {
@@ -179,15 +220,6 @@ function resetChordData() {
   firstChord = null;
   secondChord = null;
   showAllChords();
-
-  // Clear the matrix and reset any relevant data
-  // matrix = {};  // Assuming matrix is the data structure used for chord diagram flows
-  // totalCount = 0; // Reset total count if you are tracking the sum of the flow quantities
-
-  // // You might also want to reset the chart rendering here, depending on how the chart is drawn
-  // if (chart) {
-  //     chart.update(); // Assuming you have a chart object with an update method to redraw or reset it
-  // }
 
   console.log("Chord data reset.");
 }
@@ -417,7 +449,7 @@ function groupTicks(d) {
 
 // Create a WebSocket connection to the server
 
-const socket = new WebSocket(`ws://${window.location.host}`);
+const socket = new WebSocket(`wss://${window.location.host}`);
 
 function getChordNameById(id) {
   const location = locations.find(location => location.id === id);

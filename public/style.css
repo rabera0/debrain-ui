@@ -12,18 +12,30 @@
   font-style: normal;
 }
 
-/* General Styles */
+
 body {
-  font-family: 'Gotham', -apple-system, BlinkMacSystemFont, "Lucida Handwriting",
-    "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
-    "Droid Sans", "Helvetica Neue", sans-serif;
-  background: radial-gradient(#0080BF, #111111);
+  background: radial-gradient(circle, #0080BF, #0a195a); /* Default radial gradient with two colors */
+  background-size: 400% 400%; /* Make the gradient larger than the viewport for smooth transition */
+  animation: gradient 15s ease infinite; /* Animation that moves the gradient over 15 seconds */
   height: 100vh;
+  margin: 0;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0;
+  font-family: 'Gotham', sans-serif;
   flex-direction: column;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 0%; /* Start position of the gradient */
+  }
+  50% {
+    background-position: 100% 100%; /* Move the gradient to the opposite corner */
+  }
+  100% {
+    background-position: 0% 0%; /* Return to the original position */
+  }
 }
 
 /* Hide all sections by default */
@@ -93,6 +105,18 @@ p {
   margin: 25px;
 }
 
+
+/* Information Icon Styling */
+#info-icon {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  font-size: 24px;
+  cursor: pointer;
+  z-index: 1000; /* Make sure it's on top of other elements */
+}
+
+
 button {
   color: white;
   font-weight: bold;
@@ -107,7 +131,7 @@ button {
   padding: 22px; /* Equal padding for consistency */
   font-size: 15px; /* Consistent font size */
   width: 100%; /* Make buttons take the full width of the column */
-  max-width: 400px;
+  max-width: 500px;
   box-sizing: border-box; /* Ensures padding doesn't affect width */
   cursor: pointer; /* Pointer cursor for interactivity */
   transition: all 0.3s ease; /* Smooth transition for hover effect */
@@ -122,6 +146,34 @@ button:focus {
 button:active {
   transform: scale(0.98);
 }
+
+/* Information Popup Styling */
+#info-popup {
+  position: fixed;
+  top: 60px;
+  right: 20px;
+  background-color: rgba(0, 0, 0, 0.452);
+  color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 250px;
+  display: none; /* Initially hidden */
+  z-index: 1000;
+}
+
+/* Close Button Styling */
+#close-popup {
+  position: relative;
+  padding: 8px 16px;
+  font-size: 12px; /* Slightly increased for readability */
+  margin: 0 auto; /* Centers the button horizontally */
+  display: block; /* Makes the button a block element for centering */
+  width: auto; /* Button size adjusts to its content */
+  border-radius: 25px; /* Rounded corners */
+  transition: all 0.3s ease; /* Smooth transition for hover effect */
+}
+
 
 /* Layout adjustments for button positioning */
 #next {
@@ -277,11 +329,16 @@ section {
   padding: 0 18%;
 }
 
-#redo, #save {
-  padding: 20px 99px 25px 99px;
+#redo{
+  padding: 25px 99px 25px 99px;
   margin: 40px 0 40px 0;
+  max-width: fit-content;
 }
 
+#save {
+  padding: 25px 180px 25px 180px;
+  margin: 40px 0 40px 0;
+}
 /* For mobile responsiveness */
 @media (max-width: 768px) {
   #quiz1, #quiz2 {
