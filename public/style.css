@@ -15,8 +15,8 @@
 
 body {
   background: radial-gradient(circle, #0080BF, #0a195a); /* Default radial gradient with two colors */
-  background-size: 400% 400%; /* Make the gradient larger than the viewport for smooth transition */
-  animation: gradient 15s ease infinite; /* Animation that moves the gradient over 15 seconds */
+  background-size: 200% 200%; /* Make the gradient larger than the viewport for smooth transition */
+  animation: gradient 10s ease infinite; /* Animation that moves the gradient over 15 seconds */
   height: 100vh;
   margin: 0;
   display: flex;
@@ -329,15 +329,31 @@ section {
   padding: 0 18%;
 }
 
+
+video {
+  border-radius: 50px;
+}
+
 #redo{
   padding: 25px 99px 25px 99px;
-  margin: 40px 0 40px 0;
   max-width: fit-content;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  font-size: 14px;
+  font-weight: bold;
+  margin: 5% 30%;
 }
 
 #save {
-  padding: 25px 180px 25px 180px;
-  margin: 40px 0 40px 0;
+  padding: 25px 99px 25px 99px;
+  max-width: fit-content;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  font-size: 14px;
+  font-weight: bold;
+  margin: 5% 30%;
 }
 /* For mobile responsiveness */
 @media (max-width: 768px) {

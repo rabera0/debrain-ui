@@ -13,292 +13,209 @@ var locations = [
   { id: 11, name: "PASSION", color: "#019C60" }
 ];
 
-var flows = [
-  { from: 0, to: 0, quantity: 0 },
-  { from: 0, to: 1, quantity: 0 },
-  { from: 0, to: 2, quantity: 0 },
-  { from: 0, to: 3, quantity: 0 },
-  { from: 0, to: 4, quantity: 0 },
-  { from: 0, to: 5, quantity: 0 },
-  { from: 0, to: 6, quantity: 0 },
-  { from: 0, to: 7, quantity: 1 },
-  { from: 0, to: 8, quantity: 1 },
-  { from: 0, to: 9, quantity: 1 },
-  { from: 0, to: 10, quantity: 1 },
-  { from: 0, to: 11, quantity: 1 },
-  { from: 1, to: 0, quantity: 0 },
-  { from: 1, to: 1, quantity: 0 },
-  { from: 1, to: 2, quantity: 0 },
-  { from: 1, to: 3, quantity: 0 },
-  { from: 1, to: 4, quantity: 0 },
-  { from: 1, to: 5, quantity: 0 },
-  { from: 1, to: 6, quantity: 1 },
-  { from: 1, to: 7, quantity: 1 },
-  { from: 1, to: 8, quantity: 1 },
-  { from: 1, to: 9, quantity: 1 },
-  { from: 1, to: 10, quantity: 1 },
-  { from: 1, to: 11, quantity: 1 },
-  { from: 2, to: 0, quantity: 0 },
-  { from: 2, to: 1, quantity: 0 },
-  { from: 2, to: 2, quantity: 0 },
-  { from: 2, to: 3, quantity: 0 },
-  { from: 2, to: 4, quantity: 0 },
-  { from: 2, to: 5, quantity: 0 },
-  { from: 2, to: 6, quantity: 1 },
-  { from: 2, to: 7, quantity: 1 },
-  { from: 2, to: 8, quantity: 1 },
-  { from: 2, to: 9, quantity: 1 },
-  { from: 2, to: 10, quantity: 1 },
-  { from: 2, to: 11, quantity: 1 },
-  { from: 3, to: 0, quantity: 1 },
-  { from: 3, to: 1, quantity: 0 },
-  { from: 3, to: 2, quantity: 0 },
-  { from: 3, to: 3, quantity: 0 },
-  { from: 3, to: 4, quantity: 0 },
-  { from: 3, to: 5, quantity: 0 },
-  { from: 3, to: 6, quantity: 1 },
-  { from: 3, to: 7, quantity: 1 },
-  { from: 3, to: 8, quantity: 1 },
-  { from: 3, to: 9, quantity: 1 },
-  { from: 3, to: 10, quantity: 1 },
-  { from: 3, to: 11, quantity: 1 },
-  { from: 4, to: 0, quantity: 1 },
-  { from: 4, to: 1, quantity: 0 },
-  { from: 4, to: 2, quantity: 0 },
-  { from: 4, to: 3, quantity: 0 },
-  { from: 4, to: 4, quantity: 0 },
-  { from: 4, to: 5, quantity: 0 },
-  { from: 4, to: 6, quantity: 1 },
-  { from: 4, to: 7, quantity: 1 },
-  { from: 4, to: 8, quantity: 1 },
-  { from: 4, to: 9, quantity: 1 },
-  { from: 4, to: 10, quantity: 1 },
-  { from: 4, to: 11, quantity: 1 },
-  { from: 5, to: 0, quantity: 0 },
-  { from: 5, to: 1, quantity: 0 },
-  { from: 5, to: 2, quantity: 0 },
-  { from: 5, to: 3, quantity: 0 },
-  { from: 5, to: 4, quantity: 0 },
-  { from: 5, to: 5, quantity: 0 },
-  { from: 5, to: 6, quantity: 1 },
-  { from: 5, to: 7, quantity: 1 },
-  { from: 5, to: 8, quantity: 1 },
-  { from: 5, to: 9, quantity: 1 },
-  { from: 5, to: 10, quantity: 1 },
-  { from: 5, to: 11, quantity: 0 },
-  { from: 6, to: 0, quantity: 1 },
-  { from: 6, to: 1, quantity: 1 },
-  { from: 6, to: 2, quantity: 1 },
-  { from: 6, to: 3, quantity: 0 },
-  { from: 6, to: 4, quantity: 1 },
-  { from: 6, to: 5, quantity: 1 },
-  { from: 6, to: 6, quantity: 0 },
-  { from: 6, to: 7, quantity: 0 },
-  { from: 6, to: 8, quantity: 0 },
-  { from: 6, to: 9, quantity: 0 },
-  { from: 6, to: 10, quantity: 0 },
-  { from: 6, to: 11, quantity: 0 },
-  { from: 7, to: 0, quantity: 1 },
-  { from: 7, to: 1, quantity: 1 },
-  { from: 7, to: 2, quantity: 1 },
-  { from: 7, to: 3, quantity: 1 },
-  { from: 7, to: 4, quantity: 1 },
-  { from: 7, to: 5, quantity: 1 },
-  { from: 7, to: 6, quantity: 0 },
-  { from: 7, to: 7, quantity: 0 },
-  { from: 7, to: 8, quantity: 0 },
-  { from: 7, to: 9, quantity: 0},
-  { from: 7, to: 10, quantity: 0 },
-  { from: 7, to: 11, quantity: 0 },
-  { from: 8, to: 0, quantity: 1 },
-  { from: 8, to: 1, quantity: 1 },
-  { from: 8, to: 2, quantity: 1 },
-  { from: 8, to: 3, quantity: 1 },
-  { from: 8, to: 4, quantity: 1 },
-  { from: 8, to: 5, quantity: 1 },
-  { from: 8, to: 6, quantity: 0 },
-  { from: 8, to: 7, quantity: 0 },
-  { from: 8, to: 8, quantity: 0 },
-  { from: 8, to: 9, quantity: 0 },
-  { from: 8, to: 10, quantity: 0 },
-  { from: 8, to: 11, quantity: 0 },
-  { from: 9, to: 0, quantity: 1 },
-  { from: 9, to: 1, quantity: 1 },
-  { from: 9, to: 2, quantity: 1 },
-  { from: 9, to: 3, quantity: 1 },
-  { from: 9, to: 4, quantity: 1 },
-  { from: 9, to: 5, quantity: 1 },
-  { from: 9, to: 6, quantity: 0 },
-  { from: 9, to: 7, quantity: 0 },
-  { from: 9, to: 8, quantity: 0 },
-  { from: 9, to: 9, quantity: 0 },
-  { from: 9, to: 10, quantity: 0 },
-  { from: 9, to: 11, quantity: 0 },
-  { from: 10, to: 0, quantity: 1 },
-  { from: 10, to: 1, quantity: 1 },
-  { from: 10, to: 2, quantity: 1 },
-  { from: 10, to: 3, quantity: 1 },
-  { from: 10, to: 4, quantity: 1 },
-  { from: 10, to: 5, quantity: 1 },
-  { from: 10, to: 6, quantity: 0 },
-  { from: 10, to: 7, quantity: 0 },
-  { from: 10, to: 8, quantity: 0 },
-  { from: 10, to: 9, quantity: 0 },
-  { from: 10, to: 10, quantity: 0 },
-  { from: 10, to: 11, quantity: 0 },
-  { from: 11, to: 0, quantity: 0 },
-  { from: 11, to: 1, quantity: 1 },
-  { from: 11, to: 2, quantity: 0 },
-  { from: 11, to: 3, quantity: 1 },
-  { from: 11, to: 4, quantity: 1 },
-  { from: 11, to: 5, quantity: 1 },
-  { from: 11, to: 6, quantity: 0 },
-  { from: 11, to: 7, quantity:0 },
-  { from: 11, to: 8, quantity: 0 },
-  { from: 11, to: 9, quantity: 0 },
-  { from: 11, to: 10, quantity: 0 },
-  { from: 11, to: 11, quantity: 0 }
-];
-
-
-
-
-var totalCount = 0;
-var matrix = [];
 var firstChord = null;  // Currently selected first chord
 var secondChord = null; // Currently selected second chord
 
+let flows = [];
+var svg, matrix = [], totalCount = 0;
+var chord, g, arc, grads;
 
-function updateFlowData(answer1, answer2) {
-  // Convert the answers to uppercase
-  let answer1Upper = answer1.toUpperCase();
-  let answer2Upper = answer2.toUpperCase();
+fetch('/flows.json')
+  .then(response => response.json())
+  .then(data => {
+      flows = data;
+      drawChord(flows)
+  })
+  .catch(error => {
+      console.error('Error loading flows.json:', error);
+  });
 
-  // Find location object based on uppercase names
-  let location1 = locations.find(location => location.name === answer1Upper);
-  let location2 = locations.find(location => location.name === answer2Upper);
-
-  // Check if location1 and location2 are found
-  if (!location1 || !location2) {
-    console.error('Invalid location name(s) provided:', answer1Upper, answer2Upper);
-    return; // Early return if any location is not found
+  function getChordNameById(id) {
+    const location = locations.find(location => location.id === id);
+    return location ? location.name : null; // Return name if found, otherwise null
+  }
+  
+  function resetChordData() {
+    // Reset the selected chords
+    firstChord = null;
+    secondChord = null;
+    showAllChords();
+  
+    console.log("Chord data reset.");
   }
 
-  // Get the ids from the locations
-  let id1 = location1.id;
-  let id2 = location2.id;
-
-  // Find the flow from id1 to id2 and id2 to id1
-  let flow1 = flows.find(flow => flow.from === id1 && flow.to === id2);
-  let flow2 = flows.find(flow => flow.from === id2 && flow.to === id1);
-
-  // Log to check if flows are being found
-  console.log('Flow from ' + id1 + ' to ' + id2 + ':', flow1);
-  console.log('Flow from ' + id2 + ' to ' + id1 + ':', flow2);
-
-  // Increment the quantity for both flows (if they exist)
-  if (flow1) {
-    flow1.quantity += 1;
-    console.log('Updated flow from ' + id1 + ' to ' + id2 + ' quantity:', flow1.quantity);
+  function showAllChords() {
+    // Reset all arcs to be fully visible
+    d3.selectAll("g.group .arc")
+    .style("opacity", 1); // Set all arcs to full opacity
+    
+    svg.selectAll("path.chord")
+        .style("fill-opacity", "0.7")
+        .style("stroke-opacity", "1");
+  
+    // Reset indices
+    firstChord = null;
+    secondChord = null;
+    sendChordData();
   }
-  if (flow2) {
-    flow2.quantity += 1;
-    console.log('Updated flow from ' + id2 + ' to ' + id1 + ' quantity:', flow2.quantity);
-  }
+
+  function updateFlowData(answer1, answer2) {
+    // Convert the answers to uppercase
+    let answer1Upper = answer1.toUpperCase();
+    let answer2Upper = answer2.toUpperCase();
+
+    // Find location object based on uppercase names
+    let location1 = locations.find(location => location.name === answer1Upper);
+    let location2 = locations.find(location => location.name === answer2Upper);
+
+    // Check if location1 and location2 are found
+    if (!location1 || !location2) {
+        console.error('Invalid location name(s) provided:', answer1Upper, answer2Upper);
+        return; // Early return if any location is not found
+    }
+
+    // Get the ids from the locations
+    let id1 = location1.id;
+    let id2 = location2.id;
+
+    console.log('id1:', id1, 'id2:', id2);
+    console.log('Flows array:', flows);
+
+    // Find the flow from id1 to id2 and id2 to id1
+    let flow1 = flows.find(flow => flow.from === id1 && flow.to === id2);
+    let flow2 = flows.find(flow => flow.from === id2 && flow.to === id1);
+
+    // Log to check if flows are being found
+    console.log('Flow from ' + id1 + ' to ' + id2 + ':', flow1);
+    console.log('Flow from ' + id2 + ' to ' + id1 + ':', flow2);
+
+    // Increment the quantity for both flows (if they exist)
+    if (flow1) {
+        flow1.quantity += 1;
+        console.log('Updated flow from ' + id1 + ' to ' + id2 + ' quantity:', flow1.quantity);
+    }
+    if (flow2) {
+        flow2.quantity = flow1.quantity; // Update flow2 with the same quantity
+        console.log('Updated flow from ' + id2 + ' to ' + id1 + ' quantity:', flow2.quantity);
+    }
+
+    // Send the updated flows array directly as a JavaScript object (no need to manually format the JSON)
+    fetch('/update-flows', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ flows: flows }) // Send the raw flows array directly
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Flows updated successfully:', data);
+    })
+    .catch(error => {
+        console.error('Error updating flows:', error);
+    });
+    drawChord();
 }
-//Map list of data to matrix
-flows.forEach(function(flow) {
-  if (!matrix[flow.from]) {
-    matrix[flow.from] = [];
-  }
-  matrix[flow.from][flow.to] = flow.quantity;
-  totalCount += flow.quantity;
-});
 
-function resetChordData() {
-  // Reset the selected chords
-  firstChord = null;
-  secondChord = null;
-  showAllChords();
 
-  console.log("Chord data reset.");
+function drawChord(flows) {
+    //Map list of data to matrix
+  flows.forEach(function(flow) {
+    if (!matrix[flow.from]) {
+      matrix[flow.from] = [];
+    }
+    matrix[flow.from][flow.to] = flow.quantity;
+    totalCount += flow.quantity;
+  });
+
+  /*//////////////////////////////////////////////////////////
+  /////////////// Initiate Chord Diagram /////////////////////
+  //////////////////////////////////////////////////////////*/
+  var size = 1000;
+  var margin = {
+    top: 50,
+    right: 50,
+    bottom: 50,
+    left: 50
+  };
+
+
+  // Initiate the SVG only once
+  if (!svg) {
+    var size = 1000;
+    var margin = {
+      top: 50,
+      right: 50,
+      bottom: 50,
+      left: 50
+    };
+
+    var width = size - margin.left - margin.right;
+    var height = size - margin.top - margin.bottom;
+    var innerRadius = Math.min(width, height) * .39;
+    var outerRadius = innerRadius * 1.22;
+    var focusedChordGroupIndex = null;
+
+  /*Initiate the SVG*/
+  //D3.js v3!
+  svg = d3.select("#chart").append("svg:svg")
+    .attr("id", "chart-svg") // Add this line
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .append("svg:g")
+    .attr("transform", "translate(" + (margin.left + width / 2) + "," + (margin.top + height / 2) + ")");
 }
 
-/*//////////////////////////////////////////////////////////
-/////////////// Initiate Chord Diagram /////////////////////
-//////////////////////////////////////////////////////////*/
-var size = 1000;
-var margin = {
-  top: 50,
-  right: 50,
-  bottom: 50,
-  left: 50
-};
-var width = size - margin.left - margin.right;
-var height = size - margin.top - margin.bottom;
-var innerRadius = Math.min(width, height) * .39;
-var outerRadius = innerRadius * 1.22;
-var focusedChordGroupIndex = null;
-
-/*Initiate the SVG*/
-//D3.js v3!
-var svg = d3.select("#chart").append("svg:svg")
-  .attr("id", "chart-svg") // Add this line
-  .attr("width", width + margin.left + margin.right)
-  .attr("height", height + margin.top + margin.bottom)
-  .append("svg:g")
-  .attr("transform", "translate(" + (margin.left + width / 2) + "," + (margin.top + height / 2) + ")");
-
-var chord = customChordLayout() //Using custom chord layout to order chords by adjacency so that they don't cross.
-  .padding(0.02)
-  .sortChords(d3.ascending) /*which chord should be shown on top when chords cross. Now the biggest chord is at the top*/
-  .matrix(matrix);
+  chord = customChordLayout() //Using custom chord layout to order chords by adjacency so that they don't cross.
+    .padding(0.02)
+    .sortChords(d3.ascending) /*which chord should be shown on top when chords cross. Now the biggest chord is at the top*/
+    .matrix(matrix);
 
 /*//////////////////////////////////////////////////////////
 ////////////////// Draw outer Arcs /////////////////////////
 //////////////////////////////////////////////////////////*/
-var arc = d3.svg.arc()
-  .innerRadius(innerRadius)
-  .outerRadius(outerRadius);
+  arc = d3.svg.arc()
+    .innerRadius(innerRadius)
+    .outerRadius(outerRadius);
 
-var g = svg.selectAll("g.group")
-  .data(chord.groups)
-  .enter().append("svg:g")
-  .attr("class", function(d) {
-    return "group " + locations[d.index].id;
-  });
+  g = svg.selectAll("g.group")
+    .data(chord.groups)
+    .enter().append("svg:g")
+    .attr("class", function(d) {
+      return "group " + locations[d.index].id;
+    });
 
-g.append("svg:path")
-  .attr("class", "arc")
-  .style("stroke", function(d) {
-    return d3.rgb(locations[d.index].color).brighter();
-  })
-  .style("fill", function(d) {
-    return locations[d.index].color;
-  })
-  .attr("d", arc)
-  .on("click", function(d) {
-    highlightChords(d.index)
-  });
+  g.append("svg:path")
+    .attr("class", "arc")
+    .style("stroke", function(d) {
+      return d3.rgb(locations[d.index].color).brighter();
+    })
+    .style("fill", function(d) {
+      return locations[d.index].color;
+    })
+    .attr("d", arc)
+    .on("click", function(d) {
+      highlightChords(d.index)
+    });
 
 /*//////////////////////////////////////////////////////////
 ////////////////// Initiate Names //////////////////////////
 //////////////////////////////////////////////////////////*/
 
 
-g.append("svg:text")
-  .each(function(d) {
-    d.angle = (d.startAngle + d.endAngle) / 2;  // Midpoint angle for each arc
-  })
-  .attr("dy", ".35em")
-  .attr("class", "titles")
-  .style("font-size", "20px")
-  .style("font-family", "Gotham, sans-serif")  // Change font family to Gotham
-  .style("font-weight", "bold")               // Set font weight to bold
-  .attr("fill", "#FFF")
-  .attr("text-anchor", function(d) {
-    return d.angle > Math.PI ? "end" : "start";  // Text alignment (left or right)
-  })
+  g.append("svg:text")
+    .each(function(d) {
+      d.angle = (d.startAngle + d.endAngle) / 2;  // Midpoint angle for each arc
+    })
+    .attr("dy", ".35em")
+    .attr("class", "titles")
+    .style("font-size", "20px")
+    .style("font-family", "Gotham, sans-serif")  // Change font family to Gotham
+    .style("font-weight", "bold")               // Set font weight to bold
+    .attr("fill", "#FFF")
+    .attr("text-anchor", function(d) {
+      return d.angle > Math.PI ? "end" : "start";  // Text alignment (left or right)
+    })
 
 .attr("transform", function(d) {
   const angle = (d.angle * 180) / Math.PI - 90;  // Midpoint angle converted to degrees
@@ -330,38 +247,10 @@ g.append("svg:text")
   return locations[i].name;  // Set the text for each arc
 });
 
-
-
-
-// g.append("svg:text")
-// .each(function(d) {
-//   d.angle = (d.startAngle + d.endAngle) / 2;
-// })
-// .attr("dy", ".35em")
-// .attr("class", "titles")
-// .style("font-size", "14px")
-// .style("font-family", "sans-serif")
-// .attr("fill", "#FFF")
-// .attr("text-anchor", function(d) {
-//   return d.angle > Math.PI ? "end" : "start";
-// })
-// .attr("transform", function(d) {
-//   return (
-//     "rotate(" + ((d.angle * 180) / Math.PI - 90) + ")" +  // Rotate to align with arc
-//     "translate(" + (innerRadius + 55) + ",0)" +           // Translate to outer radius + offset
-//     (d.angle > Math.PI ? "rotate(180)" : "")              // Flip text for readability on the left side
-//   );
-// })
-// .text(function(d, i) {
-//   return locations[i].name;
-// });
-
-
-
 /*//////////////////////////////////////////////////////////
 //////////////// Initiate inner chords /////////////////////
 //////////////////////////////////////////////////////////*/
-var chords = svg.selectAll("path.chord")
+chords = svg.selectAll("path.chord")
   .data(chord.chords)
   .enter().append("svg:path")
   .attr("class", "chord")
@@ -387,7 +276,7 @@ var chords = svg.selectAll("path.chord")
 
 //Cf https://www.visualcinnamon.com/2016/06/orientation-gradient-d3-chord-diagram
 //Create a gradient definition for each chord
-var grads = svg.append("defs").selectAll("linearGradient")
+grads = svg.append("defs").selectAll("linearGradient")
   .data(chord.chords)
   .enter().append("linearGradient")
   //Create a unique gradient id per chord: e.g. "chordGradient-0-4"
@@ -429,7 +318,8 @@ grads.append("stop")
     return locations[d.target.index].color;
   });
 
-/*//////////////////////////////////////////////////////////
+
+    /*//////////////////////////////////////////////////////////
 ////////////////// Extra Functions /////////////////////////
 //////////////////////////////////////////////////////////*/
 
@@ -445,33 +335,9 @@ function groupTicks(d) {
   });
 };
 
-/* SOCKETS */
-
-// Create a WebSocket connection to the server
-
-const socket = new WebSocket(`wss://${window.location.host}`);
-
-function getChordNameById(id) {
-  const location = locations.find(location => location.id === id);
-  return location ? location.name : null; // Return name if found, otherwise null
-}
-
-function sendChordData() {
-  const data = {
-    section: "explore",
-    page: 13,
-    firstChord: getChordNameById(firstChord), // Convert firstChord id to name
-    secondChord: getChordNameById(secondChord) // Convert secondChord id to name
-  };
-  
-  if (socket.readyState === WebSocket.OPEN) {
-    console.log("web socket data:", JSON.stringify(data));
-    socket.send(JSON.stringify(data));
-  }
-}
 
 function highlightChords(index) {
-  // console.log(`Clicked Chord Index: ${index}`); // Log the clicked chord index
+  console.log(`Clicked Chord Index: ${index}`); // Log the clicked chord index
 
   // Log the entire SVG content to see the structure
   // console.log(svg.node().innerHTML); // Log SVG content for debugging
@@ -486,7 +352,7 @@ function highlightChords(index) {
   // If firstChord is not set, set it and show all connections
   if (firstChord === null) {
       firstChord = index;
-      // console.log(`First Chord Set: ${firstChord}`); // Log the first chord set
+      console.log(`First Chord Set: ${firstChord}`); // Log the first chord set
       showAllConnections(firstChord);
       applyVisualFeedback();
       sendChordData();  // Send data after setting firstChord
@@ -495,7 +361,7 @@ function highlightChords(index) {
 
   // If the clicked chord is the same as firstChord and secondChord is null
   if (firstChord === index && secondChord === null) {
-      // console.log(`Resetting to show all connections for First Chord: ${firstChord}`);
+      console.log(`Resetting to show all connections for First Chord: ${firstChord}`);
       firstChord = null; // Reset firstChord
       applyVisualFeedback();
       showAllChords(); // Show all connections for the first chord
@@ -504,7 +370,7 @@ function highlightChords(index) {
 
   // If the clicked chord is the same as firstChord and secondChord is set
   if (firstChord === index && secondChord !== null) {
-      // console.log(`Promoting Second Chord: ${secondChord} to First Chord`);
+      console.log(`Promoting Second Chord: ${secondChord} to First Chord`);
       // Reset to show connections for secondChord
       showAllConnections(secondChord);
       firstChord = secondChord; // Promote secondChord to firstChord
@@ -521,13 +387,13 @@ function highlightChords(index) {
       var hasConnection = checkConnection(firstChord, secondChord);
 
       if (hasConnection) {
-          // console.log(`Highlighting connection between: ${firstChord} and ${secondChord}`);
-          // console.log(`Highlighting connection between: ${firstChord} and ${secondChord}`);
+          console.log(`Highlighting connection between: ${firstChord} and ${secondChord}`);
+          console.log(`Highlighting connection between: ${firstChord} and ${secondChord}`);
           // Highlight only the connection between firstChord and secondChord
           hideAllChords();
           highlightConnection(firstChord, secondChord);
         } else {
-          // console.log(`No connection found between: ${firstChord} and ${secondChord}`);
+          console.log(`No connection found between: ${firstChord} and ${secondChord}`);
           // No connection found, hide all connections
           // hideAllChords();
           showAllConnections(secondChord);
@@ -540,25 +406,25 @@ function highlightChords(index) {
   } else {
       // If secondChord is set, check if it's the same as the clicked index
       if (secondChord === index) {
-          // console.log(`Unhighlighting Second Chord: ${secondChord}`);
+          console.log(`Unhighlighting Second Chord: ${secondChord}`);
           // If clicking on the second chord, unhighlight it and show connections of the first chord
           secondChord = null;
           showAllConnections(firstChord);
           applyVisualFeedback();
           // sendChordData(); 
       } else {
-          // console.log(`Updating Second Chord to: ${secondChord}`);
+          console.log(`Updating Second Chord to: ${secondChord}`);
           // If clicking a new chord, update secondChord and show connections
           secondChord = index;
           var hasConnection = checkConnection(firstChord, secondChord);
 
           if (hasConnection) {
-              // console.log(`Highlighting connection between: ${firstChord} and ${secondChord}`);
+              console.log(`Highlighting connection between: ${firstChord} and ${secondChord}`);
               // Highlight only the connection between firstChord and secondChord
               hideAllChords();
               highlightConnection(firstChord, secondChord);
           } else {
-              // console.log(`No connection found between: ${firstChord} and ${secondChord}`);
+              console.log(`No connection found between: ${firstChord} and ${secondChord}`);
               // No connection found, hide all connections
               showAllConnections(secondChord);
               firstChord = secondChord; // Promote secondChord to firstChord
@@ -618,26 +484,12 @@ return flows.some(flow =>
 );
 }
 
-function showAllChords() {
-  // Reset all arcs to be fully visible
-  d3.selectAll("g.group .arc")
-  .style("opacity", 1); // Set all arcs to full opacity
-  
-  svg.selectAll("path.chord")
-      .style("fill-opacity", "0.7")
-      .style("stroke-opacity", "1");
-
-  // Reset indices
-  firstChord = null;
-  secondChord = null;
-  sendChordData();
-}
-
 function hideAllChords() {
   svg.selectAll("path.chord")
       .style("fill-opacity", "0")
       .style("stroke-opacity", "0");
 }
+
 
 ////////////////////////////////////////////////////////////
 //////////// Custom Chord Layout Function //////////////////
@@ -787,3 +639,21 @@ function customChordLayout() {
   };
   return chord;
 };
+}
+
+/* SOCKETS */
+// Create a WebSocket connection to the server
+const socket = new WebSocket(`wss://${window.location.host}`);
+function sendChordData() {
+  const data = {
+    section: "explore",
+    page: 13,
+    firstChord: getChordNameById(firstChord), // Convert firstChord id to name
+    secondChord: getChordNameById(secondChord) // Convert secondChord id to name
+  };
+  
+  if (socket.readyState === WebSocket.OPEN) {
+    console.log("web socket data:", JSON.stringify(data));
+    socket.send(JSON.stringify(data));
+  }
+}

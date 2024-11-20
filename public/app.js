@@ -97,7 +97,7 @@ const colors = [
 { love: "#DD524E" },
 { recognition: "#D6B036" },
 { success: "#006850" },
-{ purpose: "#7A2791" },
+{ purpose: "#b32de3" },
 { hope: "#FFBB00" },
 { excitement: "#7CF2F6" },
 { joy: "#ED88AD" },
@@ -109,18 +109,18 @@ const colors = [
 ];
 
 const baseColors = [
-{ love: "#0D524E" },
-{ recognition: "#D7B036" },
+{ love: "#b30500" },
+{ recognition: "#fce517" },
 { success: "#003850" },
 { purpose: "#7A2721" },
-{ hope: "#FFBB00" },
-{ excitement: "#7CF1F6" },
-{ joy: "#ED887D" },
+{ hope: "#f5d271" },
+{ excitement: "#24b8bd" },
+{ joy: "#c947d5" },
 { inspiration: "#BF7776" },
-{ gratitude: "#ffff00" },
-{ anticipation: "#38B0DD" },
-{ passion: "#019C60" },
-{ fear: "#FF7222" }
+{ gratitude: "#167fe0" },
+{ anticipation: "#0484c4" },
+{ passion: "#006655" },
+{ fear: "#ba451a" }
 ];
 
 
@@ -129,8 +129,8 @@ function applyRadialGradientAnimation(color1, color2) {
     document.body.style.background = `radial-gradient(circle, ${color1}, ${color2})`;
   
     // Apply the background size and animation
-    document.body.style.backgroundSize = '400% 400%';
-    document.body.style.animation = 'gradient 15s ease infinite';
+    document.body.style.backgroundSize = '300% 300%';
+    document.body.style.animation = 'gradient 10s ease infinite';
   }
 
   
@@ -140,7 +140,7 @@ function applyComboGradientAnimation(color1, baseColor1, color2, baseColor2) {
     document.body.style.background = `radial-gradient(circle, ${color1}, ${baseColor1}, ${color2}, ${baseColor2})`;
     
     // Apply the background size and animation for smooth transition
-    document.body.style.backgroundSize = '400% 400%';
+    document.body.style.backgroundSize = '300% 300%';
     document.body.style.animation = 'gradient 15s ease infinite'; // 15s duration for a smooth loop
   }
 
@@ -337,7 +337,7 @@ socket.addEventListener('message', async (event) => {
             currentSectionIndex = 10;
             sendPortraitData("", 10);
             showCurrentSection();
-        }, 7000); // 7-second delay
+        }, 1000); // 7-second delay
 
     });
     
@@ -470,7 +470,7 @@ function getColorByEmotion(emotion) {
   
       // Get the corresponding color for the selected emotion
       color2 = getColorByEmotion(emotion2);
-      baseColor2 = getBaseColorByEmotion(emotion1) // Use base color for emotion1
+      baseColor2 = getBaseColorByEmotion(emotion2) // Use base color for emotion1
       console.log("Emotion2 color:", color2);
   
       // Update the UI with selected emotion and message
@@ -518,7 +518,7 @@ function getColorByEmotion(emotion) {
     // Add a 3-second delay before showing the button
     setTimeout(() => {
         button.style.display = 'block'; // Show the button after 3 seconds
-    }, 3000); // 3-second delay
+    }, 1000); // 3-second delay
 });
 
   // 7 second timer to the next page
@@ -532,7 +532,7 @@ function getColorByEmotion(emotion) {
   
   // Display combined emotion message
   document.querySelector('.next[data-next="7"]').addEventListener('click', () => {
-    applyComboGradientAnimation(color1, baseColor1, color2, baseColor2); // combo
+    applyComboGradientAnimation(color1, baseColor1, baseColor2, color2,); // combo
       const emotionPairKey = Object.keys(data.emotion_pairs).find(key => {
           const pair = data.emotion_pairs[key];
           return pair[0] === emotion1.toUpperCase() && pair[1] === emotion2.toUpperCase();
@@ -566,15 +566,15 @@ document.querySelectorAll('.next').forEach(button => {
         // Send user data only if currentPage is less than 9
         if (currentPage > 1 && currentPage < 9 && currentPage != 6 && currentPage !=4 && currentPage !=7) {
             if(currentPage == 8) {
-                applyComboGradientAnimation(color1, baseColor1, color2, baseColor2); // combo
+                applyComboGradientAnimation(color1, baseColor1, baseColor2, color2,); // combo
             } else {
                 applyRadialGradientAnimation('#0080BF', '#0a195a');; //default
             }
             sendUserData();
         } else if (currentPage >=9 && currentPage < 12) {
-            applyComboGradientAnimation(color1, baseColor1, color2, baseColor2); // combo
+            applyComboGradientAnimation(color1, baseColor1, baseColor2, color2,); // combo
             if(currentPage < 11) {
-                applyComboGradientAnimation(color1, baseColor1, color2, baseColor2); // combo
+                applyComboGradientAnimation(color1, baseColor1, baseColor2, color2,); // combo
             } else {
                 applyRadialGradientAnimation('#0080BF', '#0a195a'); //default
             }
