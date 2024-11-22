@@ -109,14 +109,13 @@ fetch('/flows.json')
     })
     .then(response => response.json())
     .then(data => {
-        console.log('Flows updated successfully:', data);
+        console.log('Flows updated successfully:');
     })
     .catch(error => {
         console.error('Error updating flows:', error);
     });
     drawChord(flows);
 }
-
 
 function drawChord(flows) {
     //Map list of data to matrix
@@ -203,49 +202,74 @@ function drawChord(flows) {
 //////////////////////////////////////////////////////////*/
 
 
-  g.append("svg:text")
-    .each(function(d) {
-      d.angle = (d.startAngle + d.endAngle) / 2;  // Midpoint angle for each arc
-    })
-    .attr("dy", ".35em")
-    .attr("class", "titles")
-    .style("font-size", "20px")
-    .style("font-family", "Gotham, sans-serif")  // Change font family to Gotham
-    .style("font-weight", "bold")               // Set font weight to bold
-    .attr("fill", "#FFF")
-    .attr("text-anchor", function(d) {
-      return d.angle > Math.PI ? "end" : "start";  // Text alignment (left or right)
-    })
+// Append paths for text to follow
+g.append("path")
+  .attr("id", function (d, i) {
+    return `textPath-${i}`; // Unique ID for each path
+  })
+  .attr("d", function (d) {
+    const radius = innerRadius + 110; // Define the radius for the text
+    const startAngle = d.startAngle - Math.PI / 2; // Adjust angles for SVG coordinates
+    const endAngle = d.endAngle - Math.PI / 2;
 
-.attr("transform", function(d) {
-  const angle = (d.angle * 180) / Math.PI - 90;  // Midpoint angle converted to degrees
-  const radius = innerRadius + 110;
+    const startX = radius * Math.cos(startAngle);
+    const startY = radius * Math.sin(startAngle);
+    const endX = radius * Math.cos(endAngle);
+    const endY = radius * Math.sin(endAngle);
 
-  // Calculate the text width and offset for centering
-  const textWidth = this.getBBox().width;
-  const offset = textWidth / 2;
+    // Create a circular arc path
+    return `
+      M ${startX},${startY}
+      A ${radius},${radius} 0 0,1 ${endX},${endY}
+    `;
+  })
+  .style("fill", "none") // Invisible path
+  .style("stroke", "none"); // Ensure the path is not visible
 
-  // console.log('Text Width:', textWidth);
-  // console.log('Offset:', offset);
+// Add text along the path
+g.append("text")
+  .append("textPath")
+  .attr("xlink:href", function (d, i) {
+    return `#textPath-${i}`; // Link text to corresponding path
+  })
+  .attr("startOffset", "50%") // Center the text on the arc
+  .style("text-anchor", "middle") // Align text to the middle of the path
+  .style("font-size", "20px")
+  .style("font-family", "Gotham, sans-serif")
+  .style("font-weight", "bold")
+  .attr("fill", "#FFF")
+  .text(function (d, i) {
+    return locations[i].name; // Set the text for each arc
+  });
 
-  // Bottom center of the circle (π), adjust with tolerance
-  const bottomCenter = Math.PI;
-  const tolerance = Math.PI / 3;  // 60 degrees tolerance on either side of the bottom
-  const isBottomQuarter = d.angle > bottomCenter - tolerance && d.angle < bottomCenter + tolerance;
 
-  // Flip logic: Apply 270° for bottom section, otherwise 90° for top
-  const flip = isBottomQuarter ? 270 : 90;
 
-  return (
-    `rotate(${angle})` +                         // Rotate to align the text with the arc
-    `translate(${radius}, 0)` +                    // Translate outward to position the text
-    `translate(${-offset}, 0)` +                   // Shift text left by half its width to center it
-    `rotate(${flip})`                             // Flip the text for readability if necessary
-  );
-})
-.text(function(d, i) {
-  return locations[i].name;  // Set the text for each arc
-});
+
+// g.append("svg:text")
+// .each(function(d) {
+//   d.angle = (d.startAngle + d.endAngle) / 2;
+// })
+//     .attr("dy", ".35em")
+//     .attr("class", "titles")
+//     .style("font-size", "30px")
+//     .style("font-family", "Gotham, sans-serif")  // Change font family to Gotham
+//     .style("font-weight", "bold")               // Set font weight to bold
+//     .attr("fill", "#FFF")
+//     .attr("text-anchor", function(d) {
+//       return d.angle > Math.PI ? "end" : "start";  // Text alignment (left or right)
+//     })
+// .attr("transform", function(d) {
+//   return (
+//     "rotate(" + ((d.angle * 180) / Math.PI - 90) + ")" +  // Rotate to align with arc
+//     "translate(" + (innerRadius + 100) + ",0)" +           // Translate to outer radius + offset
+//     (d.angle > Math.PI ? "rotate(180)" : "")              // Flip text for readability on the left side
+//   );
+// })
+// .text(function(d, i) {
+//   return locations[i].name;
+// });
+
+
 
 /*//////////////////////////////////////////////////////////
 //////////////// Initiate inner chords /////////////////////
@@ -361,7 +385,7 @@ function highlightChords(index) {
 
   // If the clicked chord is the same as firstChord and secondChord is null
   if (firstChord === index && secondChord === null) {
-      console.log(`Resetting to show all connections for First Chord: ${firstChord}`);
+      // console.log(`Resetting to show all connections for First Chord: ${firstChord}`);
       firstChord = null; // Reset firstChord
       applyVisualFeedback();
       showAllChords(); // Show all connections for the first chord
@@ -370,7 +394,7 @@ function highlightChords(index) {
 
   // If the clicked chord is the same as firstChord and secondChord is set
   if (firstChord === index && secondChord !== null) {
-      console.log(`Promoting Second Chord: ${secondChord} to First Chord`);
+      // console.log(`Promoting Second Chord: ${secondChord} to First Chord`);
       // Reset to show connections for secondChord
       showAllConnections(secondChord);
       firstChord = secondChord; // Promote secondChord to firstChord
@@ -387,7 +411,6 @@ function highlightChords(index) {
       var hasConnection = checkConnection(firstChord, secondChord);
 
       if (hasConnection) {
-          console.log(`Highlighting connection between: ${firstChord} and ${secondChord}`);
           console.log(`Highlighting connection between: ${firstChord} and ${secondChord}`);
           // Highlight only the connection between firstChord and secondChord
           hideAllChords();

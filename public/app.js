@@ -109,8 +109,8 @@ const colors = [
 ];
 
 const baseColors = [
-{ love: "#b30500" },
-{ recognition: "#fce517" },
+{ love: "#960014" },
+{ recognition: "#ffe84f" },
 { success: "#003850" },
 { purpose: "#7A2721" },
 { hope: "#f5d271" },
@@ -130,7 +130,7 @@ function applyRadialGradientAnimation(color1, color2) {
   
     // Apply the background size and animation
     document.body.style.backgroundSize = '300% 300%';
-    document.body.style.animation = 'gradient 10s ease infinite';
+    document.body.style.animation = 'gradient 10s ease-in-out infinite';
   }
 
   
@@ -141,7 +141,7 @@ function applyComboGradientAnimation(color1, baseColor1, color2, baseColor2) {
     
     // Apply the background size and animation for smooth transition
     document.body.style.backgroundSize = '300% 300%';
-    document.body.style.animation = 'gradient 15s ease infinite'; // 15s duration for a smooth loop
+    document.body.style.animation = 'gradient 15s ease-in-out infinite'; // 15s duration for a smooth loop
   }
 
 
@@ -179,7 +179,7 @@ socket.addEventListener('message', async (event) => {
 
         if (currentSectionIndex === 0) {
             setTimeout(() => {
-                console.log("fingerprint detected, moving to section 1");
+                // console.log("fingerprint detected, moving to section 1");
                 currentSectionIndex = 1;
                 currentPage = 1;
                 sendUserData();
@@ -422,11 +422,11 @@ function getColorByEmotion(emotion) {
       // Get the corresponding color for the selected emotion
       color1 = getColorByEmotion(emotion1);
       baseColor1 = getBaseColorByEmotion(emotion1) // Use base color for emotion1
-      console.log("Emotion1 color:", color1);
+    //   console.log("Emotion1 color:", color1);
   
       // Update the UI with selected emotion and message
       const emotion1Message = getEmotionMessage(emotion1); // Assuming this function exists
-      console.log("Emotion1 message:", emotion1Message);
+    //   console.log("Emotion1 message:", emotion1Message);
   
       document.querySelector('#emotion1').innerText = emotion1;
       document.querySelector('#emotion1_message').innerText = emotion1Message;
@@ -448,7 +448,7 @@ function getColorByEmotion(emotion) {
       
       // Move to the next section (emotion page)
       currentSectionIndex = 4; // Set the correct section index for emotion page
-      console.log(`Moving to section: 4`);
+    //   console.log(`Moving to section: 4`);
       showCurrentSection();
     });
   });
@@ -497,7 +497,7 @@ function getColorByEmotion(emotion) {
       
       // Move to the next section (emotion page)
       currentSectionIndex = 6; // Set the correct section index for emotion page
-      console.log(`Moving to section: 6`);
+    //   console.log(`Moving to section: 6`);
       showCurrentSection();
     });
   });
@@ -537,7 +537,7 @@ function getColorByEmotion(emotion) {
             currentSectionIndex = 10;
             sendPortraitData("", 10);
             showCurrentSection();
-        }, 7000); // 7-second delay
+        }, 1000); // 7-second delay
   });
   
   // Display combined emotion message
@@ -567,7 +567,7 @@ document.querySelectorAll('.next').forEach(button => {
         // Navigate to the next section if valid
         if (!isNaN(nextSection) && nextSection >= 0) {
             currentSectionIndex = nextSection;
-            console.log(`Moving to section: ${nextSection}`);
+            // console.log(`Moving to section: ${nextSection}`);
             showCurrentSection();
         }
         

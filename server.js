@@ -180,25 +180,25 @@ app.get('/flows.json', (req, res) => {
 
 app.post('/update-flows', (req, res) => {
     // Log the incoming request body
-    console.log('Received request body:', req.body);
+    // console.log('Received request body:', req.body);
 
     const updatedFlows = req.body.flows;  // Receive the flows array from the client
 
     if (Array.isArray(updatedFlows)) {
-        console.log('Flows to update:', updatedFlows);  // Log the flows to be updated
+        // console.log('Flows to update:', updatedFlows);  // Log the flows to be updated
 
         // Iterate over the flows and update them on the server
         updatedFlows.forEach(updatedFlow => {
             const flowIndex = flows.findIndex(flow => flow.from === updatedFlow.from && flow.to === updatedFlow.to);
             if (flowIndex !== -1) {
                 flows[flowIndex].quantity = updatedFlow.quantity;
-                console.log('Updated flow:', flows[flowIndex]);
+                // console.log('Updated flow:', flows[flowIndex]);
             }
         });
 
         // Save the updated flows to the file
         saveFlowsToFile(flows); // Save to file
-        res.status(200).json({ message: 'Flows updated successfully', flows });
+        res.status(200).json({ message: 'Flows updated successfully' });
     } else {
         res.status(400).json({ message: 'Invalid flow data' });
     }
