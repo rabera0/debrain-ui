@@ -37,7 +37,7 @@
   {
     "from": 0,
     "to": 7,
-    "quantity": 1
+    "quantity": 2
   },
   {
     "from": 0,
@@ -92,7 +92,7 @@
   {
     "from": 1,
     "to": 6,
-    "quantity": 5
+    "quantity": 8
   },
   {
     "from": 1,
@@ -367,7 +367,7 @@
   {
     "from": 6,
     "to": 1,
-    "quantity": 5
+    "quantity": 8
   },
   {
     "from": 6,
@@ -422,7 +422,7 @@
   {
     "from": 7,
     "to": 0,
-    "quantity": 1
+    "quantity": 2
   },
   {
     "from": 7,

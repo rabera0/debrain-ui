@@ -32,6 +32,11 @@ body {
   align-items: center;
   font-family: 'Gotham', sans-serif;
   flex-direction: column;
+  overflow: hidden;
+}
+
+body.no-scroll {
+  overflow: hidden;
 }
 
 @keyframes gradient {

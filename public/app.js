@@ -95,7 +95,7 @@ const data = {
 
 const colors = [
 { love: "#DD524E" },
-{ recognition: "#D6B036" },
+{ recognition: "#ebc343" },
 { success: "#006850" },
 { purpose: "#b32de3" },
 { hope: "#FFBB00" },
@@ -110,7 +110,7 @@ const colors = [
 
 const baseColors = [
 { love: "#960014" },
-{ recognition: "#ffe84f" },
+{ recognition: "#d28d07" },
 { success: "#003850" },
 { purpose: "#7A2721" },
 { hope: "#f5d271" },
@@ -333,13 +333,29 @@ socket.addEventListener('message', async (event) => {
     // Handling "redo" and "save" buttons to mark portrait data as sent
     document.getElementById("redo").addEventListener("click", () => {
         isPortraitDataSent = true;  // Set the flag when redo is pressed
-        sendPortraitData("redo", 9);
+        const portraitSection = document.querySelector('#portrait').parentNode;
+        const lookUpSection = document.querySelector('.next[data-next="10"]').parentNode;
+      
+        // After a 7-second delay, handle the transition
         setTimeout(() => {
-            currentSectionIndex = 10;
-            sendPortraitData("", 10);
-            showCurrentSection();
-        }, 1000); // 7-second delay
-
+          // Hide the Portrait section with an animation (add 'outgoing' class)
+          portraitSection.classList.add('outgoing');
+      
+          // Wait for the outgoing animation to complete before switching sections
+          setTimeout(() => {
+            portraitSection.style.display = 'none'; // Hide Portrait section
+      
+            // Show and animate the Look Up section
+            lookUpSection.style.display = 'flex';
+            lookUpSection.classList.add('active');
+      
+            // Simulate a click on the "Next" button for section 10
+            const nextButton = document.querySelector('.next[data-next="10"]');
+            if (nextButton) {
+              nextButton.click();
+            }
+          }, 1000); // Match the CSS animation duration for outgoing transition
+        }, 7000); // Initial 7-second delay before starting the transition
     });
     
     document.getElementById("save").addEventListener("click", () => {
@@ -367,7 +383,7 @@ socket.addEventListener('message', async (event) => {
       const sections = document.querySelectorAll('section');
       sections.forEach(section => {
         section.classList.remove('active', 'outgoing');
-        section.style.display = 'none';
+        // No need to set display to 'none', as opacity and transform will handle visibility
       });
     }
     
@@ -379,18 +395,24 @@ socket.addEventListener('message', async (event) => {
     
       const sections = document.querySelectorAll('section');
       const header = document.getElementById('header');
-      
+    
+      // Hide all sections
       hideAllSections();
-      sections[currentSectionIndex].style.display = 'flex';
-      
-      // Show or hide the header based on the current section
+    
+      // Select the current section
+      const currentSection = sections[currentSectionIndex];
+    
+      // Ensure header visibility is updated
       header.style.display = currentSectionIndex === 0 ? 'none' : 'flex';
     
-      // Add the 'active' class to the current section
-      sections[currentSectionIndex].classList.add('active');
-      
+      // Add the 'active' class to trigger fade-in and slide-in animations
+      requestAnimationFrame(() => {
+        currentSection.classList.add('active');
+      });
+    
       console.log(`Showing section with index: ${currentSectionIndex}`);
     }
+    
 
   
   
@@ -521,7 +543,6 @@ document.querySelectorAll('#quiz2 button').forEach(button => {
     applyRadialGradientAnimation(color2, baseColor2); // change background to color2 based on emotion2
   });
 });
-
   
 
   // Function to get emotion message by normalizing the input string
@@ -530,37 +551,65 @@ document.querySelectorAll('#quiz2 button').forEach(button => {
       return data.emotion_message[normalizedEmotion] || "Emotion message not found.";
   };
 
-    // 7 second timer to the leave combined message page page
-    document.querySelector('.next[data-next="7"]').addEventListener('click', () => {
-        setTimeout(() => {
-            const nextButton = document.querySelector('.next[data-next="8"]');
-        if (nextButton) {
-            nextButton.click();  // Simulate a click on the button
-        }
-        }, 1000); // 7-second delay
+  document.querySelector('.next[data-next="7"]').addEventListener('click', () => {
+    // Show the "Combined Emotion Message" section after transition
+    const emotionSection = document.querySelector('#word').parentNode;
+    emotionSection.style.display = 'flex'; // Make it visible
+  
+    // After a 3-second delay, trigger the "Next" button click programmatically
+    setTimeout(() => {
+      const nextButton = document.querySelector('.next[data-next="8"]');
+      if (nextButton) {
+        nextButton.click(); // Simulate a click on the "Continue →" button
+      }
+    }, 3000); // 3-second delay before triggering the next transition
   });
 
 
-  // add 3 second delay on the im ready button 
-   document.querySelector('.next[data-next="8"]').addEventListener('click', () => {
-    const button = document.querySelector('#portrait');
-    button.style.display = 'none'; // Initially hide the button
+// Add 3-second delay for the 'I'M READY' button in the Portrait Start Section
+document.querySelector('.next[data-next="8"]').addEventListener('click', () => {
+  // Show the Combined Emotion Message Section
+  const emotionSection = document.querySelector('#word').parentNode;
+  emotionSection.style.display = 'flex'; // Make it visible
 
-    // Add a 3-second delay before showing the button
-    setTimeout(() => {
-        button.style.display = 'block'; // Show the button after 3 seconds
-    }, 1000); // 3-second delay
+  // After a 3-second delay, trigger the appearance of the Portrait button
+  setTimeout(() => {
+    const portraitButton = document.querySelector('#portrait');
+    portraitButton.style.display = 'block'; // Show the button after 3 seconds
+  }, 3000); // 3-second delay before showing the button
 });
 
-  // 7 second timer to the next page
-  document.querySelector('.next[data-next="9"]').addEventListener('click', () => {
-        setTimeout(() => {
-            currentSectionIndex = 10;
-            sendPortraitData("", 10);
-            showCurrentSection();
-        }, 1000); // 7-second delay
-  });
-  
+
+document.querySelector('.next[data-next="9"]').addEventListener('click', () => {
+  // Get the current section (Portrait) and the next section (Look Up)
+  const portraitSection = document.querySelector('#portrait').parentNode;
+  const lookUpSection = document.querySelector('.next[data-next="10"]').parentNode;
+
+  // After a 7-second delay, handle the transition
+  setTimeout(() => {
+    // Hide the Portrait section with an animation (add 'outgoing' class)
+    portraitSection.classList.add('outgoing');
+
+    // Wait for the outgoing animation to complete before switching sections
+    setTimeout(() => {
+      portraitSection.style.display = 'none'; // Hide Portrait section
+
+      // Show and animate the Look Up section
+      lookUpSection.style.display = 'flex';
+      lookUpSection.classList.add('active');
+
+      // Simulate a click on the "Next" button for section 10
+      const nextButton = document.querySelector('.next[data-next="10"]');
+      if (nextButton) {
+        nextButton.click();
+      }
+    }, 1000); // Match the CSS animation duration for outgoing transition
+  }, 7000); // Initial 7-second delay before starting the transition
+});
+
+
+
+
   // Display combined emotion message
   document.querySelector('.next[data-next="7"]').addEventListener('click', () => {
     applyComboGradientAnimation(color1, baseColor1, baseColor2, color2,); // combo
