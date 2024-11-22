@@ -92,7 +92,7 @@
   {
     "from": 1,
     "to": 6,
-    "quantity": 2
+    "quantity": 5
   },
   {
     "from": 1,
@@ -367,7 +367,7 @@
   {
     "from": 6,
     "to": 1,
-    "quantity": 2
+    "quantity": 5
   },
   {
     "from": 6,

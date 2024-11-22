@@ -325,6 +325,7 @@ socket.addEventListener('message', async (event) => {
     document.getElementById("start").addEventListener("click", () => {
         currentPage = 1;  // Set to the page number associated with the "start" button
         sendUserData();
+        showCurrentSection();
     });
     
     let isPortraitDataSent = false; // Flag to track if portrait data has been sent
@@ -359,30 +360,37 @@ socket.addEventListener('message', async (event) => {
     });
     
 
-  // Function to hide all sections
-  function hideAllSections() {
+    let isAnimating = false; // Prevent multiple animations at the same time
+
+    // Function to hide all sections and reset their position
+    function hideAllSections() {
       const sections = document.querySelectorAll('section');
       sections.forEach(section => {
-          section.style.display = 'none';
+        section.classList.remove('active', 'outgoing');
+        section.style.display = 'none';
       });
-  }
-  
-  // Function to show the current section and control header visibility
-  function showCurrentSection() {
-    if (currentSectionIndex == 14) {
-        currentSectionIndex = 0;
     }
-       
+    
+    // Function to show the current section and control header visibility
+    function showCurrentSection() {
+      if (currentSectionIndex >= 14) {
+        currentSectionIndex = 0;
+      }
+    
       const sections = document.querySelectorAll('section');
       const header = document.getElementById('header');
+      
       hideAllSections();
-      sections[currentSectionIndex].style.display = 'block';
-  
+      sections[currentSectionIndex].style.display = 'flex';
+      
       // Show or hide the header based on the current section
-      header.style.display = currentSectionIndex === 0 ? 'none' : 'block';
-  
+      header.style.display = currentSectionIndex === 0 ? 'none' : 'flex';
+    
+      // Add the 'active' class to the current section
+      sections[currentSectionIndex].classList.add('active');
+      
       console.log(`Showing section with index: ${currentSectionIndex}`);
-  }
+    }
 
   
   
@@ -407,100 +415,113 @@ function getColorByEmotion(emotion) {
   let baseColor2 = "#0080BF";
   
   // Handle selection for "heart beat" question (emotion1)
-  document.querySelectorAll('#quiz1 button').forEach(button => {
-    button.addEventListener('click', (event) => {
-      // Deselect the previously selected button if any
-      if (selectedButton1) {
-        selectedButton1.style.color = ''; // Reset text color
-        selectedButton1.style.borderColor = ''; // Reset border color
-      }
-  
-      // Get the selected emotion
-      emotion1 = event.target.innerText;
-      console.log("User selected emotion1:", emotion1);
-  
-      // Get the corresponding color for the selected emotion
-      color1 = getColorByEmotion(emotion1);
-      baseColor1 = getBaseColorByEmotion(emotion1) // Use base color for emotion1
-    //   console.log("Emotion1 color:", color1);
-  
-      // Update the UI with selected emotion and message
-      const emotion1Message = getEmotionMessage(emotion1); // Assuming this function exists
-    //   console.log("Emotion1 message:", emotion1Message);
-  
-      document.querySelector('#emotion1').innerText = emotion1;
-      document.querySelector('#emotion1_message').innerText = emotion1Message;
-  
-      // Change the button color based on the emotion
-      event.target.style.color = color1;  // Change text color
-      event.target.style.borderColor = color1;  // Change border color
-  
-      // Store the selected button for future deselection
-      selectedButton1 = event.target;
-  
-      // Hide quiz 1 and show the emotion 1 section
-      document.querySelector('#quiz1').parentNode.style.display = "none"; // Hide quiz1 section
-      document.querySelector('.emotion-section').style.display = "block"; // Show emotion1 section
-  
-      // Update the background color of the emotion page only
-      applyRadialGradientAnimation(color1, baseColor1);
-      
-      
-      // Move to the next section (emotion page)
-      currentSectionIndex = 4; // Set the correct section index for emotion page
-    //   console.log(`Moving to section: 4`);
-      showCurrentSection();
-    });
-  });
-  
-  
-  
-  // Handle selection for "heart race" question (emotion2)
-  document.querySelectorAll('#quiz2 button').forEach(button => {
-    button.addEventListener('click', (event) => {
-      // Deselect the previously selected button if any
-      if (selectedButton2) {
-        selectedButton2.style.color = ''; // Reset text color
-        selectedButton2.style.borderColor = ''; // Reset border color
-      }
-  
-      // Get the selected emotion
-      emotion2 = event.target.innerText;
-      console.log("User selected emotion2:", emotion2);
-  
-      // Get the corresponding color for the selected emotion
-      color2 = getColorByEmotion(emotion2);
-      baseColor2 = getBaseColorByEmotion(emotion2) // Use base color for emotion1
-      console.log("Emotion2 color:", color2);
-  
-      // Update the UI with selected emotion and message
-      const emotion2Message = getEmotionMessage(emotion2); // Assuming this function exists
-      console.log("Emotion2 message:", emotion2Message);
-  
-      document.querySelector('#emotion2').innerText = emotion2;
-      document.querySelector('#emotion2_message').innerText = emotion2Message;
-  
-      // Change the button color based on the emotion
-      event.target.style.color = color2;  // Change text color
-      event.target.style.borderColor = color2;  // Change border color
-  
-      // Store the selected button for future deselection
-      selectedButton2 = event.target;
-  
-      // Hide quiz 2 and show the emotion 2 section
-      document.querySelector('#quiz2').parentNode.style.display = "none"; // Hide quiz2 section
-      document.querySelector('.emotion-section').style.display = "block"; // Show emotion2 section
-  
-      // Update the background color of the emotion page only
-      applyRadialGradientAnimation(color2, baseColor2); //change background to color2 based on emotion2
+  // Handle selection for "heart beat" question (emotion1) with animation
+document.querySelectorAll('#quiz1 button').forEach(button => {
+  button.addEventListener('click', (event) => {
+    if (isAnimating) return; // Prevent animation if already animating
+    isAnimating = true;
 
-      
-      // Move to the next section (emotion page)
-      currentSectionIndex = 6; // Set the correct section index for emotion page
-    //   console.log(`Moving to section: 6`);
+    // Deselect the previously selected button if any
+    if (selectedButton1) {
+      selectedButton1.style.color = ''; // Reset text color
+      selectedButton1.style.borderColor = ''; // Reset border color
+    }
+
+    // Get the selected emotion
+    emotion1 = event.target.innerText;
+    console.log("User selected emotion1:", emotion1);
+
+    // Get the corresponding color for the selected emotion
+    color1 = getColorByEmotion(emotion1);
+    baseColor1 = getBaseColorByEmotion(emotion1); // Use base color for emotion1
+
+    // Update the UI with selected emotion and message
+    const emotion1Message = getEmotionMessage(emotion1); // Assuming this function exists
+    console.log("Emotion1 message:", emotion1Message);
+
+    document.querySelector('#emotion1').innerText = emotion1;
+    document.querySelector('#emotion1_message').innerText = emotion1Message;
+
+    // Change the button color based on the emotion
+    event.target.style.color = color1;  // Change text color
+    event.target.style.borderColor = color1;  // Change border color
+
+    // Store the selected button for future deselection
+    selectedButton1 = event.target;
+
+    // Add the 'outgoing' class to the current section (quiz1) to initiate the slide-out animation
+    const sections = document.querySelectorAll('section');
+    sections[currentSectionIndex].classList.add('outgoing');
+    
+    // Move to the next section (emotion page)
+    currentSectionIndex = 4; // Set the correct section index for emotion page
+
+    // Wait for the transition to finish before showing the next section
+    setTimeout(() => {
       showCurrentSection();
-    });
+      isAnimating = false; // Reset animation state
+    }, 1000); // Match this time with the duration of the CSS transition (same duration as outgoing transition)
+
+    // Optionally apply the background gradient animation
+    applyRadialGradientAnimation(color1, baseColor1);
   });
+});
+  
+  
+  
+// Handle selection for "heart race" question (emotion2)
+document.querySelectorAll('#quiz2 button').forEach(button => {
+  button.addEventListener('click', (event) => {
+    if (isAnimating) return; // Prevent animation if already animating
+    isAnimating = true;
+
+    // Deselect the previously selected button if any
+    if (selectedButton2) {
+      selectedButton2.style.color = ''; // Reset text color
+      selectedButton2.style.borderColor = ''; // Reset border color
+    }
+
+    // Get the selected emotion
+    emotion2 = event.target.innerText;
+    console.log("User selected emotion2:", emotion2);
+
+    // Get the corresponding color for the selected emotion
+    color2 = getColorByEmotion(emotion2);
+    baseColor2 = getBaseColorByEmotion(emotion2); // Use base color for emotion2
+    console.log("Emotion2 color:", color2);
+
+    // Update the UI with selected emotion and message
+    const emotion2Message = getEmotionMessage(emotion2); // Assuming this function exists
+    console.log("Emotion2 message:", emotion2Message);
+
+    document.querySelector('#emotion2').innerText = emotion2;
+    document.querySelector('#emotion2_message').innerText = emotion2Message;
+
+    // Change the button color based on the emotion
+    event.target.style.color = color2;  // Change text color
+    event.target.style.borderColor = color2;  // Change border color
+
+    // Store the selected button for future deselection
+    selectedButton2 = event.target;
+
+    // Add the 'outgoing' class to the current section (quiz2) to initiate the slide-out animation
+    const sections = document.querySelectorAll('section');
+    sections[currentSectionIndex].classList.add('outgoing');
+    
+    // Move to the next section (emotion 2 page)
+    currentSectionIndex = 6; // Set the correct section index for emotion2 page
+
+    // Wait for the transition to finish before showing the next section
+    setTimeout(() => {
+      showCurrentSection();
+      isAnimating = false; // Reset animation state
+    }, 1000); // Match this time with the duration of the CSS transition (same duration as outgoing transition)
+
+    // Optionally apply the background gradient animation
+    applyRadialGradientAnimation(color2, baseColor2); // change background to color2 based on emotion2
+  });
+});
+
   
 
   // Function to get emotion message by normalizing the input string
@@ -562,46 +583,55 @@ function getColorByEmotion(emotion) {
 // General "Next" listener excluding sections with specific checks
 document.querySelectorAll('.next').forEach(button => {
     button.addEventListener('click', () => {
-        const nextSection = parseInt(button.getAttribute('data-next'), 10);
-
-        // Navigate to the next section if valid
-        if (!isNaN(nextSection) && nextSection >= 0) {
-            currentSectionIndex = nextSection;
-            // console.log(`Moving to section: ${nextSection}`);
-            showCurrentSection();
+      if (isAnimating) return; // Prevent animation if already animating
+      isAnimating = true;
+  
+      const nextSection = parseInt(button.getAttribute('data-next'), 10);
+  
+      if (!isNaN(nextSection) && nextSection >= 0) {
+        // Add the 'outgoing' class to the current section
+        const sections = document.querySelectorAll('section');
+        sections[currentSectionIndex].classList.add('outgoing');
+  
+        currentSectionIndex = nextSection;
+  
+        // Wait for the transition to finish before showing the next section
+        setTimeout(() => {
+          showCurrentSection();
+          isAnimating = false; // Reset animation state
+        }, 1000); // Match this time with the duration of the CSS transition
+      }
+  
+      currentPage = currentSectionIndex;
+      
+      // Send user data based on currentPage value
+      if (currentPage > 1 && currentPage < 9 && currentPage != 6 && currentPage !=4 && currentPage !=7) {
+        if (currentPage == 8) {
+          applyComboGradientAnimation(color1, baseColor1, baseColor2, color2); // combo
+        } else {
+          applyRadialGradientAnimation('#0080BF', '#0a195a'); // default
         }
-        
-        currentPage = currentSectionIndex;
-        
-        // Send user data only if currentPage is less than 9
-        if (currentPage > 1 && currentPage < 9 && currentPage != 6 && currentPage !=4 && currentPage !=7) {
-            if(currentPage == 8) {
-                applyComboGradientAnimation(color1, baseColor1, baseColor2, color2,); // combo
-            } else {
-                applyRadialGradientAnimation('#0080BF', '#0a195a');; //default
-            }
-            sendUserData();
-        } else if (currentPage >=9 && currentPage < 12) {
-            applyComboGradientAnimation(color1, baseColor1, baseColor2, color2,); // combo
-            if(currentPage < 11) {
-                applyComboGradientAnimation(color1, baseColor1, baseColor2, color2,); // combo
-            } else {
-                applyRadialGradientAnimation('#0080BF', '#0a195a'); //default
-            }
-            if (!isPortraitDataSent) {
-                sendPortraitData("", currentPage)
-            }
-           
-        } else if (currentPage >= 12 && currentPage <= 13) {
-            applyRadialGradientAnimation('#0080BF', '#0a195a');; //default
-            sendChordData();
-        } 
+        sendUserData();
+      } else if (currentPage >= 9 && currentPage < 12) {
+        applyComboGradientAnimation(color1, baseColor1, baseColor2, color2); // combo
+        if (currentPage < 11) {
+          applyComboGradientAnimation(color1, baseColor1, baseColor2, color2); // combo
+        } else {
+          applyRadialGradientAnimation('#0080BF', '#0a195a'); // default
+        }
+        if (!isPortraitDataSent) {
+          sendPortraitData("", currentPage);
+        }
+      } else if (currentPage >= 12 && currentPage <= 13) {
+        applyRadialGradientAnimation('#0080BF', '#0a195a'); // default
+        sendChordData();
+      }
     });
+  
     if (currentPage >= 9 && currentPage < 12) {
-        isPortraitDataSent = false; // Reset the flag when moving away from portrait pages
+      isPortraitDataSent = false; // Reset the flag when moving away from portrait pages
     }
-
-});
+  });
 
 // Event listener for "Back" buttons
 document.querySelectorAll('.back').forEach(button => {
