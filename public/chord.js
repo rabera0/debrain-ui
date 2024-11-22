@@ -114,7 +114,7 @@ fetch('/flows.json')
     .catch(error => {
         console.error('Error updating flows:', error);
     });
-    drawChord();
+    drawChord(flows);
 }
 
 

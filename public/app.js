@@ -508,7 +508,17 @@ function getColorByEmotion(emotion) {
       const normalizedEmotion = emotion.trim().toUpperCase();
       return data.emotion_message[normalizedEmotion] || "Emotion message not found.";
   };
-  
+
+    // 7 second timer to the leave combined message page page
+    document.querySelector('.next[data-next="7"]').addEventListener('click', () => {
+        setTimeout(() => {
+            const nextButton = document.querySelector('.next[data-next="8"]');
+        if (nextButton) {
+            nextButton.click();  // Simulate a click on the button
+        }
+        }, 1000); // 7-second delay
+  });
+
 
   // add 3 second delay on the im ready button 
    document.querySelector('.next[data-next="8"]').addEventListener('click', () => {
