@@ -40,19 +40,6 @@ body.no-scroll {
 }
 
 @keyframes gradient {
-/* diagonal */
-  /* 0% {
-    background-position: 0% 0%; 
-  }
-  50% {
-    background-position: 100% 100%; 
-  }
-  100% {
-    background-position: 0% 0%; 
-  } */
-
-/* box */
-
   0% {
     background-position: -10% -10%;
   }
@@ -69,49 +56,8 @@ body.no-scroll {
     background-position: -10% -10%; 
   }
 
-
-/* zigzag */
-  /* 0% {
-    background-position: 0% 50%;
-  }
-  20% {
-    background-position: 25% 50%; 
-  }
-  40% {
-    background-position: 50% 50%;
-  }
-  60% {
-    background-position: 75% 50%; 
-  }
-  80% {
-    background-position: 100% 50%; 
-  }
-  100% {
-    background-position: 0% 50%;
-  } */
-
-/*  random */
-
-  /* 0% {
-    background-position: 10% 10%;
-  }
-  20% {
-    background-position: 60% 30%; 
-  }
-  40% {
-    background-position: 80% 80%; 
-  }
-  60% {
-    background-position: 25% 60%; 
-  }
-  80% {
-    background-position: 90% 50%; 
-  }
-  100% {
-    background-position: 10% 10%;
-  } */
-
 }
+
 
 /* Hide all sections by default */
 section {

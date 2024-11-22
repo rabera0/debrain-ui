@@ -126,6 +126,7 @@ const baseColors = [
 
 function applyRadialGradientAnimation(color1, color2) {
     // Apply the radial gradient animation with two colors
+    
     document.body.style.background = `radial-gradient(circle, ${color1}, ${color2})`;
   
     // Apply the background size and animation
