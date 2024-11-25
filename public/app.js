@@ -571,48 +571,21 @@ document.querySelectorAll('#quiz2 button').forEach(button => {
       return data.emotion_message[normalizedEmotion] || "Emotion message not found.";
   };
 
+
   document.querySelector('.next[data-next="7"]').addEventListener('click', () => {
-    // Show the "Emotion Section" after transition
-    const emotionSection = document.querySelector('.emotion-section');
-    if (emotionSection) {
-      emotionSection.style.display = 'flex'; // Ensure the section is visible
-    }
-  
-    // Display the combined emotion message
-    applyComboGradientAnimation(color1, baseColor1, baseColor2, color2); // Apply the combo gradient animation
-    const emotionPairKey = Object.keys(data.emotion_pairs).find(key => {
-      const pair = data.emotion_pairs[key];
-      return pair[0] === emotion1.toUpperCase() && pair[1] === emotion2.toUpperCase();
-    });
-  
-    const combinationMessage = data.combinationMessages[emotionPairKey] || "Combined emotion message not found.";
-    console.log(`Combination Key: ${emotionPairKey} Combo Message: ${combinationMessage}`);
-  
-    // Update the content of the appropriate elements
-    const emotionMessageElement = document.getElementById('emotion2_message');
-    const emotionTitleElement = document.getElementById('emotion2');
-  
-    if (emotionTitleElement) {
-      emotionTitleElement.innerText = `${emotion1} + ${emotion2}`; // Update the emotion title
-    }
-  
-    if (emotionMessageElement) {
-      emotionMessageElement.innerText = combinationMessage; // Update the combination message
-    }
-  
-    console.log(`Displaying combined message for emotions: ${emotion1} and ${emotion2}`);
-    currentPage = 7;
-    sendUserData();
+    // Show the "Combined Emotion Message" section after transition
+    const emotionSection = document.querySelector('#word').parentNode;
+    emotionSection.style.display = 'flex'; // Make it visible
   
     // After a 3-second delay, trigger the "Next" button click programmatically
     setTimeout(() => {
       const nextButton = document.querySelector('.next[data-next="8"]');
       if (nextButton) {
-        nextButton.click(); // Simulate a click on the "NEXT →" button
+        nextButton.click(); // Simulate a click on the "Continue →" button
       }
-    }, 6000); // 2-second delay before transitioning
+    }, 3000); // 3-second delay before triggering the next transition
   });
-    
+
 
 // Add 3-second delay for the 'I'M READY' button in the Portrait Start Section
 document.querySelector('.next[data-next="8"]').addEventListener('click', () => {
