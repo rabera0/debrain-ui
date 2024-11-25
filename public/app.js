@@ -152,7 +152,7 @@ function applyComboGradientAnimation(color1, baseColor1, color2, baseColor2) {
   
   let currentSectionIndex = 0;
   
-  const socket = new WebSocket(`wss://${window.location.host}`);
+  const socket = new WebSocket(`ws://${window.location.host}`);
 
     // Listen for the connection to open
     socket.addEventListener('open', () => {
@@ -265,7 +265,7 @@ socket.addEventListener('message', async (event) => {
       function sendFinishData() {
         const data = {
             section: "idle",
-            page: 0
+            page: "0"
         };
     
         // Check if WebSocket is open
@@ -285,7 +285,7 @@ socket.addEventListener('message', async (event) => {
   function sendChordData() {
     const data = {
         section: "explore",
-        page: currentSectionIndex,
+        page: `${currentSectionIndex}`,
         firstChord: "",
         secondChord: ""
     };
@@ -299,7 +299,7 @@ socket.addEventListener('message', async (event) => {
   function sendUserData() {
     const data = {
         section: "quiz",
-        page: currentPage,
+        page: `${currentPage}`,
         emotion1: emotion1,
         emotion2: emotion2
     };
@@ -312,7 +312,7 @@ socket.addEventListener('message', async (event) => {
   function sendPortraitData(action, page) {
     const data = {
         section: "portrait",
-        page: page, // Now directly using the page passed as a parameter
+        page: `${page}`, // Now directly using the page passed as a parameter
         action: action // This will be either "redo" or "save"
     };
     if (socket.readyState === WebSocket.OPEN) {
@@ -336,7 +336,7 @@ socket.addEventListener('message', async (event) => {
         isPortraitDataSent = true;  // Set the flag when redo is pressed
         const portraitSection = document.querySelector('#portrait').parentNode;
         const lookUpSection = document.querySelector('.next[data-next="10"]').parentNode;
-      
+        sendPortraitData("redo", 9)
         // After a 7-second delay, handle the transition
         setTimeout(() => {
           // Hide the Portrait section with an animation (add 'outgoing' class)
@@ -392,6 +392,11 @@ socket.addEventListener('message', async (event) => {
     function showCurrentSection() {
       if (currentSectionIndex >= 14) {
         currentSectionIndex = 0;
+      }
+
+      if (currentSectionIndex == 4 || currentSectionIndex == 6) {
+        currentPage = currentSectionIndex;
+        sendUserData();
       }
     
       const sections = document.querySelectorAll('section');

@@ -204,30 +204,29 @@ app.post('/update-flows', (req, res) => {
     }
 });
 
-
-
-
 // Function to save flows to the JSON file
 function saveFlowsToFile(flows) {
     try {
         fs.writeFileSync(dataFilePath, JSON.stringify(flows, null, 2));
         console.log('Flows saved to file.');
     } catch (err) {
-        console.error('Error saving flows:', err);
+        console.error('Error saving flows:', err); // line 213
     }
 }
 
 // WebSocket server without exposing flow data to clients
 wss.on('connection', (ws) => {
-    console.log('Client connected');
+    console.log('WebSocket client connected');
     
-    // Handle incoming WebSocket messages
     ws.on('message', (message) => {
-        console.log('Received message:', message);
+        console.log(`Received message: ${message}`);
         
-        // You can implement functionality here to modify flows or handle other logic
-        // Example: Update the flows array and save it to file when a message is received
-        saveFlowsToFile(); // Save changes to flows.json
+        // Broadcast the received message to all connected clients
+        wss.clients.forEach((client) => {
+            if (client.readyState === WebSocket.OPEN) {
+                client.send(message);
+            }
+        });
     });
 });
 

@@ -666,11 +666,11 @@ function customChordLayout() {
 
 /* SOCKETS */
 // Create a WebSocket connection to the server
-const socket = new WebSocket(`wss://${window.location.host}`);
+const socket = new WebSocket(`ws://${window.location.host}`);
 function sendChordData() {
   const data = {
     section: "explore",
-    page: 13,
+    page: "13",
     firstChord: getChordNameById(firstChord), // Convert firstChord id to name
     secondChord: getChordNameById(secondChord) // Convert secondChord id to name
   };
