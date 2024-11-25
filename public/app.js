@@ -94,33 +94,33 @@ const data = {
   };
 
 const colors = [
-{ love: "#DD524E" },
-{ recognition: "#ebc343" },
-{ success: "#006850" },
-{ purpose: "#b32de3" },
-{ hope: "#FFBB00" },
-{ excitement: "#7CF2F6" },
-{ joy: "#ED88AD" },
-{ inspiration: "#BF77F5" },
-{ gratitude: "#003E78" },
+{ love: "#f68b9c" },
+{ recognition: "#faffd1" },
+{ success: "#0cffc7" },
+{ purpose: "#d253ff" },
+{ hope: "#ffeebf" },
+{ excitement: "#dffeff" },
+{ joy: "#ffc3e0" },
+{ inspiration: "#9300ff" },
+{ gratitude: "#82c2ff" },
 { anticipation: "#38B0DD" },
-{ passion: "#019C60" },
-{ fear: "#FF7222" }
+{ passion: "#89ffbf" },
+{ fear: "#ffb34b" }
 ];
 
 const baseColors = [
-{ love: "#960014" },
-{ recognition: "#d28d07" },
-{ success: "#003850" },
-{ purpose: "#7A2721" },
-{ hope: "#f5d271" },
-{ excitement: "#24b8bd" },
-{ joy: "#c947d5" },
-{ inspiration: "#BF7776" },
-{ gratitude: "#167fe0" },
+{ love: "#840012" },
+{ recognition: "#d19d00" },
+{ success: "#012b2d" },
+{ purpose: "#3f0015" },
+{ hope: "#db9100" },
+{ excitement: "#015e78" },
+{ joy: "#c90065" },
+{ inspiration: "#fc95ff" },
+{ gratitude: "#0039a2" },
 { anticipation: "#0484c4" },
-{ passion: "#006655" },
-{ fear: "#ba451a" }
+{ passion: "#003541" },
+{ fear: "#8a2800" }
 ];
 
 
@@ -178,18 +178,23 @@ socket.addEventListener('message', async (event) => {
     // Check if the received data contains 'playback'
     if (data.playback) {
       console.log('Playback received, delaying update for 5 seconds...');
-      
+  
       // Delay the video update by 5 seconds
       setTimeout(() => {
           const videoElement = document.getElementById('portraitvid');
-          const sourceElement = videoElement.querySelector('source');
-
+          const sourceElement = videoElement.querySelector('#videoSource');
+  
           // Update the video source dynamically
           sourceElement.src = data.playback;
-
+  
           // Reload the video to apply the new source
           videoElement.load();
-
+  
+          // Optionally play the video automatically after updating
+          videoElement.play().catch((error) => {
+              console.error('Error playing video:', error);
+          });
+  
           console.log(`Video source updated to: ${data.playback}`);
       }, 5000); // 5000ms = 5 seconds
   }
@@ -605,7 +610,7 @@ document.querySelectorAll('#quiz2 button').forEach(button => {
       if (nextButton) {
         nextButton.click(); // Simulate a click on the "NEXT →" button
       }
-    }, 2000); // 2-second delay before transitioning
+    }, 6000); // 2-second delay before transitioning
   });
     
 

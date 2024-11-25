@@ -1,6 +1,6 @@
 @font-face {
   font-family: 'Gotham';
-  src: url('./gotham/Gotham-Book.otf') format('truetype'); /* Regular */
+  src: url('./gotham/Gotham-Light.otf') format('truetype'); /* Regular */
   font-weight: normal; 
   font-style: normal;
 }
@@ -44,6 +44,24 @@ body.no-scroll {
   opacity: 30%;
   z-index: 0; /* In front of the background */
   pointer-events: none; /* Allows interaction with underlying elements */
+}
+
+#image-overlay {
+  position: fixed; /* Keeps the overlay fixed to the viewport */
+  top: -10;
+  left: 0;
+  width: 100vw; /* Full viewport width */
+  height: 100vh; /* Full viewport height */
+  z-index: -1; /* Ensures it appears on top of other elements */
+  overflow: hidden; /* Ensures no content spills out */
+}
+
+#image-overlay img {
+  width: 100%;
+  height: 100%;
+  margin: 0px;
+  opacity: 60%;
+  object-fit: cover; /* Ensures the image covers the area without distortion */
 }
 
 /* .video-overlay video {
@@ -121,6 +139,8 @@ h1 {
   letter-spacing: 10px;
   font-family: 'Gotham';
   font-weight: 900;
+  letter-spacing: 12px;
+  color: beige;
 }
 
 h2 {
@@ -138,7 +158,7 @@ h3 {
 }
 
 h4 {
-  font-size: 60px;
+  font-size: 50px;
   font-weight: normal;
   text-align: center;
   margin: 0;
@@ -152,6 +172,7 @@ h5 {
   text-align: center;
   margin: 0;
   padding: 140px;
+  letter-spacing: 2px;
 }
 
 h6 {
@@ -163,6 +184,11 @@ h6 {
 }
 
 p {
+  font-weight: normal;
+  text-align: center;
+  font-size: 18px;
+  margin: 0;
+  letter-spacing: 2px;
   margin: 25px;
 }
 
@@ -397,6 +423,7 @@ section {
 
 video {
   border-radius: 50px;
+  z-index: 3;
 }
 
 #redo{
