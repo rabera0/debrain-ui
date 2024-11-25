@@ -177,16 +177,21 @@ socket.addEventListener('message', async (event) => {
     //Handle portrait states 
     // Check if the received data contains 'playback'
     if (data.playback) {
-      const videoElement = document.getElementById('portraitvid');
-      const sourceElement = videoElement.querySelector('source');
+      console.log('Playback received, delaying update for 5 seconds...');
+      
+      // Delay the video update by 5 seconds
+      setTimeout(() => {
+          const videoElement = document.getElementById('portraitvid');
+          const sourceElement = videoElement.querySelector('source');
 
-      // Update the video source dynamically
-      sourceElement.src = data.playback;
+          // Update the video source dynamically
+          sourceElement.src = data.playback;
 
-      // Reload the video to apply the new source
-      videoElement.load();
+          // Reload the video to apply the new source
+          videoElement.load();
 
-      console.log(`Video source updated to: ${data.playback}`);
+          console.log(`Video source updated to: ${data.playback}`);
+      }, 5000); // 5000ms = 5 seconds
   }
 
   let isActionInProgress = false; 
@@ -607,15 +612,20 @@ document.querySelectorAll('#quiz2 button').forEach(button => {
 // Add 3-second delay for the 'I'M READY' button in the Portrait Start Section
 document.querySelector('.next[data-next="8"]').addEventListener('click', () => {
   // Show the Combined Emotion Message Section
-  const emotionSection = document.querySelector('#word').parentNode;
-  emotionSection.style.display = 'flex'; // Make it visible
+  const emotionSection = document.querySelector('.emotion-section');
+  if (emotionSection) {
+    emotionSection.style.display = 'flex'; // Make it visible
+  }
 
-  // After a 3-second delay, trigger the appearance of the Portrait button
+  // Display the Portrait button after a 3-second delay
   setTimeout(() => {
-    const portraitButton = document.querySelector('#portrait');
-    portraitButton.style.display = 'block'; // Show the button after 3 seconds
-  }, 3000); // 3-second delay before showing the button
+    const portraitButton = document.querySelector('#portrait'); // Replace with the actual selector for the button
+    if (portraitButton) {
+      portraitButton.style.display = 'block'; // Show the button after 3 seconds
+    }
+  }, 3000); // 3-second delay
 });
+
 
 
 document.querySelector('.next[data-next="9"]').addEventListener('click', () => {
