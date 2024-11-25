@@ -174,81 +174,86 @@ socket.addEventListener('message', async (event) => {
 
     console.log('Received data from server:', data);
 
+    //Handle portrait states 
+    // Check if the received data contains 'playback'
+    if (data.playback) {
+      const videoElement = document.getElementById('portraitvid');
+      const sourceElement = videoElement.querySelector('source');
+
+      // Update the video source dynamically
+      sourceElement.src = data.playback;
+
+      // Reload the video to apply the new source
+      videoElement.load();
+
+      console.log(`Video source updated to: ${data.playback}`);
+  }
+
+  let isActionInProgress = false; 
+  let transitionInProgress = false; 
     // Handle pulse states and transitions between sections
-    if (data.pulse === 'active') {
-        console.log('pulse pending.');
+    if (data.pulse === 'active' && !transitionInProgress) {
+      console.log('pulse pending.');
 
-        if (currentSectionIndex === 0) {
-            setTimeout(() => {
-                // console.log("fingerprint detected, moving to section 1");
-                currentSectionIndex = 1;
-                currentPage = 1;
-                sendUserData();
-                showCurrentSection();
-            }, 2000); // 2-second delay
-        } else if (currentSectionIndex === 1) {
-            // Show fingerprint gif and sensor animation
-            document.getElementById('fingerprint').style.display = 'inline-block';
-            document.getElementById('sensor').style.display = 'inline-block';
+      if (currentSectionIndex === 0 && !isActionInProgress) {
+          isActionInProgress = true;  // Set flag to true to indicate action is in progress
+          setTimeout(() => {
+              const nextButton = document.querySelector('.next[data-next="1"]');
+              if (nextButton) {
+                  nextButton.click(); // Trigger section transition
+                  transitionInProgress = true;  // Set flag to indicate transition is in progress
+              }
+              isActionInProgress = false; // Reset flag when action is complete
+          }, 1500); // 1.5-second delay for section 0 transition
+      } else if (currentSectionIndex === 1 && !isActionInProgress) {
+          isActionInProgress = true;  // Set flag to true to indicate action is in progress
+          // Show fingerprint gif and sensor animation
+          document.getElementById('fingerprint').style.display = 'inline-block';
+          document.getElementById('sensor').style.display = 'inline-block';
+          setTimeout(() => {
+              const nextButton = document.querySelector('.next[data-next="2"]');
+              if (nextButton) {
+                  nextButton.click(); // Trigger section transition
+                  transitionInProgress = true;  // Set flag to indicate transition is in progress
+              }
+              isActionInProgress = false; // Reset flag when action is complete
+          }, 3000); // 3-second delay for section 1 transition
+      }
+  }
 
-            setTimeout(() => {
-                sendUserData();
-                console.log("fingerprint detected, moving to section 2 in 4 secs");
-                currentSectionIndex = 2;
-                currentPage = 2;
-                showCurrentSection();
-            }, 4000); // 4-second delay
-        }
-    }
+  // Handle 'inactive' pulse state
+  if (data.pulse === 'Inactive' && !transitionInProgress) {
+      if (currentSectionIndex === 1 && !isActionInProgress) {
+          // Hide fingerprint gif if pulse is inactive in section 1
+          document.getElementById('fingerprint').style.display = 'none';
+      } 
+  }
 
-    // Handle 'inactive' pulse state
-    if (data.pulse === 'Inactive') {
-        if (currentSectionIndex === 1) {
-            // Hide fingerprint gif if pulse is inactive in section 1
-            document.getElementById('fingerprint').style.display = 'none';
-        } else if (currentSectionIndex === 2) {
-            setTimeout(() => {
-                currentPage = 3;
-                currentSectionIndex = 3;
-                console.log("No fingerprint detected, moving to section 3 in 3 secs");
-                showCurrentSection();
-                sendUserData();  // Send socket data on transition to section 3
-            }, 3000); // 3-second delay for section 2 to section 3 transition
-        }
-    }
+  // Handle 'done' pulse state
+  if (data.pulse === 'done' && !transitionInProgress) {
+      console.log('pulse done.');
 
-    // Handle 'done' pulse state
-    if (data.pulse === 'done') {
-        console.log('pulse done.');
+      if (currentSectionIndex === 1 && !isActionInProgress) {
+          isActionInProgress = true;  // Set flag to true to indicate action is in progress
+          // Hide fingerprint gif when pulse is done in section 1
+          document.getElementById('fingerprint').style.display = 'none';
+          // After 3 seconds, transition to section 3
+          setTimeout(() => {
+              const nextButton = document.querySelector('.next[data-next="2"]');
+              if (nextButton) {
+                  nextButton.click(); // Trigger section transition
+                  transitionInProgress = true;  // Set flag to indicate transition is in progress
+              }
+              isActionInProgress = false; // Reset flag when action is complete
+          }, 3000); // 3-second delay after section 1 to section 2 transition
+      }
+  }
+});
 
-        if (currentSectionIndex === 1) {
-            // Hide fingerprint gif when pulse is done in section 1
-            document.getElementById('fingerprint').style.display = 'none';
-            currentSectionIndex = 2;  // Move directly to section 2
-            currentPage = 2;
-            showCurrentSection();
-            sendUserData();
-
-            // After 4 seconds, transition to section 3
-            setTimeout(() => {
-                currentSectionIndex = 3;  // Transition to section 3
-                console.log("No fingerprint detected, moving to section 3 in 4 secs");
-                showCurrentSection();
-                sendUserData();  // Send socket data for section 3
-            }, 4000); // 4-second delay after section 2 to section 3 transition
-        }
-    }
-
-    // Section 2 -> Section 3 (Timer-based transition, independent of pulse state)
-    if (currentSectionIndex === 2) {
-        setTimeout(() => {
-            currentPage = 3;
-            currentSectionIndex = 3;
-            console.log("Section 2 to 3: Transitioning in 4 seconds");
-            showCurrentSection();
-            sendUserData();  // Ensure data is sent for section 3
-        }, 4000); // 4-second delay for section 2 to section 3 transition
-    }
+document.addEventListener('transitionComplete', () => {
+  // Once transition is complete, reset the transition flag
+  transitionInProgress = false;
+  console.log('Section transition complete, ready for next action.');
 });
 
     // Handle errors
@@ -562,6 +567,23 @@ document.querySelectorAll('#quiz2 button').forEach(button => {
     const emotionSection = document.querySelector('#word').parentNode;
     emotionSection.style.display = 'flex'; // Make it visible
   
+    // Display the combined emotion message
+    applyComboGradientAnimation(color1, baseColor1, baseColor2, color2); // Apply the combo gradient animation
+    const emotionPairKey = Object.keys(data.emotion_pairs).find(key => {
+      const pair = data.emotion_pairs[key];
+      return pair[0] === emotion1.toUpperCase() && pair[1] === emotion2.toUpperCase();
+    });
+  
+    const combinationMessage = data.combinationMessages[emotionPairKey] || "Combined emotion message not found.";
+    console.log(`Combination Key: ${emotionPairKey} Combo Message: ${combinationMessage}`);
+  
+    document.getElementById('word').innerText = `${emotion1} + ${emotion2}`;
+    document.getElementById('emotion_pair_message').innerText = combinationMessage;
+  
+    console.log(`Displaying combined message for emotions: ${emotion1} and ${emotion2}`);
+    currentPage = 7;
+    sendUserData();
+  
     // After a 3-second delay, trigger the "Next" button click programmatically
     setTimeout(() => {
       const nextButton = document.querySelector('.next[data-next="8"]');
@@ -570,7 +592,7 @@ document.querySelectorAll('#quiz2 button').forEach(button => {
       }
     }, 3000); // 3-second delay before triggering the next transition
   });
-
+  
 
 // Add 3-second delay for the 'I'M READY' button in the Portrait Start Section
 document.querySelector('.next[data-next="8"]').addEventListener('click', () => {
@@ -612,28 +634,6 @@ document.querySelector('.next[data-next="9"]').addEventListener('click', () => {
     }, 1000); // Match the CSS animation duration for outgoing transition
   }, 7000); // Initial 7-second delay before starting the transition
 });
-
-
-
-
-  // Display combined emotion message
-  document.querySelector('.next[data-next="7"]').addEventListener('click', () => {
-    applyComboGradientAnimation(color1, baseColor1, baseColor2, color2,); // combo
-      const emotionPairKey = Object.keys(data.emotion_pairs).find(key => {
-          const pair = data.emotion_pairs[key];
-          return pair[0] === emotion1.toUpperCase() && pair[1] === emotion2.toUpperCase();
-      });
-  
-      const combinationMessage = data.combinationMessages[emotionPairKey] || "Combined emotion message not found.";
-      console.log(`Combination Key: ${emotionPairKey} Combo Message: ${combinationMessage}`);
-  
-      document.getElementById('word').innerText = `${emotion1} + ${emotion2}`;
-      document.getElementById('emotion_pair_message').innerText = combinationMessage;
-  
-      console.log(`Displaying combined message for emotions: ${emotion1} and ${emotion2}`);
-      currentPage = 7;
-      sendUserData()
-  });
   
 // General "Next" listener excluding sections with specific checks
 document.querySelectorAll('.next').forEach(button => {
@@ -658,6 +658,16 @@ document.querySelectorAll('.next').forEach(button => {
       }
   
       currentPage = currentSectionIndex;
+
+        // Section 2 -> Section 3 (Timer-based transition, independent of pulse state)
+    if (currentPage === 2) {
+      setTimeout(() => {
+        const nextButton = document.querySelector('.next[data-next="3"]');
+        if (nextButton) {
+          nextButton.click();
+        }
+      }, 4000); // 4-second delay for section 2 to section 3 transition
+  }
       
       // Send user data based on currentPage value
       if (currentPage > 1 && currentPage < 9 && currentPage != 6 && currentPage !=4 && currentPage !=7) {
@@ -773,6 +783,7 @@ s
     document.getElementById('emotion2').innerText = '';
     document.getElementById('emotion2_message').innerText = '';
     document.getElementById('sensor').style.display = 'none';
+    document.getElementById('fingerprint').style.display = 'none';
   
     // Reset button selections for both quizzes
     if (selectedButton1) {

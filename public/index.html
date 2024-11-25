@@ -46,15 +46,16 @@
             <h2>PLACE YOUR FINGER ON</h2>
             <h2>THE SENSOR TO VISUALIZE</h2>
             <h2>YOUR PULSE</h2>
-            <button class="next" id="next" data-next="2">NEXT →</button>
             <img src="./assets/finger-gif.gif" id="fingerprint" alt="fingerprint" width="100" height="100" style="display: none;">
+            <button class="next" id="next" data-next="2">NEXT →</button>
+            
             <p id="sensor" style="display: none;">KEEP HOLDING</p>
         </section>
     
         <!-- Pulse Confirmed Section -->
         <section>
             <h4>WE'VE GOT YOUR PULSE</h4>
-            <button class="next" id="next" data-next="3">NEXT →</button>
+            <button class="next" id="next" data-next="3" style="display: none;">NEXT →</button>
         </section>
     
         <!-- Emotion Question 1 Section -->
@@ -140,8 +141,12 @@
         <!-- Mid Photo Section -->
         <section>
             <br />
-            <video id="portraitvid" width="800" height="450" loop autoplay muted>
+            <!-- <video id="portraitvid" width="800" height="450" loop autoplay muted>
             <source src="videos\12_22_59.45.mov" type='video/mp4' >
+            </video> -->
+            <video id="portraitvid" width="800" height="450" loop autoplay muted>
+                <source id="videoSource" src="videos/12_22_59.45.mov" type="video/mp4">
+                Your browser does not support the video tag.
             </video>
             <br />
             <br />
