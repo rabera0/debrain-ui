@@ -324,7 +324,6 @@ document.addEventListener('transitionComplete', () => {
         console.log("web socket data:", JSON.stringify(data));
         socket.send(JSON.stringify(data));
     }
-    isPortraitDataSent = false;
 }
 
     // Add event listeners to buttons
@@ -338,10 +337,11 @@ document.addEventListener('transitionComplete', () => {
 
     // Handling "redo" and "save" buttons to mark portrait data as sent
     document.getElementById("redo").addEventListener("click", () => {
-        isPortraitDataSent = true;  // Set the flag when redo is pressed
+        isPortraitDataSent = true; 
         const portraitSection = document.querySelector('#portrait').parentNode;
         const lookUpSection = document.querySelector('.next[data-next="10"]').parentNode;
         sendPortraitData("redo", 9)
+        
         // After a 7-second delay, handle the transition
         setTimeout(() => {
           // Hide the Portrait section with an animation (add 'outgoing' class)
@@ -354,10 +354,12 @@ document.addEventListener('transitionComplete', () => {
             // Show and animate the Look Up section
             lookUpSection.style.display = 'flex';
             lookUpSection.classList.add('active');
+            isPortraitDataSent = true;  // Set the flag when redo is pressed
       
             // Simulate a click on the "Next" button for section 10
             const nextButton = document.querySelector('.next[data-next="10"]');
             if (nextButton) {
+              isPortraitDataSent = true;  // Set the flag when redo is pressed
               nextButton.click();
             }
           }, 1000); // Match the CSS animation duration for outgoing transition
@@ -425,7 +427,6 @@ document.addEventListener('transitionComplete', () => {
     }
     
 
-  
   
 ///////////QUIZ BUTTON HANDLING
 function getColorByEmotion(emotion) {
@@ -617,7 +618,12 @@ document.querySelector('.next[data-next="9"]').addEventListener('click', () => {
   setTimeout(() => {
     // Hide the Portrait section with an animation (add 'outgoing' class)
     portraitSection.classList.add('outgoing');
-
+    if (!isPortraitDataSent) {
+     sendPortraitData(9, "");
+    } else {
+      sendPortraitData("redo", 9);
+      console.log("b");
+    }
     // Wait for the outgoing animation to complete before switching sections
     setTimeout(() => {
       portraitSection.style.display = 'none'; // Hide Portrait section
@@ -670,7 +676,7 @@ document.querySelectorAll('.next').forEach(button => {
   }
       
       // Send user data based on currentPage value
-      if (currentPage > 1 && currentPage < 9 && currentPage != 6 && currentPage !=4 && currentPage !=7) {
+      if (currentPage > 1 && currentPage < 9 && currentPage != 6 && currentPage !=4 && currentPage !=7 && currentPage!=9) {
         if (currentPage == 8) {
           applyComboGradientAnimation(color1, baseColor1, baseColor2, color2); // combo
         } else {
@@ -684,16 +690,17 @@ document.querySelectorAll('.next').forEach(button => {
         } else {
           applyRadialGradientAnimation('#0080BF', '#0a195a'); // default
         }
-        if (!isPortraitDataSent) {
+        if (!isPortraitDataSent && currentPage!=10) {
+          console.log(currentPage);
           sendPortraitData("", currentPage);
-        }
+        } 
       } else if (currentPage >= 12 && currentPage <= 13) {
         applyRadialGradientAnimation('#0080BF', '#0a195a'); // default
         sendChordData();
       }
     });
   
-    if (currentPage >= 9 && currentPage < 12) {
+    if (currentPage < 8 || currentPage >= 12) {
       isPortraitDataSent = false; // Reset the flag when moving away from portrait pages
     }
   });
