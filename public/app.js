@@ -498,13 +498,12 @@ document.addEventListener('transitionComplete', () => {
       });
     }
     
-    // Function to show the current section and control header visibility
     function showCurrentSection() {
       if (currentSectionIndex >= 14) {
         currentSectionIndex = 0;
       }
-
-      if (currentSectionIndex == 4 || currentSectionIndex == 6) {
+    
+      if (currentSectionIndex === 4 || currentSectionIndex === 6) {
         currentPage = currentSectionIndex;
         sendUserData();
       }
@@ -513,24 +512,84 @@ document.addEventListener('transitionComplete', () => {
       const header = document.getElementById('header');
     
       // Hide all sections
-      hideAllSections();
-    
-      // Select the current section
-      const currentSection = sections[currentSectionIndex];
+      sections.forEach(section => section.classList.remove('active'));
     
       // Ensure header visibility is updated
       header.style.display = currentSectionIndex === 0 ? 'none' : 'flex';
     
-      // Add the 'active' class to trigger fade-in and slide-in animations
+      // Select the current section
+      const currentSection = sections[currentSectionIndex];
+    
+      // Add the 'active' class with a slight delay to trigger fade-in
       requestAnimationFrame(() => {
         currentSection.classList.add('active');
       });
     
+      // Handle media transitions
+      updateMediaSources(currentSectionIndex);
+    
+      // Trigger opacity transitions for overlays
+      updateOverlayTransitions();
+    
       console.log(`Showing section with index: ${currentSectionIndex}`);
     }
+    function updateOverlayTransitions(currentSectionIndex) {
+      const videoOverlay = document.querySelector('.video-overlay');
+      const imageOverlay = document.getElementById('image-overlay');
+      const vignetteOverlay = document.getElementById('vignette');
     
-
-  
+      // Fade out all overlays
+      [videoOverlay, imageOverlay, vignetteOverlay].forEach((overlay) => {
+        overlay.classList.remove('active');
+      });
+    
+      // Wait for fade-out to complete before fading in
+      setTimeout(() => {
+        if (currentSectionIndex === 0) {
+          videoOverlay.classList.add('active');
+        } else if (currentSectionIndex === 1 || currentSectionIndex === 4) {
+          imageOverlay.classList.add('active');
+        } else if (currentSectionIndex === 2 || currentSectionIndex === 7) {
+          vignetteOverlay.classList.add('active');
+        }
+      }, 4000); // Match this time with the CSS transition duration
+    }
+    
+    
+    function updateMediaSources(sectionIndex) {
+      const videoElement = document.querySelector('.video-overlay video');
+      const imageOverlay = document.getElementById('image-overlay');
+      const vignetteOverlay = document.getElementById('vignette');
+    
+      // Reset media sources
+      videoElement.classList.remove('active');
+      imageOverlay.classList.remove('active');
+      vignetteOverlay.classList.remove('active');
+    
+      // Set media based on section index
+      if (sectionIndex === 0) {
+        videoElement.src = 'assets/logo-page.webm';
+      } else if (sectionIndex === 1 || sectionIndex === 4 || sectionIndex === 6 || sectionIndex === 9) {
+        videoElement.src = 'assets/answers.webm';
+      } else if (sectionIndex === 2 || sectionIndex === 7 || sectionIndex === 8) {
+        videoElement.src = 'assets/middle-rings.webm';
+        vignetteOverlay.style.display = 'none';
+      } else if (sectionIndex === 3 || sectionIndex === 5) {
+        videoElement.src = 'assets/questions.webm';
+        vignetteOverlay.style.display = 'none';
+      } else {
+        videoElement.style.display = 'none';
+        vignetteOverlay.style.display = 'none';
+      }
+    
+      // Re-add 'active' class to trigger opacity transition after sources update
+      setTimeout(() => {
+        videoElement.classList.add('active');
+        imageOverlay.classList.add('active');
+        vignetteOverlay.classList.add('active');
+      }, 100);
+    }
+    
   
 ///////////QUIZ BUTTON HANDLING
 function getColorByEmotion(emotion) {
@@ -828,7 +887,6 @@ document.querySelectorAll('.back').forEach(button => {
         if (currentPage < 9) {
             if (currentPage == 4) {
                 document.body.style.background = `radial-gradient(${color1}, ${getBaseColorByEmotion(emotion1)})`; // Use base color for emotion1
-s
             } else if (currentPage == 6) {
                 document.body.style.background = `radial-gradient(${color2}, ${getBaseColorByEmotion(emotion2)})`; // Use base color for emotion1
 

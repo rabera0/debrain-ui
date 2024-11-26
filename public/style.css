@@ -56,6 +56,26 @@ body.no-scroll {
   overflow: hidden;
 }
 
+.video-overlay, 
+#image-overlay, 
+#vignette {
+  transition: opacity 4s ease-in-out;  /* Smooth fade effect */
+  opacity: 0;  /* Start with elements hidden */
+}
+
+.video-overlay.active {
+  opacity: 0.6;  /* Show elements with smooth transition */
+}
+
+#image-overlay.active {
+  opacity: 0.4;  /* Show elements with smooth transition */
+}
+
+#vignette.active {
+  opacity: 0.8;  /* Show elements with smooth transition */
+}
+
+
 .video-overlay {
   position: absolute;
   opacity: 30%;
