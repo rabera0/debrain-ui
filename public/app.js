@@ -571,23 +571,13 @@ document.querySelectorAll('#quiz2 button').forEach(button => {
       return data.emotion_message[normalizedEmotion] || "Emotion message not found.";
   };
 
-      // 7 second timer to the leave combined message page page
-      document.querySelector('.next[data-next="7"]').addEventListener('click', () => {
-        setTimeout(() => {
-            const nextButton = document.querySelector('.next[data-next="8"]');
-        if (nextButton) {
-            nextButton.click();  // Simulate a click on the button
-        }
-        }, 7000); // 7-second delay
-  });
-
-
   document.querySelector('.next[data-next="7"]').addEventListener('click', () => {
     // Show the "Combined Emotion Message" section after transition
     const emotionSection = document.querySelector('#word').parentNode;
     emotionSection.style.display = 'flex'; // Make it visible
   
-    applyComboGradientAnimation(color1, baseColor1, baseColor2, color2,); // combo
+    applyComboGradientAnimation(color1, baseColor1, baseColor2, color2); // combo
+    
     const emotionPairKey = Object.keys(data.emotion_pairs).find(key => {
         const pair = data.emotion_pairs[key];
         return pair[0] === emotion1.toUpperCase() && pair[1] === emotion2.toUpperCase();
@@ -601,8 +591,16 @@ document.querySelectorAll('#quiz2 button').forEach(button => {
 
     console.log(`Displaying combined message for emotions: ${emotion1} and ${emotion2}`);
     currentPage = 7;
-    sendUserData()
-  });
+    sendUserData();
+
+    // 7-second timer to automatically click the "next" button for page 8
+    setTimeout(() => {
+        const nextButton = document.querySelector('.next[data-next="8"]');
+        if (nextButton) {
+            nextButton.click();  // Simulate a click on the button
+        }
+    }, 7000); // 7-second delay
+});
 
 
 // Add 3-second delay for the 'I'M READY' button in the Portrait Start Section

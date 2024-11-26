@@ -473,15 +473,25 @@ video {
 }
 
 .button-container {
-  display: flex; /* Enables flex layout */
-  justify-content: space-between; /* Ensures buttons maintain spacing */
-  align-items: center;
-  width: 100%; /* Container spans full width */
-  max-width: 600px; /* Optional: Limits container width */
-  gap: 20px; /* Adds spacing between buttons */
+  display: flex; /* Enables flexbox layout */
+  justify-content: space-between; /* Ensures buttons have space between them */
+  align-items: center; /* Vertically aligns buttons */
+  gap: 20px; /* Adds consistent spacing between buttons */
+  flex-wrap: wrap; /* Allows buttons to wrap on smaller screens */
+  width: 100%; /* Full width of the container */
+  max-width: 600px; /* Optional: Limits the container width */
+  margin: 0 auto; /* Centers the container horizontally */
+  padding: 20px; /* Adds padding inside the container */
+  box-sizing: border-box; /* Includes padding in width/height calculations */
 }
 
-
+#redo, #save {
+  flex: 1; /* Allows buttons to grow/shrink dynamically */
+  max-width: 200px; /* Ensures buttons don’t grow too large */
+  min-width: 100px; /* Prevents buttons from becoming too small */
+  text-align: center; /* Centers button text */
+  margin: 0; /* Removes any extra margins */
+}
 
 #redo{
   padding: 25px 99px 25px 99px;
