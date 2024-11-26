@@ -159,6 +159,10 @@ function applyComboGradientAnimation(color1, baseColor1, color2, baseColor2) {
         console.log('Connected to WebSocket server');
     });
 
+    let isActionInProgress = false;
+    let transitionInProgress = false;
+    let autoTransitionTimer = null;
+
     //////////////LISTENING TO DATA
 // Listening to data from the server
 socket.addEventListener('message', async (event) => {
@@ -199,72 +203,164 @@ socket.addEventListener('message', async (event) => {
       }, 5000); // 5000ms = 5 seconds
   }
 
-  let isActionInProgress = false; 
-  let transitionInProgress = false; 
-    // Handle pulse states and transitions between sections
-    if (data.pulse === 'active' && !transitionInProgress) {
-      console.log('pulse pending.');
+//   // Prevent overlapping transitions
+// if (transitionInProgress) {
+//   console.log("Transition already in progress, ignoring pulse.");
+//   return;
+// }
 
-      if (currentSectionIndex === 0 && !isActionInProgress) {
-          isActionInProgress = true;  // Set flag to true to indicate action is in progress
-          setTimeout(() => {
-              const nextButton = document.querySelector('.next[data-next="1"]');
-              if (nextButton) {
-                  nextButton.click(); // Trigger section transition
-                  transitionInProgress = true;  // Set flag to indicate transition is in progress
-              }
-              isActionInProgress = false; // Reset flag when action is complete
-          }, 1500); // 1.5-second delay for section 0 transition
-      } else if (currentSectionIndex === 1 && !isActionInProgress) {
-          isActionInProgress = true;  // Set flag to true to indicate action is in progress
-          // Show fingerprint gif and sensor animation
-          document.getElementById('fingerprint').style.display = 'inline-block';
-          document.getElementById('sensor').style.display = 'inline-block';
-          setTimeout(() => {
-              const nextButton = document.querySelector('.next[data-next="2"]');
-              if (nextButton) {
-                  nextButton.click(); // Trigger section transition
-                  transitionInProgress = true;  // Set flag to indicate transition is in progress
-              }
-              isActionInProgress = false; // Reset flag when action is complete
-          }, 3000); // 3-second delay for section 1 transition
-      }
-  }
+// // Handle pulse state on Page 1
+// if (currentSectionIndex === 0 && data.pulse === 'active') {
+//   console.log('pulse active, transitioning from Page 1 to Page 2');
+//   transitionInProgress = true;  // Mark transition in progress
+//   setTimeout(() => {
+//       const nextButton = document.querySelector('.next[data-next="1"]');
+//       if (nextButton) {
+//           nextButton.click();  // Trigger section transition
+//           transitionInProgress = false;  // Reset transition flag
+//       }
+//   }, 1500); // Delay for page 1 to page 2 transition
+// }
 
-  // Handle 'inactive' pulse state
-  if (data.pulse === 'Inactive' && !transitionInProgress) {
-      if (currentSectionIndex === 1 && !isActionInProgress) {
-          // Hide fingerprint gif if pulse is inactive in section 1
-          document.getElementById('fingerprint').style.display = 'none';
-      } 
-  }
+// // Handle pulse state on Page 2
+// if (currentSectionIndex === 1) {
+//   if (data.pulse === 'active') {
+//       console.log('pulse active, showing fingerprint');
+//       document.getElementById('fingerprint').style.display = 'inline-block';
+//       document.getElementById('sensor').style.display = 'inline-block';
 
-  // Handle 'done' pulse state
-  if (data.pulse === 'done' && !transitionInProgress) {
-      console.log('pulse done.');
+//       // Start the auto-transition timer if not already started
+//       if (autoTransitionTimer === null) {
+//           autoTransitionTimer = setTimeout(() => {
+//               console.log('5 seconds elapsed, automatically transitioning to Page 3');
+//               transitionToPage3();
+//           }, 5000); // 5-second timer before auto-transition to Page 3
+//       }
+//   } else if (data.pulse === 'Inactive') {
+//       console.log('pulse inactive, hiding fingerprint');
+//       document.getElementById('fingerprint').style.display = 'none';
+//       document.getElementById('sensor').style.display = 'none';
 
-      if (currentSectionIndex === 1 && !isActionInProgress) {
-          isActionInProgress = true;  // Set flag to true to indicate action is in progress
-          // Hide fingerprint gif when pulse is done in section 1
-          document.getElementById('fingerprint').style.display = 'none';
-          // After 3 seconds, transition to section 3
-          setTimeout(() => {
-              const nextButton = document.querySelector('.next[data-next="2"]');
-              if (nextButton) {
-                  nextButton.click(); // Trigger section transition
-                  transitionInProgress = true;  // Set flag to indicate transition is in progress
-              }
-              isActionInProgress = false; // Reset flag when action is complete
-          }, 3000); // 3-second delay after section 1 to section 2 transition
-      }
-  }
+//       // Clear the auto-transition timer if pulse becomes inactive
+//       if (autoTransitionTimer !== null) {
+//           clearTimeout(autoTransitionTimer);
+//           autoTransitionTimer = null; // Reset the timer
+//       }
+//   } else if (data.pulse === 'done') {
+//       console.log('pulse done, immediately transitioning to Page 3');
+
+//       // If the pulse is 'done', immediately clear any existing timers
+//       if (autoTransitionTimer !== null) {
+//           clearTimeout(autoTransitionTimer);
+//           autoTransitionTimer = null; // Reset the timer
+//       }
+
+//       // Add a delay of 2 seconds before transitioning to Page 3
+//       setTimeout(() => {
+//           // Ensure there is no ongoing transition before proceeding
+//           if (!transitionInProgress) {
+//               console.log('Transitioning to Page 3');
+//               transitionToPage3();
+//           } else {
+//               console.log('Transition already in progress, skipping transition to Page 3.');
+//           }
+//       }, 2000); // 2 seconds delay before starting the transition to Page 3
+//   }
+// }
+
+// // Handle Page 3: Independent of pulse state
+// if (currentSectionIndex === 2) {
+//   // No action needed, just ensure no transitions are happening here
+// }
+// });
+
+// function transitionToPage3() {
+//   const nextButton = document.querySelector('.next[data-next="2"]');
+//   if (nextButton) {
+//       nextButton.click(); // Transition to page 3
+//       transitionInProgress = true; // Set transition flag
+//       setTimeout(() => {
+//           transitionInProgress = false; // Reset transition flag once page 3 is reached
+//       }, 1500); // Transition delay
+//   }
+// }
+
+
+   // Prevent overlapping transitions
+    if (transitionInProgress) {
+        console.log("Transition already in progress, ignoring pulse.");
+        return;
+    }
+
+    // Handle pulse state on Page 1
+    if (currentSectionIndex === 0 && data.pulse === 'active') {
+        console.log('pulse active, transitioning from Page 1 to Page 2');
+        transitionInProgress = true;  // Mark transition in progress
+        setTimeout(() => {
+            const nextButton = document.querySelector('.next[data-next="1"]');
+            if (nextButton) {
+                nextButton.click();  // Trigger section transition
+                transitionInProgress = false;  // Reset transition flag
+            }
+        }, 1500); // Delay for page 1 to page 2 transition
+    }
+
+    // Handle pulse state on Page 2
+    if (currentSectionIndex === 1) {
+        if (data.pulse === 'active') {
+            console.log('pulse active, showing fingerprint');
+            document.getElementById('fingerprint').style.display = 'inline-block';
+            document.getElementById('sensor').style.display = 'inline-block';
+
+            // Start the auto-transition timer if not already started
+            if (autoTransitionTimer === null) {
+                autoTransitionTimer = setTimeout(() => {
+                    console.log('5 seconds elapsed, automatically transitioning to Page 3');
+                    transitionToPage3();
+                }, 5000); // 5-second timer before auto-transition to Page 3
+            }
+        } else if (data.pulse === 'Inactive') {
+            console.log('pulse inactive, hiding fingerprint');
+            document.getElementById('fingerprint').style.display = 'none';
+
+            // Clear the auto-transition timer if pulse becomes inactive
+            if (autoTransitionTimer !== null) {
+                clearTimeout(autoTransitionTimer);
+                autoTransitionTimer = null; // Reset the timer
+            }
+        } else if (data.pulse === 'done') {
+            console.log('pulse done, transitioning to Page 3');
+            transitionToPage3();
+        }
+    }
+
+    // Handle Page 3: Independent of pulse state
+    if (currentSectionIndex === 2) {
+        // No action needed, just ensure no transitions are happening here
+    }
 });
 
+function transitionToPage3() {
+    const nextButton = document.querySelector('.next[data-next="2"]');
+    if (nextButton) {
+        nextButton.click(); // Transition to page 3
+        transitionInProgress = true; // Set transition flag
+        setTimeout(() => {
+            transitionInProgress = false; // Reset transition flag once page 3 is reached
+        }, 1500); // Transition delay
+    }
+}
+
+// Listen for the 'transitionComplete' event to reset flags
 document.addEventListener('transitionComplete', () => {
-  // Once transition is complete, reset the transition flag
-  transitionInProgress = false;
-  console.log('Section transition complete, ready for next action.');
+    // Once transition is complete, reset flags
+    console.log('Transition complete, resetting flags.');
+    transitionInProgress = false;
+    console.log('Section transition complete, ready for next action.');
 });
+
+
+
 
     // Handle errors
     socket.addEventListener('error', (error) => {
@@ -451,10 +547,10 @@ function getColorByEmotion(emotion) {
   // Track the selected button for both quizzes
   let selectedButton1 = null; // To store the previously selected button in #quiz1
   let selectedButton2 = null; // To store the previously selected button in #quiz2
-  let color1 = "#0080BF";
-  let color2 = "#0080BF";
-  let baseColor1 = "#0080BF";
-  let baseColor2 = "#0080BF";
+  let color1 = "#3ebfff";
+  let color2 = "#3ebfff";
+  let baseColor1 = "#0a007f";
+  let baseColor2 = "#0a007f";
   
   // Handle selection for "heart beat" question (emotion1)
   // Handle selection for "heart beat" question (emotion1) with animation
@@ -688,7 +784,7 @@ document.querySelectorAll('.next').forEach(button => {
         if (currentPage == 8) {
           applyComboGradientAnimation(color1, baseColor1, baseColor2, color2); // combo
         } else {
-          applyRadialGradientAnimation('#0080BF', '#0a195a'); // default
+          applyRadialGradientAnimation('#3ebfff', '#0a007f'); // default
         }
         sendUserData();
       } else if (currentPage >= 9 && currentPage < 12) {
@@ -696,7 +792,7 @@ document.querySelectorAll('.next').forEach(button => {
         if (currentPage < 11) {
           applyComboGradientAnimation(color1, baseColor1, baseColor2, color2); // combo
         } else {
-          applyRadialGradientAnimation('#0080BF', '#0a195a'); // default
+          applyRadialGradientAnimation('#3ebfff', '#0a007f'); // default
         }
         if (currentPage == 10) {
           sendPortraitData("", currentPage);
@@ -705,7 +801,7 @@ document.querySelectorAll('.next').forEach(button => {
           sendPortraitData("", currentPage);
         }
       } else if (currentPage >= 12 && currentPage <= 13) {
-        applyRadialGradientAnimation('#0080BF', '#0a195a'); // default
+        applyRadialGradientAnimation('#3ebfff', '#0a007f'); // default
         sendChordData();
       }
     });
@@ -737,7 +833,7 @@ s
                 document.body.style.background = `radial-gradient(${color2}, ${getBaseColorByEmotion(emotion2)})`; // Use base color for emotion1
 
             } else {
-                applyRadialGradientAnimation('#0080BF', '#0a195a'); //default 
+                applyRadialGradientAnimation('#3ebfff', '#0a007f'); //default 
             }
             sendUserData();
         }
@@ -799,7 +895,7 @@ s
         portraitButton.style.display = 'none'; // Hide it initially
     }
     // Hide the popup if it's still visible
-    applyRadialGradientAnimation('#0080BF', '#0a195a'); //default
+    applyRadialGradientAnimation('#3ebfff', '#0a007f'); //default
     document.getElementById('inactivityPopup').style.display = 'none';
     clearTimeout(popupTimeout); // Clear popup timeout if user didn't respond in time
        // Reset emotions

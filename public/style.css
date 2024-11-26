@@ -39,7 +39,7 @@
 
 
 body {
-  background: radial-gradient(circle, #0080BF, #0a195a); /* Default radial gradient with two colors */
+  background: radial-gradient(circle, #3ebfff, #0a007f); /* Default radial gradient with two colors */
   background-size: 200% 200%; /* Make the gradient larger than the viewport for smooth transition */
   animation: gradient 10s ease-in-out infinite; /* Animation that moves the gradient over 15 seconds */
   height: 100vh;
