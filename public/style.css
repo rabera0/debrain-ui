@@ -37,6 +37,11 @@
   font-style: normal;
 }
 
+button#start.next {
+  width: 20%;
+  POSITION: relative;
+  top: 12%;
+}
 
 body {
   background: radial-gradient(circle, #3ebfff, #0a007f); /* Default radial gradient with two colors */

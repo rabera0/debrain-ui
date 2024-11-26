@@ -141,7 +141,7 @@ function applyComboGradientAnimation(color1, baseColor1, color2, baseColor2) {
     document.body.style.background = `radial-gradient(circle, ${color1}, ${baseColor1}, ${color2}, ${baseColor2})`;
     
     // Apply the background size and animation for smooth transition
-    document.body.style.backgroundSize = '300% 300%';
+    document.body.style.backgroundSize = '200% 200%';
     document.body.style.animation = 'gradient 15s ease-in-out infinite'; // 15s duration for a smooth loop
   }
 
