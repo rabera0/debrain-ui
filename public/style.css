@@ -271,13 +271,10 @@ button {
   letter-spacing: 2px
 }
 
-button:focus {
-  background-color: white;
-  color: #111111;
-}
-
 button:active {
   transform: scale(0.98);
+  background-color: white;
+  color: #111111;
 }
 
 button#start.next{
@@ -491,28 +488,6 @@ video {
   min-width: 100px; /* Prevents buttons from becoming too small */
   text-align: center; /* Centers button text */
   margin: 0; /* Removes any extra margins */
-}
-
-#redo{
-  padding: 25px 99px 25px 99px;
-  max-width: fit-content;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  font-size: 14px;
-  font-weight: bold;
-  margin: 5% 30%;
-}
-
-#save {
-  padding: 25px 99px 25px 99px;
-  max-width: fit-content;
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  font-size: 14px;
-  font-weight: bold;
-  margin: 5% 30%;
 }
 
 /* For mobile responsiveness */
