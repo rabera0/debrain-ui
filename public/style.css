@@ -397,10 +397,10 @@ img {
 
 /* Styling for sections */
 #fingerprint {
-  width: 100px;
-  height: 100px;
-  margin-top: 10%;
-  margin-bottom: -20%;
+  position: absolute;
+    width: 100px;
+    height: 100px;
+    bottom: 30%;
 }
 
 section {

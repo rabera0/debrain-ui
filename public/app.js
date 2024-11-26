@@ -329,8 +329,8 @@ socket.addEventListener('message', async (event) => {
                 autoTransitionTimer = null; // Reset the timer
             }
         } else if (data.pulse === 'done') {
-            console.log('pulse done, transitioning to Page 3');
-            transitionToPage3();
+            console.log('pulse done');
+            //transitionToPage3();
         }
     }
 
