@@ -988,9 +988,9 @@ document.querySelectorAll('.back').forEach(button => {
       console.log("User inactive: Resetting to section 1");
       sendFinishData();
 
-      // setTimeout(() => {
-      //   window.location.reload();
-      // }, 2000); // 5000ms = 5 seconds
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000); // 5000ms = 5 seconds
 
   }
   
