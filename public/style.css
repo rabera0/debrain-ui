@@ -137,19 +137,19 @@ body.no-scroll {
 
 @keyframes gradient {
   0% {
-    background-position: -10% -10%;
+    background-position: 0% 0%;
   }
   25% {
-    background-position: 110% -10%;
+    background-position: 100% 10%;
   }
   50% {
-    background-position: 110% 110%; 
+    background-position: 100% 100%; 
   }
   75% {
-    background-position:-10% 110%; 
+    background-position:0% 100%; 
   }
   100% {
-    background-position: -10% -10%; 
+    background-position: 10% 10%; 
   }
 
 }

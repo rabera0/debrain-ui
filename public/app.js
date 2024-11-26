@@ -533,28 +533,24 @@ document.addEventListener('transitionComplete', () => {
     
       console.log(`Showing section with index: ${currentSectionIndex}`);
     }
-    function updateOverlayTransitions(currentSectionIndex) {
+    function updateOverlayTransitions() {
       const videoOverlay = document.querySelector('.video-overlay');
       const imageOverlay = document.getElementById('image-overlay');
       const vignetteOverlay = document.getElementById('vignette');
     
-      // Fade out all overlays
-      [videoOverlay, imageOverlay, vignetteOverlay].forEach((overlay) => {
-        overlay.classList.remove('active');
+      [videoOverlay, imageOverlay, vignetteOverlay].forEach(overlay => {
+        overlay.classList.remove('active'); // Reset all overlays
       });
     
-      // Wait for fade-out to complete before fading in
-      setTimeout(() => {
-        if (currentSectionIndex === 0) {
-          videoOverlay.classList.add('active');
-        } else if (currentSectionIndex === 1 || currentSectionIndex === 4) {
-          imageOverlay.classList.add('active');
-        } else if (currentSectionIndex === 2 || currentSectionIndex === 7) {
-          vignetteOverlay.classList.add('active');
-        }
-      }, 4000); // Match this time with the CSS transition duration
+      // Logic to activate overlays based on the current section
+      if (currentSectionIndex === 0) {
+        videoOverlay.classList.add('active');
+      } else if (currentSectionIndex === 1 || currentSectionIndex === 4 || currentSectionIndex === 6 || currentSectionIndex === 9) {
+        imageOverlay.classList.add('active');
+      } else if (currentSectionIndex === 2 || currentSectionIndex === 7 || currentSectionIndex === 8) {
+        vignetteOverlay.classList.add('active');
+      }
     }
-    
     
     function updateMediaSources(sectionIndex) {
       const videoElement = document.querySelector('.video-overlay video');
@@ -939,6 +935,7 @@ document.querySelectorAll('.back').forEach(button => {
   
   // Reset the page to section 1
   function resetToSection1() {
+    window.location.reload();
     isPortraitDataSent = false
 // Reset styles and content for the "HOLD FOR A PORTRAIT" section
     // Reset styles and visibility for the "HOLD FOR A PORTRAIT" section
