@@ -21,6 +21,10 @@
     <div id="image-overlay">
         <img src = "assets/Noise.png">
     </div>
+
+    <div id="vignette">
+        <img src = "assets/vignette.png">
+    </div>
     
         <!-- Intro Section -->
         <section id="intro">       
@@ -135,7 +139,7 @@
         </section>
 
         <!-- Portrait Start Section -->
-        <section>
+        <section id="hold">
             <h3> HOLD FOR A PORTRAIT </h3>
             <br />
             <br />
@@ -169,9 +173,10 @@
             <br />
             <br />
             <br />
-            <button class="next" id="save" data-next="11"> SAVE </button>
-            <br />
-            <button class="next" id="redo" data-next="9"> REDO </button>  
+            <div class="button-container">
+                <button class="next" id="save" data-next="11">SAVE</button>
+                <button class="next" id="redo" data-next="9">REDO</button>
+            </div> 
         </section>
 
         <!-- PORTRAIT END PAGE -->

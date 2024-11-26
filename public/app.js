@@ -571,19 +571,37 @@ document.querySelectorAll('#quiz2 button').forEach(button => {
       return data.emotion_message[normalizedEmotion] || "Emotion message not found.";
   };
 
+      // 7 second timer to the leave combined message page page
+      document.querySelector('.next[data-next="7"]').addEventListener('click', () => {
+        setTimeout(() => {
+            const nextButton = document.querySelector('.next[data-next="8"]');
+        if (nextButton) {
+            nextButton.click();  // Simulate a click on the button
+        }
+        }, 7000); // 7-second delay
+  });
+
 
   document.querySelector('.next[data-next="7"]').addEventListener('click', () => {
     // Show the "Combined Emotion Message" section after transition
     const emotionSection = document.querySelector('#word').parentNode;
     emotionSection.style.display = 'flex'; // Make it visible
   
-    // After a 3-second delay, trigger the "Next" button click programmatically
-    setTimeout(() => {
-      const nextButton = document.querySelector('.next[data-next="8"]');
-      if (nextButton) {
-        nextButton.click(); // Simulate a click on the "Continue →" button
-      }
-    }, 3000); // 3-second delay before triggering the next transition
+    applyComboGradientAnimation(color1, baseColor1, baseColor2, color2,); // combo
+    const emotionPairKey = Object.keys(data.emotion_pairs).find(key => {
+        const pair = data.emotion_pairs[key];
+        return pair[0] === emotion1.toUpperCase() && pair[1] === emotion2.toUpperCase();
+    });
+
+    const combinationMessage = data.combinationMessages[emotionPairKey] || "Combined emotion message not found.";
+    console.log(`Combination Key: ${emotionPairKey} Combo Message: ${combinationMessage}`);
+
+    document.getElementById('word').innerText = `${emotion1} + ${emotion2}`;
+    document.getElementById('emotion_pair_message').innerText = combinationMessage;
+
+    console.log(`Displaying combined message for emotions: ${emotion1} and ${emotion2}`);
+    currentPage = 7;
+    sendUserData()
   });
 
 
@@ -770,6 +788,18 @@ s
   // Reset the page to section 1
   function resetToSection1() {
     isPortraitDataSent = false
+// Reset styles and content for the "HOLD FOR A PORTRAIT" section
+    // Reset styles and visibility for the "HOLD FOR A PORTRAIT" section
+    const holdSection = document.getElementById('hold'); // Select the section by ID
+    if (holdSection) {
+        holdSection.style.display = 'flex'; // Ensure the section is visible
+    }
+
+    // Reset the "I'M READY" button's visibility
+    const portraitButton = document.getElementById('portrait');
+    if (portraitButton) {
+        portraitButton.style.display = 'none'; // Hide it initially
+    }
     // Hide the popup if it's still visible
     applyRadialGradientAnimation('#0080BF', '#0a195a'); //default
     document.getElementById('inactivityPopup').style.display = 'none';
