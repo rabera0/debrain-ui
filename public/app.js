@@ -565,12 +565,12 @@ document.addEventListener('transitionComplete', () => {
       // Set media based on section index
       if (sectionIndex === 0) {
         videoElement.src = 'assets/logo-page.webm';
-      } else if (sectionIndex === 1 || sectionIndex === 4 || sectionIndex === 6 || sectionIndex === 9) {
+      } else if (sectionIndex === 1 || sectionIndex === 4 || sectionIndex === 6 || sectionIndex === 11) {
         videoElement.src = 'assets/answers.webm';
-      } else if (sectionIndex === 2 || sectionIndex === 7 || sectionIndex === 8) {
+      } else if (sectionIndex === 2 || sectionIndex === 7 || sectionIndex === 8 || sectionIndex === 10) {
         videoElement.src = 'assets/middle-rings.webm';
         vignetteOverlay.style.display = 'none';
-      } else if (sectionIndex === 3 || sectionIndex === 5) {
+      } else if (sectionIndex === 3 || sectionIndex === 5 || sectionIndex === 9 ) {
         videoElement.src = 'assets/questions.webm';
         vignetteOverlay.style.display = 'none';
       } else {
@@ -935,9 +935,7 @@ document.querySelectorAll('.back').forEach(button => {
   
   // Reset the page to section 1
   function resetToSection1() {
-    setTimeout(() => {
-    window.location.reload();
-  }, 2000); // 5000ms = 5 seconds
+
     isPortraitDataSent = false
 // Reset styles and content for the "HOLD FOR A PORTRAIT" section
     // Reset styles and visibility for the "HOLD FOR A PORTRAIT" section
@@ -989,6 +987,10 @@ document.querySelectorAll('.back').forEach(button => {
       showCurrentSection(); // Now this function is already defined and will work
       console.log("User inactive: Resetting to section 1");
       sendFinishData();
+
+      // setTimeout(() => {
+      //   window.location.reload();
+      // }, 2000); // 5000ms = 5 seconds
 
   }
   

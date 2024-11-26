@@ -466,12 +466,20 @@ section {
 }
 
 #emotion1_message, #emotion2_message {
+  font-size: 30px;
+  color: white;
+  margin-top: 20px;
+  padding: 0 25%;
+  font-weight: 325;
+}
+
+#vibe {
   font-size: 20px;
   color: white;
   margin-top: 20px;
-  padding: 0 18%;
+  padding: 0 25%;
+  font-weight: 325;
 }
-
 #word {
   color: white;
   font-size: 80px;
