@@ -141,7 +141,7 @@ function applyComboGradientAnimation(color1, baseColor1, color2, baseColor2) {
     document.body.style.background = `radial-gradient(circle, ${color1}, ${baseColor1}, ${color2}, ${baseColor2})`;
     
     // Apply the background size and animation for smooth transition
-    document.body.style.backgroundSize = '200% 200%';
+    document.body.style.backgroundSize = '450% 450%';
     document.body.style.animation = 'gradient 15s ease-in-out infinite'; // 15s duration for a smooth loop
   }
 
@@ -935,7 +935,9 @@ document.querySelectorAll('.back').forEach(button => {
   
   // Reset the page to section 1
   function resetToSection1() {
+    setTimeout(() => {
     window.location.reload();
+  }, 2000); // 5000ms = 5 seconds
     isPortraitDataSent = false
 // Reset styles and content for the "HOLD FOR A PORTRAIT" section
     // Reset styles and visibility for the "HOLD FOR A PORTRAIT" section
