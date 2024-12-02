@@ -441,33 +441,61 @@ document.addEventListener('transitionComplete', () => {
     
     let isPortraitDataSent = false; // Flag to track if portrait data has been sent
 
-    // Handling "redo" and "save" buttons to mark portrait data as sent
+ // Handling "redo" and "save" buttons to mark portrait data as sent
     document.getElementById("redo").addEventListener("click", () => {
-        isPortraitDataSent = true;  // Set the flag when redo is pressed
-        const portraitSection = document.querySelector('#portrait').parentNode;
-        const lookUpSection = document.querySelector('.next[data-next="10"]').parentNode;
-        sendPortraitData("redo", 9)
-        // After a 7-second delay, handle the transition
-        setTimeout(() => {
-          // Hide the Portrait section with an animation (add 'outgoing' class)
+      isPortraitDataSent = true;  // Set the flag when redo is pressed
+  
+      const portraitSection = document.getElementById('port');
+      const lookUpSection = document.querySelector('.next[data-next="10"]').parentNode;
+      
+      
+      sendPortraitData("redo", 9);
+  
+      // Step 1: Reset outgoing class for the sections involved (section 9 and section 10)
+      lookUpSection.classList.remove('outgoing');
+      lookUpSection.style.display = 'flex'; // Ensure it's visible
+  
+      // Step 2: Delay the transition to simulate "redo" behavior
+      setTimeout(() => {
+          // Add outgoing class to Portrait section to start hiding it
           portraitSection.classList.add('outgoing');
-      
-          // Wait for the outgoing animation to complete before switching sections
+  
+          // Step 3: After 1 second (matching the outgoing transition), hide the Portrait section and show Look Up section
           setTimeout(() => {
-            portraitSection.style.display = 'none'; // Hide Portrait section
+              // Hide the Portrait section
+              // portraitSection.style.display = 'none';
+  
+              // Show the Look Up section
+              lookUpSection.style.display = 'flex';  // Make sure the section is visible
+              lookUpSection.classList.add('active'); // Ensure the Look Up section becomes active
+            
+              // Simulate a click on the "Next" button to move to section 10
+              const nextButton = document.querySelector('.next[data-next="10"]');
+              if (nextButton) {
+                portraitSection.classList.remove('outgoing');
+                portraitSection.style.display = 'flex'; // Ensure it's visible
+                nextButton.click();
+              }
+          }, 1000); // Wait for the outgoing transition of the portrait section to finish
+      }, 7000); // Initial 7-second delay before starting the transition
+  });
+  
+  // Function to reset the outgoing class for the specific sections
+  // function resetSectionOutgoingClasses() {
+  //     // Get the relevant sections (section 9 and section 10)
+  //     const sections = document.querySelectorAll('section');
+  //     // let index = currentSectionIndex;
       
-            // Show and animate the Look Up section
-            lookUpSection.style.display = 'flex';
-            lookUpSection.classList.add('active');
-      
-            // Simulate a click on the "Next" button for section 10
-            const nextButton = document.querySelector('.next[data-next="10"]');
-            if (nextButton) {
-              nextButton.click();
-            }
-          }, 1000); // Match the CSS animation duration for outgoing transition
-        }, 7000); // Initial 7-second delay before starting the transition
-    });
+  //     // Reset the outgoing class on sections 9 and 10 (based on their indices)
+  //     sections.forEach((section, index) => {
+  //       console.log("current section " + index );
+  //         // Only remove 'outgoing' from sections that are involved in the transition
+  //         if (index === 13 || index === 12 || index === 11 || index === 10) {  // Section 9 (index 8) and Section 10 (index 9)
+  //             section.classList.remove('outgoing');
+  //             section.style.display = 'flex'; // Ensure it's visible
+  //         }
+  //     });
+  // }
     
     document.getElementById("save").addEventListener("click", () => {
         isPortraitDataSent = true;  // Set the flag when save is pressed
@@ -499,6 +527,7 @@ document.addEventListener('transitionComplete', () => {
     }
     
     function showCurrentSection() {
+      const sections = document.querySelectorAll('section');
       if (currentSectionIndex >= 14) {
         currentSectionIndex = 0;
       }
@@ -508,29 +537,25 @@ document.addEventListener('transitionComplete', () => {
         sendUserData();
       }
     
-      const sections = document.querySelectorAll('section');
       const header = document.getElementById('header');
-    
+
       // Hide all sections
       sections.forEach(section => section.classList.remove('active'));
     
-      // Ensure header visibility is updated
+    
+    
+      // Update header visibility
       header.style.display = currentSectionIndex === 0 ? 'none' : 'flex';
-    
-      // Select the current section
+      // Get the current section
       const currentSection = sections[currentSectionIndex];
+      // Add the 'active' class (no need for requestAnimationFrame unless you need precise timing)
     
-      // Add the 'active' class with a slight delay to trigger fade-in
-      requestAnimationFrame(() => {
-        currentSection.classList.add('active');
-      });
-    
+      currentSection.classList.add('active');
       // Handle media transitions
       updateMediaSources(currentSectionIndex);
-    
-      // Trigger opacity transitions for overlays
+      // Trigger overlay transitions
       updateOverlayTransitions();
-    
+
       console.log(`Showing section with index: ${currentSectionIndex}`);
     }
     function updateOverlayTransitions() {

@@ -203,11 +203,11 @@ h1, h2, h3, h4, h5, p {
 }
 
 h1 {
-  font-size: 100px;
-  letter-spacing: 10px;
+  margin-top: 4%;
+  font-size: 100px;;
   font-family: 'Gotham';
   font-weight: 900;
-  letter-spacing: 12px;
+  letter-spacing: 22px;
   color: beige;
 }
 
@@ -403,6 +403,16 @@ img {
     bottom: 30%;
 }
 
+#portrait {
+  margin-top: 10%;
+  position: absolute;
+}
+
+#welcome {
+  margin-bottom: 35%;
+  position: absolute;
+}
+
 section {
   display: flex;
   justify-content: center;
@@ -500,6 +510,10 @@ section {
 video {
   border-radius: 50px;
   z-index: 3;
+}
+
+#logovid {
+  transform: scale(0.75);
 }
 
 .button-container {
