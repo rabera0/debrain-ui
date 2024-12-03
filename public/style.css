@@ -159,6 +159,16 @@ body.no-scroll {
 
 }
 
+/* Initially, the page is visible */
+body, .video-overlay, #image-overlay, #vignette, section {
+  opacity: 1;
+  transition: opacity 1s ease;
+}
+
+body.fading-out, .video-overlay.fading-out, #image-overlay.fading-out, #vignette.fading-out, section.fading-out {
+  opacity: 0;
+}
+
 
 /* Hide all sections by default */
 section {
@@ -510,10 +520,6 @@ section {
 video {
   border-radius: 50px;
   z-index: 3;
-}
-
-#logovid {
-  transform: scale(0.75);
 }
 
 .button-container {
