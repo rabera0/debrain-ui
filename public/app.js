@@ -531,9 +531,23 @@ function updateInfoPopup(currentSectionIndex) {
   
   function showCurrentSection() {
     const sections = document.querySelectorAll('section');
-    if (currentSectionIndex >= 14) {
-      currentSectionIndex = 0;
-    }
+
+      // Reset styles to ensure visibility
+  const vignetteOverlay = document.getElementById('vignette');
+  vignetteOverlay.style.display = 'none';  // Hide it by default
+  
+  if (currentSectionIndex === 0 || currentSectionIndex === 12 || currentSectionIndex === 13) {
+    vignetteOverlay.style.display = 'flex';  // Show vignette for these sections
+  }
+
+
+    // if (currentSectionIndex >= 14) {
+    //   currentSectionIndex = 0;
+    //   currentSectionIndex = 0;
+    //   const videoElement = document.querySelector('.video-overlay video');
+    //   videoElement.style.display = 'none'; // Hide video completely
+    //   return; // Exit early to ensure nothing else shows
+    // }
   
     if (currentSectionIndex === 4 || currentSectionIndex === 6) {
       currentPage = currentSectionIndex;
@@ -552,11 +566,14 @@ function updateInfoPopup(currentSectionIndex) {
     const currentSection = sections[currentSectionIndex];
     // Add the 'active' class (no need for requestAnimationFrame unless you need precise timing)
   
-    currentSection.classList.add('active');
-    // Handle media transitions
-    updateMediaSources(currentSectionIndex);
+    if (currentSectionIndex <= 13) {
+      currentSection.classList.add('active');
+    }
+    
     // Trigger overlay transitions
     updateOverlayTransitions();
+    // Handle media transitions
+    updateMediaSources(currentSectionIndex);
      // Update the popup message based on the current section
     updateInfoPopup(currentSection);
     const popup = document.querySelector('#info-popup');
@@ -565,67 +582,85 @@ function updateInfoPopup(currentSectionIndex) {
     console.log(`Showing section with index: ${currentSectionIndex}`);
   }
 
-  function updateOverlayTransitions() {
-    const videoOverlay = document.querySelector('.video-overlay');
-    const imageOverlay = document.getElementById('image-overlay');
-    const vignetteOverlay = document.getElementById('vignette');
-  
-    [videoOverlay, imageOverlay, vignetteOverlay].forEach(overlay => {
-      overlay.classList.remove('active'); // Reset all overlays
-    });
-  
-    // Logic to activate overlays based on the current section
-    if (currentSectionIndex === 0) {
-      videoOverlay.classList.add('active');
-    } else if (currentSectionIndex === 1 || currentSectionIndex === 4 || currentSectionIndex === 6 || currentSectionIndex === 9 || currentSectionIndex === 12 || currentSectionIndex === 13) {
-      imageOverlay.classList.add('active');
-    } else if (currentSectionIndex === 2 || currentSectionIndex === 7 || currentSectionIndex === 8 || currentSectionIndex === 12 || currentSectionIndex === 13) {
-      vignetteOverlay.classList.add('active');
-    }
-  }
   
   function updateMediaSources(sectionIndex) {
+    console.log("sectionIndex " + sectionIndex);
     const videoElement = document.querySelector('.video-overlay video');
+
+    // Start fade-out
+    videoElement.classList.remove('active'); // Trigger fade-out
+    videoElement.style.opacity = '0'; // Ensure immediate visibility control
+
+    // Determine the new video source and properties
+    let newSrc = '';
+    let transform = 'scale(1)';
+    let targetOpacity = '1';
+
+    if (sectionIndex === 0) {
+        newSrc = 'assets/logo-page.webm';
+        transform = 'scale(0.75)';
+        targetOpacity = '0.7';
+    } else if (sectionIndex === 1 || sectionIndex === 4 || sectionIndex === 8 ||  sectionIndex === 6) {
+        newSrc = 'assets/answers.webm';
+        targetOpacity = '0.4';
+    } else if (sectionIndex === 2 || sectionIndex === 7 || sectionIndex === 10) {
+        newSrc = 'assets/middle-rings.webm';
+        targetOpacity = '0.3';
+    } else if (sectionIndex === 3 || sectionIndex === 5 || sectionIndex === 9) {
+        newSrc = 'assets/questions.webm';
+        targetOpacity = '0.8';
+    } else if (sectionIndex === 11 || sectionIndex === 12 || sectionIndex === 13 || sectionIndex === 14) {
+        if (sectionIndex === 11) {
+            newSrc = 'assets/answers.webm';
+            targetOpacity = '0.8';
+        } else {
+            videoElement.style.display = 'none';
+            return; // Exit early if no video is needed
+        }
+    } else {
+        videoElement.style.display = 'none';
+        return; // Exit early if no video is needed
+    }
+
+    // Hide the video immediately to prevent flashing
+    videoElement.style.display = 'none';
+
+    // Wait for fade-out to complete
+    setTimeout(() => {
+        // Only update the source if it is different
+        if (videoElement.src !== newSrc) {
+            videoElement.src = newSrc;
+        }
+
+        // Reset video properties and wait for it to load
+        videoElement.style.transform = transform;
+        videoElement.addEventListener('loadeddata', () => {
+            videoElement.style.display = 'block'; // Show video again
+            videoElement.classList.add('active'); // Trigger fade-in
+            setTimeout(() => {
+                videoElement.style.opacity = targetOpacity; // Apply target opacity
+            }, 500); // Match fade-in duration
+        }, { once: true });
+    }, 500); // Short fade-out duration
+}
+
+
+
+  function updateOverlayTransitions() {
     const imageOverlay = document.getElementById('image-overlay');
     const vignetteOverlay = document.getElementById('vignette');
+
+    imageOverlay.classList.add('active');
+    imageOverlay.style.display = 'flex';
   
-    // Reset media sources
-    videoElement.classList.remove('active');
-    imageOverlay.classList.remove('active');
-    vignetteOverlay.classList.remove('active');
-    
-    if (sectionIndex === 0) {
-      videoElement.src = 'assets/logo-page.webm';
-      videoElement.style.transform = 'scale(0.75)'; // Apply scaling for logo page
-    } else {
-      videoElement.style.transform = 'scale(1)'; // Reset scaling for other videos
-    }
-    // Set media based on section index
-    if (sectionIndex === 0) {
-      videoElement.src = 'assets/logo-page.webm';
-    } else if (sectionIndex === 1 || sectionIndex === 4 || sectionIndex === 6 || sectionIndex === 11) {
-      videoElement.src = 'assets/answers.webm';
-    } else if (sectionIndex === 2 || sectionIndex === 7 || sectionIndex === 8 || sectionIndex === 10) {
-      videoElement.src = 'assets/middle-rings.webm';
-      vignetteOverlay.style.display = 'none';
-      videoElement.style.opacity = '0.4'
-    } else if (sectionIndex === 3 || sectionIndex === 5 || sectionIndex === 9 ) {
-      videoElement.src = 'assets/questions.webm';
-      vignetteOverlay.style.display = 'none';
-    } else if (sectionIndex === 12 || sectionIndex === 13 || sectionIndex === 11 ) {
-      videoElement.style.display = 'none';
-      vignetteOverlay.style.display = 'fixed';
-    }else {
-      videoElement.style.display = 'none';
-    }
-  
-    // Re-add 'active' class to trigger opacity transition after sources update
-    setTimeout(() => {
-      videoElement.classList.add('active');
-      imageOverlay.classList.add('active');
+    // Logic to activate noise based on the current section
+    if (currentSectionIndex === 0 || currentSectionIndex === 1 || currentSectionIndex === 2 || currentSectionIndex === 11 ||currentSectionIndex === 12 || currentSectionIndex === 13) { //sections with vignettes
       vignetteOverlay.classList.add('active');
-    }, 100);
+      vignetteOverlay.classList.add('active');
+      vignetteOverlay.style.display = 'flex';
+    } 
   }
+
   
 
 ///////////QUIZ BUTTON HANDLING
@@ -809,7 +844,7 @@ setTimeout(() => {
   if (portraitButton) {
     portraitButton.style.display = 'block'; // Show the button after 3 seconds
   }
-}, 3000); // 3-second delay
+}, 6000); // 6-second delay
 });
 
 
@@ -947,8 +982,6 @@ document.getElementById('finish').addEventListener('click', () => {
   resetToSection1();
   
   console.log("Emotions reset. Returning to section 1.");
-  sendFinishData();
- 
 });
 
 // Initialize inactivity timer and popup functionality
@@ -958,7 +991,7 @@ let popupTimeout;
 // Reset inactivity timer on user interaction
 function resetInactivityTimer() {
     clearTimeout(inactivityTimeout);
-    inactivityTimeout = setTimeout(showInactivityPopup, 60000000); // 60 seconds of inactivity
+    inactivityTimeout = setTimeout(showInactivityPopup, 60000); // 60 seconds of inactivity
 }
 
 // Show inactivity popup after timeout
@@ -968,23 +1001,16 @@ function showInactivityPopup() {
     const popup = document.getElementById('inactivityPopup');
     popup.style.display = 'block';
 
-    // Start 5-second countdown for user to respond
+    // Start 20-second countdown for user to respond
     popupTimeout = setTimeout(() => {
         resetToSection1();
-    }, 10000); // 10 seconds to respond
+    }, 20000); // 20 seconds to respond
 }
 
 // Reset the page to section 1
 function resetToSection1() {
 
   isPortraitDataSent = false
-
-  // Apply fade-out effect before reloading
-  document.body.classList.add('fading-out');
-  document.querySelector('.video-overlay').classList.add('fading-out');
-  document.querySelector('#image-overlay').classList.add('fading-out');
-  document.querySelector('#vignette').classList.add('fading-out');
-  document.querySelector('section').classList.add('fading-out');
 
   // Reset styles and visibility for the "HOLD FOR A PORTRAIT" section
   const holdSection = document.getElementById('hold'); // Select the section by ID
@@ -1031,28 +1057,19 @@ function resetToSection1() {
   const q2b = document.querySelector('[data-next="6"]');
   q2b.style.display = 'none';
     // Reset to the first section
-    currentSectionIndex = 0;
+   // currentSectionIndex = 0;
     showCurrentSection(); // Now this function is already defined and will work
     console.log("User inactive: Resetting to section 1");
-    sendFinishData();
+   // sendFinishData();
 
     setTimeout(() => {
       window.location.reload();
-    }, 2000); // 5000ms = 5 seconds
+    },2000); // 5000ms = 5 seconds
 
 }
 
 // Initialize popup HTML and event listeners for buttons
 document.addEventListener('DOMContentLoaded', function () {
-
-  setTimeout(() => {
-    document.body.classList.remove('fading-out');
-    document.querySelector('.video-overlay').classList.remove('fading-out');
-    document.querySelector('#image-overlay').classList.remove('fading-out');
-    document.querySelector('#vignette').classList.remove('fading-out');
-    document.querySelector('section').classList.remove('fading-out');
-  }, 100); // Delayed to ensure page is fully loaded and the transition can take place
-
   sendFinishData();
     const popupHtml = `
       <div id="inactivityPopup" style="display: none; position: fixed; border-radius: 25px; top: 50%; left: 50%; transform: translate(-50%, -50%);
