@@ -108,6 +108,22 @@ const colors = [
 { fear: "#ffb34b" }
 ];
 
+const trueColors = [
+  { love: "#DD524E" },
+  { excitement: "#7CF2F6" },
+  { purpose: "#7A2791" },
+  { hope: "#FFBB00" },
+  { success: "#006850" },
+  { recognition: "#D6B036" },
+  { fear: "#FF7222" },
+  { anticipation: "#38B0DD" },
+  { gratitude: "#003E78" },
+  { inspiration: "#BF77F5" },
+  { joy: "#ED88AD" },
+  { passion: "#019C60" }
+]
+
+
 const baseColors = [
 { love: "#840012" },
 { recognition: "#d19d00" },
@@ -130,7 +146,7 @@ function applyRadialGradientAnimation(color1, color2) {
   document.body.style.background = `radial-gradient(circle, ${color1}, ${color2})`;
 
   // Apply the background size and animation
-  document.body.style.backgroundSize = '300% 300%';
+  document.body.style.backgroundSize = '200% 200%';
   document.body.style.animation = 'gradient 10s ease-in-out infinite';
 }
 
@@ -535,7 +551,13 @@ function updateInfoPopup(currentSectionIndex) {
       // Reset styles to ensure visibility
   const vignetteOverlay = document.getElementById('vignette');
   vignetteOverlay.style.display = 'none';  // Hide it by default
-  
+
+  if (currentSectionIndex === 6) {
+    const emotionSection = document.querySelector('#word').parentNode;
+    emotionSection.style.display = 'absolute'; // Make it visible
+    document.getElementById('word').innerText = `${emotion1} + ${emotion2}`;
+  }
+
   if (currentSectionIndex === 0 || currentSectionIndex === 12 || currentSectionIndex === 13) {
     vignetteOverlay.style.display = 'flex';  // Show vignette for these sections
   }
@@ -561,7 +583,12 @@ function updateInfoPopup(currentSectionIndex) {
   
   
     // Update header visibility
-    header.style.display = currentSectionIndex === 0 ? 'none' : 'flex';
+      if (currentSectionIndex === 0) {
+        header.style.display = 'none';
+      } else {
+        header.style.display = 'flex';
+        header.style.left = (currentSectionIndex === 13 || currentSectionIndex === 14) ? '10%' : '50%';
+      }
     // Get the current section
     const currentSection = sections[currentSectionIndex];
     // Add the 'active' class (no need for requestAnimationFrame unless you need precise timing)
@@ -597,9 +624,8 @@ function updateInfoPopup(currentSectionIndex) {
     let targetOpacity = '1';
 
     if (sectionIndex === 0) {
-        newSrc = 'assets/logo-page.webm';
-        transform = 'scale(0.75)';
-        targetOpacity = '0.7';
+        newSrc = 'assets/middle-rings.webm';
+        targetOpacity = '0.2';
     } else if (sectionIndex === 1 || sectionIndex === 4 || sectionIndex === 8 ||  sectionIndex === 6) {
         newSrc = 'assets/answers.webm';
         targetOpacity = '0.4';
@@ -669,6 +695,11 @@ function getColorByEmotion(emotion) {
   return emotionColor ? emotionColor[emotion.toLowerCase()] : "#000000"; // Default to black if not found
 }
 
+function getTrueColorByEmotion(emotion) {
+  const emotionColor = trueColors.find(colorObj => colorObj[emotion.toLowerCase()]);
+  return emotionColor ? emotionColor[emotion.toLowerCase()] : "#000000"; // Default to black if not found
+}
+
 function getBaseColorByEmotion(emotion) {
   const emotionColor = baseColors.find(colorObj => colorObj[emotion.toLowerCase()]);
   return emotionColor ? emotionColor[emotion.toLowerCase()] : "#111111"; // Default if not found
@@ -682,6 +713,8 @@ let color1 = "#3ebfff";
 let color2 = "#3ebfff";
 let baseColor1 = "#0a007f";
 let baseColor2 = "#0a007f";
+let trueColor1 = "#0a007f";
+let trueColor2 = "#0a007f";
 
 // Handle selection for "heart beat" question (emotion1)
 // Handle selection for "heart beat" question (emotion1) with animation
@@ -702,6 +735,7 @@ button.addEventListener('click', (event) => {
 
   // Get the corresponding color for the selected emotion
   color1 = getColorByEmotion(emotion1);
+  trueColor1 = getTrueColorByEmotion(emotion1);
   baseColor1 = getBaseColorByEmotion(emotion1); // Use base color for emotion1
 
   // Update the UI with selected emotion and message
@@ -756,6 +790,7 @@ button.addEventListener('click', (event) => {
 
   // Get the corresponding color for the selected emotion
   color2 = getColorByEmotion(emotion2);
+  trueColor2 = getTrueColorByEmotion(emotion2);
   baseColor2 = getBaseColorByEmotion(emotion2); // Use base color for emotion2
   console.log("Emotion2 color:", color2);
 
@@ -798,12 +833,14 @@ const getEmotionMessage = (emotion) => {
     return data.emotion_message[normalizedEmotion] || "Emotion message not found.";
 };
 
+
 document.querySelector('.next[data-next="7"]').addEventListener('click', () => {
   // Show the "Combined Emotion Message" section after transition
   const emotionSection = document.querySelector('#word').parentNode;
   emotionSection.style.display = 'flex'; // Make it visible
 
-  applyComboGradientAnimation(color1, baseColor1, baseColor2, color2); // combo
+  // applyComboGradientAnimation(color1, baseColor1, baseColor2, color2); // combo
+  applyRadialGradientAnimation(trueColor2, trueColor1); // combo REAL
   
   const emotionPairKey = Object.keys(data.emotion_pairs).find(key => {
       const pair = data.emotion_pairs[key];
@@ -909,22 +946,18 @@ document.querySelectorAll('.next').forEach(button => {
       }
     }, 4000); // 4-second delay for section 2 to section 3 transition
 }
-    
     // Send user data based on currentPage value
     if (currentPage > 1 && currentPage < 9 && currentPage != 6 && currentPage !=4 && currentPage !=7) {
-      if (currentPage == 8) {
-        applyComboGradientAnimation(color1, baseColor1, baseColor2, color2); // combo
-      } else {
-        applyRadialGradientAnimation('#3ebfff', '#0a007f'); // default
-      }
+      applyRadialGradientAnimation('#3ebfff', '#0a007f'); // default
+      // if (currentPage == 8) {
+      //   // applyComboGradientAnimation(color1, baseColor1, baseColor2, color2); // combo
+      //   applyRadialGradientAnimation(trueColor1, trueColor2); // combo REAL
+      // } else {
+      //   applyRadialGradientAnimation('#3ebfff', '#0a007f'); // default
+      // }
       sendUserData();
     } else if (currentPage >= 9 && currentPage < 12) {
-      applyComboGradientAnimation(color1, baseColor1, baseColor2, color2); // combo
-      if (currentPage < 11) {
-        applyComboGradientAnimation(color1, baseColor1, baseColor2, color2); // combo
-      } else {
-        applyRadialGradientAnimation('#3ebfff', '#0a007f'); // default
-      }
+      applyRadialGradientAnimation('#3ebfff', '#0a007f'); // default
       if (currentPage == 10) {
         sendPortraitData("", currentPage);
       }

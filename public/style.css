@@ -37,10 +37,11 @@
   font-style: normal;
 }
 
-button#start.next {
+button#start.next, #explore {
   width: 20%;
   POSITION: relative;
   top: 12%;
+  border: 1px solid white;
 }
 
 body {
@@ -67,7 +68,7 @@ video { /*default video*/
 }
 
 #vignette {
-  transition: opacity 4s ease-in-out;
+  transition: opacity 1s ease-in-out;
   opacity: 0.5; 
 }
 
@@ -78,6 +79,12 @@ video { /*default video*/
 
 .video-overlay video {
   opacity: 0; /* Default state: hidden */
+  transition: opacity 1s ease-in-out, transform 1s ease-in-out; /* Smooth fade and scale transitions */
+}
+
+video#hpvid {
+  opacity: 0.7; /* Default state: hidden */
+  transform: scale(0.75);
   transition: opacity 1s ease-in-out, transform 1s ease-in-out; /* Smooth fade and scale transitions */
 }
 
@@ -284,7 +291,7 @@ button {
   -webkit-user-select: none; /* For Safari */
   margin: 0;
   background-color: transparent;
-  border: 1px solid white; /* Use a solid border to ensure visibility */
+  border: none;
   border-radius: 50px; /* Rounded corners */
   padding: 22px; /* Equal padding for consistency */
   font-size: 15px; /* Consistent font size */
@@ -304,6 +311,7 @@ button:active {
 
 button#start.next{
   width: 20%;
+  border: 1px solid white; /* Use a solid border to ensure visibility */
 }
 
 /* Information Popup Styling */
@@ -384,7 +392,7 @@ button#start.next{
   right:0;
   font-size: 14px;
   font-weight: bold;
-  max-width: 11%;
+  max-width: 14%;
   margin: 3% 4%;
 }
 
@@ -404,8 +412,9 @@ img {
 }
 
 #portrait {
-  margin-top: 10%;
+  margin-top: 15%;
   position: absolute;
+  border: 1px solid white;
 }
 
 #welcome {
@@ -422,21 +431,31 @@ section {
 
 #header {
   position: absolute;
-  top: 0; /* Align to top of the page */
+  top: 0;
   left: 50%;
-  transform: translateX(-50%); /* Center horizontally */
-  height: 15vmin; /* Responsive height */
-  pointer-events: none; /* Prevent interactions */
+  transform: translateX(-50%);
+  height: 15vmin;
+  pointer-events: none;
+  transition: left 0.5s ease; /* Smooth transition */
 }
 
 /* Specific Section Styles */
-#header img {
+#header img, img#dots {
   margin-bottom: 20px;
 }
 
+img#dots {
+  width: auto;
+  height: auto;
+  margin-bottom: 5px;
+  margin-top: 5px;
+}
+
+
 #yesButton, #noButton {
   padding: 5%;
-  margin: 10px 0; 
+  margin: 10px 0;
+  border: 1px solid white; 
 }
 
 #quiz1, #quiz2 {
@@ -473,6 +492,7 @@ section {
 /* Added margin for the last sections */
 #emotion1, #emotion2 {
   font-size: 80px;
+  padding: 140px 140px 60px 140px;
 }
 
 #emotion1_message, #emotion2_message {
@@ -526,6 +546,7 @@ section {
   min-width: 100px; /* Prevents buttons from becoming too small */
   text-align: center; /* Centers button text */
   margin: 0; /* Removes any extra margins */
+  border: 1px solid white;
 }
 
 /* For mobile responsiveness */
