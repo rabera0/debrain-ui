@@ -1024,7 +1024,7 @@ let popupTimeout;
 // Reset inactivity timer on user interaction
 function resetInactivityTimer() {
     clearTimeout(inactivityTimeout);
-    inactivityTimeout = setTimeout(showInactivityPopup, 60000); // 60 seconds of inactivity
+    inactivityTimeout = setTimeout(showInactivityPopup, 600000); // 60 seconds of inactivity
 }
 
 // Show inactivity popup after timeout
