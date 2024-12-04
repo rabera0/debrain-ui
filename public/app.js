@@ -146,7 +146,7 @@ function applyRadialGradientAnimation(color1, color2) {
   document.body.style.background = `radial-gradient(circle, ${color1}, ${color2})`;
 
   // Apply the background size and animation
-  document.body.style.backgroundSize = '200% 200%';
+  document.body.style.backgroundSize = '250% 250%';
   document.body.style.animation = 'gradient 10s ease-in-out infinite';
 }
 
@@ -168,7 +168,7 @@ let currentPage = 1;
 
 let currentSectionIndex = 0;
 
-const socket = new WebSocket(`ws://${window.location.host}`);
+const socket = new WebSocket(`wss://${window.location.host}`);
 
   // Listen for the connection to open
   socket.addEventListener('open', () => {
@@ -553,9 +553,9 @@ function updateInfoPopup(currentSectionIndex) {
   vignetteOverlay.style.display = 'none';  // Hide it by default
 
   if (currentSectionIndex === 6) {
-    const emotionSection = document.querySelector('#word').parentNode;
+    const emotionSection = document.querySelector('#preview').parentNode;
     emotionSection.style.display = 'absolute'; // Make it visible
-    document.getElementById('word').innerText = `${emotion1} + ${emotion2}`;
+    document.getElementById('preview').innerText = `${emotion1} + ${emotion2}`;
   }
 
   if (currentSectionIndex === 0 || currentSectionIndex === 12 || currentSectionIndex === 13) {
@@ -629,13 +629,13 @@ function updateInfoPopup(currentSectionIndex) {
     } else if (sectionIndex === 1 || sectionIndex === 4 || sectionIndex === 8 ||  sectionIndex === 6) {
         newSrc = 'assets/answers.webm';
         targetOpacity = '0.4';
-    } else if (sectionIndex === 2 || sectionIndex === 7 || sectionIndex === 10) {
+    } else if (sectionIndex === 2 || sectionIndex === 7 || sectionIndex === 10 || sectionIndex === 12) {
         newSrc = 'assets/middle-rings.webm';
         targetOpacity = '0.3';
     } else if (sectionIndex === 3 || sectionIndex === 5 || sectionIndex === 9) {
         newSrc = 'assets/questions.webm';
         targetOpacity = '0.8';
-    } else if (sectionIndex === 11 || sectionIndex === 12 || sectionIndex === 13 || sectionIndex === 14) {
+    } else if (sectionIndex === 11 || sectionIndex === 13 || sectionIndex === 14) {
         if (sectionIndex === 11) {
             newSrc = 'assets/answers.webm';
             targetOpacity = '0.8';
@@ -863,7 +863,7 @@ document.querySelector('.next[data-next="7"]').addEventListener('click', () => {
       if (nextButton) {
           nextButton.click();  // Simulate a click on the button
       }
-  }, 7000); // 7-second delay
+  },6000); // 7-second delay
 });
 
 
