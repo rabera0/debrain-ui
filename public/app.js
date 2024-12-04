@@ -168,7 +168,7 @@ let currentPage = 1;
 
 let currentSectionIndex = 0;
 
-const socket = new WebSocket(`ws://${window.location.host}`);
+const socket = new WebSocket(`wss://${window.location.host}`);
 
   // Listen for the connection to open
   socket.addEventListener('open', () => {
@@ -1024,7 +1024,7 @@ let popupTimeout;
 // Reset inactivity timer on user interaction
 function resetInactivityTimer() {
     clearTimeout(inactivityTimeout);
-    inactivityTimeout = setTimeout(showInactivityPopup, 600000); // 60 seconds of inactivity
+    inactivityTimeout = setTimeout(showInactivityPopup, 60000); // 60 seconds of inactivity
 }
 
 // Show inactivity popup after timeout
@@ -1033,6 +1033,10 @@ function showInactivityPopup() {
 
     const popup = document.getElementById('inactivityPopup');
     popup.style.display = 'block';
+    popup.style.backgroundColor = 'rgba(30, 30, 30, 0.95)';
+    popup.style.borderRadius = '8px';
+    popup.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
+    popup.style.border = 'none';
 
     // Start 20-second countdown for user to respond
     popupTimeout = setTimeout(() => {
