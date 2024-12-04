@@ -168,7 +168,7 @@ let currentPage = 1;
 
 let currentSectionIndex = 0;
 
-const socket = new WebSocket(`ws://${window.location.host}`);
+const socket = new WebSocket(`wss://${window.location.host}`);
 
   // Listen for the connection to open
   socket.addEventListener('open', () => {

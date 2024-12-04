@@ -69,7 +69,9 @@ video { /*default video*/
 
 #vignette {
   transition: opacity 1s ease-in-out;
-  opacity: 0.5; 
+  opacity: 0.5;
+  width: 100vw;
+  height: 100vh;
 }
 
 .video-overlay {
@@ -99,7 +101,9 @@ video#hpvid {
 }
 
 #vignette.active {
-  opacity: 0.8;  /* Show elements with smooth transition */
+  opacity: 1;  /* Show elements with smooth transition */
+  width: 100vw;
+  height: 100vh;
 }
 
 
@@ -526,7 +530,8 @@ img#dots {
   text-align: center;
   margin: 0;
   position: absolute; 
-  bottom: 8%
+  bottom: 8%;
+  padding: 0;
 }
 
 #emotion_pair_message {
@@ -557,31 +562,4 @@ img#dots {
   text-align: center; /* Centers button text */
   margin: 0; /* Removes any extra margins */
   border: 1px solid white;
-}
-
-/* For mobile responsiveness */
-@media (max-width: 768px) {
-  #quiz1, #quiz2 {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  #quiz1 button, #quiz2 button {
-    width: 100%;
-  }
-
-  #next, #back {
-    font-size: 14px;
-  }
-
-  h1 {
-    font-size: 60px;
-  }
-
-  h2, h3, h4 {
-    font-size: 30px;
-  }
-
-  h5 {
-    font-size: 40px;
-  }
 }
