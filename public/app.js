@@ -168,7 +168,7 @@ let currentPage = 1;
 
 let currentSectionIndex = 0;
 
-const socket = new WebSocket(`wss://${window.location.host}`);
+const socket = new WebSocket(`ws://${window.location.host}`);
 
   // Listen for the connection to open
   socket.addEventListener('open', () => {
@@ -1024,7 +1024,7 @@ let popupTimeout;
 // Reset inactivity timer on user interaction
 function resetInactivityTimer() {
     clearTimeout(inactivityTimeout);
-    inactivityTimeout = setTimeout(showInactivityPopup, 60000); // 60 seconds of inactivity
+    inactivityTimeout = setTimeout(showInactivityPopup, 6000000); // 60 seconds of inactivity
 }
 
 // Show inactivity popup after timeout
