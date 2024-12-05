@@ -709,12 +709,12 @@ function getBaseColorByEmotion(emotion) {
 // Track the selected button for both quizzes
 let selectedButton1 = null; // To store the previously selected button in #quiz1
 let selectedButton2 = null; // To store the previously selected button in #quiz2
-let color1 = "#3ebfff";
-let color2 = "#3ebfff";
-let baseColor1 = "#0a007f";
-let baseColor2 = "#0a007f";
-let trueColor1 = "#0a007f";
-let trueColor2 = "#0a007f";
+let color1 = "#0089ff";
+let color2 = "#0089ff";
+let baseColor1 = "#051018";
+let baseColor2 = "#051018";
+let trueColor1 = "#051018";
+let trueColor2 = "#051018";
 
 // Handle selection for "heart beat" question (emotion1)
 // Handle selection for "heart beat" question (emotion1) with animation
@@ -948,16 +948,16 @@ document.querySelectorAll('.next').forEach(button => {
 }
     // Send user data based on currentPage value
     if (currentPage > 1 && currentPage < 9 && currentPage != 6 && currentPage !=4 && currentPage !=7) {
-      applyRadialGradientAnimation('#3ebfff', '#0a007f'); // default
+      applyRadialGradientAnimation('#0089ff', '#051018'); // default
       // if (currentPage == 8) {
       //   // applyComboGradientAnimation(color1, baseColor1, baseColor2, color2); // combo
       //   applyRadialGradientAnimation(trueColor1, trueColor2); // combo REAL
       // } else {
-      //   applyRadialGradientAnimation('#3ebfff', '#0a007f'); // default
+      //   applyRadialGradientAnimation('#0089ff', '#051018'); // default
       // }
       sendUserData();
     } else if (currentPage >= 9 && currentPage < 12) {
-      applyRadialGradientAnimation('#3ebfff', '#0a007f'); // default
+      applyRadialGradientAnimation('#0089ff', '#051018'); // default
       if (currentPage == 10) {
         sendPortraitData("", currentPage);
       }
@@ -965,7 +965,7 @@ document.querySelectorAll('.next').forEach(button => {
         sendPortraitData("", currentPage);
       }
     } else if (currentPage >= 12 && currentPage <= 13) {
-      applyRadialGradientAnimation('#3ebfff', '#0a007f'); // default
+      applyRadialGradientAnimation('#0089ff', '#051018'); // default
       sendChordData();
     }
   });
@@ -996,7 +996,7 @@ document.querySelectorAll('.back').forEach(button => {
               document.body.style.background = `radial-gradient(${color2}, ${getBaseColorByEmotion(emotion2)})`; // Use base color for emotion1
 
           } else {
-              applyRadialGradientAnimation('#3ebfff', '#0a007f'); //default 
+              applyRadialGradientAnimation('#0089ff', '#051018'); //default 
           }
           sendUserData();
       }
@@ -1061,7 +1061,7 @@ function resetToSection1() {
       portraitButton.style.display = 'none'; // Hide it initially
   }
   // Hide the popup if it's still visible
-  applyRadialGradientAnimation('#3ebfff', '#0a007f'); //default
+  applyRadialGradientAnimation('#0089ff', '#051018'); //default
   document.getElementById('inactivityPopup').style.display = 'none';
   clearTimeout(popupTimeout); // Clear popup timeout if user didn't respond in time
      // Reset emotions
