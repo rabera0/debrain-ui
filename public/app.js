@@ -597,10 +597,15 @@ function updateInfoPopup(currentSectionIndex) {
       currentSection.classList.add('active');
     }
     
+    if (currentSectionIndex === 13) {
+      const videoElement = document.querySelector('.video-overlay video');
+      videoElement.classList.remove('active'); // Trigger fade-out
+      videoElement.style.opacity = '0';
+    }
     // Trigger overlay transitions
     updateOverlayTransitions();
     // Handle media transitions
-    updateMediaSources(currentSectionIndex);
+    //Sources(currentSectionIndex);
      // Update the popup message based on the current section
     updateInfoPopup(currentSection);
     const popup = document.querySelector('#info-popup');
@@ -877,7 +882,9 @@ if (emotionSection) {
 
 // Display the Portrait button after a 3-second delay
 setTimeout(() => {
+  const load = document.querySelector('#load'); // Replace with the actual selector for the button
   const portraitButton = document.querySelector('#portrait'); // Replace with the actual selector for the button
+  load.style.display = 'none';
   if (portraitButton) {
     portraitButton.style.display = 'block'; // Show the button after 3 seconds
   }
