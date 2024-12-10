@@ -78,16 +78,20 @@ video { /*default video*/
   position: absolute;
   pointer-events: none; /* Allows interaction with underlying elements */
   z-index: -1;
+  min-width: 100vw;
+  mix-blend-mode: plus-lighter;
 }
 
 .video-overlay video {
-  opacity: 0.4; /* Default state: hidden */
+  opacity: 0.8; /* Default state: hidden */
   transition: opacity 1s ease-in-out, transform 1s ease-in-out; /* Smooth fade and scale transitions */
+  border-radius: 0;
+  min-width: 100%;
 }
 
 video#hpvid {
   opacity: 0.7; /* Default state: hidden */
-  transform: scale(0.75);
+  transform: scale(0.55);
   transition: opacity 1s ease-in-out, transform 1s ease-in-out; /* Smooth fade and scale transitions */
   z-index: -1;
 }
@@ -96,10 +100,8 @@ video#hpvid {
   opacity: 1; /* Fully visible during fade-in */
 }
 
-
-
 #image-overlay.active {
-  opacity: 0.4;  /* Show elements with smooth transition */
+  opacity: 1;  /* Show elements with smooth transition */
 }
 
 #vignette.active {
@@ -115,7 +117,6 @@ video#hpvid {
   left: 0;
   width: 100vw; /* Full viewport width */
   height: 100vh; /* Full viewport height */
-  z-index: -1; /* Ensures it appears on top of other elements */
   overflow: hidden; /* Ensures no content spills out */
 }
 
@@ -440,6 +441,7 @@ section {
 
 #header {
   position: absolute;
+  z-index: 100;
   top: 0;
   left: 50%;
   transform: translateX(-50%);
