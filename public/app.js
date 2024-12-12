@@ -867,7 +867,7 @@ document.querySelector('.next[data-next="7"]').addEventListener('click', () => {
       if (nextButton) {
           nextButton.click();  // Simulate a click on the button
       }
-  },900000); // 9-second delay
+  },9000); // 9-second delay
 });
 
 
