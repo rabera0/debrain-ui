@@ -96,7 +96,7 @@ const data = {
 const colors = [
 { love: "#f68b9c" },
 { recognition: "#faffd1" },
-{ success: "#0cffc7" },
+{ success: "#006d2a" },
 { purpose: "#8038ab" },
 { hope: "#ffeebf" },
 { excitement: "#dffeff" },
@@ -104,14 +104,14 @@ const colors = [
 { inspiration: "#9300ff" },
 { gratitude: "#016acb" },
 { anticipation: "#38B0DD" },
-{ passion: "#89ffbf" },
-{ fear: "#ffb34b" }
+{ passion: "#00ff9b" },
+{ fear: "#ffb34b" } 
 ];
 
 const trueColors = [
   { love: "#DD524E" },
   { recognition: "#D6B036" },
-  { success: "#006850" },
+  { success: "#00261f" },
   { purpose: "#3e0a4f" },
   { hope: "#FFBB00" },
   { excitement: "#7CF2F6" },
@@ -119,14 +119,14 @@ const trueColors = [
   { inspiration: "#BF77F5" },
   { gratitude: "#003E78" },
   { anticipation: "#38B0DD" },
-  { passion: "#019C60"},
+  { passion: "#00ff97"},
   { fear: "#FF7222" }
 ]
 
 const baseColors = [
 { love: "#840012" },
 { recognition: "#d19d00" },
-{ success: "#012b2d" },
+{ success: "#002239" }, 
 { purpose: "#26022f" },
 { hope: "#db9100" },
 { excitement: "#015e78" },
@@ -134,7 +134,7 @@ const baseColors = [
 { inspiration: "#fc95ff" },
 { gratitude: "#002c55" },
 { anticipation: "#0484c4" },
-{ passion: "#003541" },
+{ passion: "#012b2d" },
 { fear: "#8a2800" }
 ];
 
@@ -167,7 +167,7 @@ let currentPage = 1;
 
 let currentSectionIndex = 0;
 
-const socket = new WebSocket(`ws://${window.location.host}`);
+const socket = new WebSocket(`wss://${window.location.host}`);
 
   // Listen for the connection to open
   socket.addEventListener('open', () => {
@@ -867,7 +867,7 @@ document.querySelector('.next[data-next="7"]').addEventListener('click', () => {
       if (nextButton) {
           nextButton.click();  // Simulate a click on the button
       }
-  },9000); // 9-second delay
+  },900000); // 9-second delay
 });
 
 

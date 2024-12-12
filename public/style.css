@@ -456,7 +456,7 @@ section {
 }
 
 img#dots {
-  width: auto;
+  width: 65px;
   height: auto;
   margin-top: -2%;
 }
