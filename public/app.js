@@ -54,41 +54,41 @@ const data = {
   },
 
   combinationMessages: {
-      "1": "You are unstoppable when you use the power of love to transform uncertainties into strengths.",
+      "1": "You are absolutely unstoppable when you use the power of love to transform uncertainties into strengths.",
       "2": "Your heart overflows with love, and you innately trust in the power of positivity to attract amazing experiences.",
       "3": "Your loving heart allows you to cherish the connections you hold dear and compels you to express your thankfulness for them.",
       "4": "You know that when you open your heart to possibilities, your creativity will make purposeful connections.",
       "5": "Your energy is infectious. When you share your happiness with others, your positive spirit creates memorable moments.",
       "6": "Your passionate spirit ignites profound connections, prompting you to channel your boundless energy into a variety of pursuits.",
-      "7": "Genuinely excited by life, you are able to find joy and inspiration in every pursuit. The more challenging, the better.",
-      "8": "Your adventurous nature compels you to embrace the thrill of new experiences and bravely face the unknown.",
-      "9": "You seek out exciting opportunities every chance you get. For you, every sunrise brings a new adventure.",
-      "10": "Your thankful nature ensures that you will always find excitement in life’s simplest joys and most profound moments.",
-      "11": "Your visionary spirit finds inspiration everywhere and uses it to spark surprising creative pursuits. For you, life is an art.",
-      "12": "Your joyful soul seeks opportunities for excitement and embraces them with open arms. For you, every day is a celebration.",
-      "13": "Your passionate heart is fueled by excitement at every turn. You simply love life and find it endlessly entertaining.",
-      "14": "Driven by purpose, you navigate life with determination to achieve your goals and make a lasting difference.",
-      "15": "You are a determined soul who welcomes challenges and achieves your goals with purposeful resolve.",
-      "16": "As a forward thinker, you anticipate moments to channel your purpose in every direction -- and with every decision.",
-      "17": "Determined yet contented, you are grateful for opportunities to explore your life’s purpose and express your gratitude.",
-      "18": "Your driven nature and creative mind delight in finding inspiration in the guiding light of your life’s purpose.",
-      "19": "Your joyful soul finds fulfillment in celebrating the purpose that underscores your personal and professional achievements.",
-      "20": "You pursue your purpose with passion and dedication until you achieve your goals and realize your ambitions.",
-      "21": "You expect positive outcomes, and you challenge yourself to make them a reality by navigating obstacles with the most steadfast determination.",
-      "22": "Your wholehearted embrace of optimism allows you to move forward and achieve your goals despite any challenging circumstances.",
-      "23": "As a hopeful dreamer, you anticipate brighter tomorrows and look forward to them with endless excitement.",
-      "24": "You are thankful for the unwavering presence of hope in your life. You see reasons for optimism around every corner.",
-      "25": "Your creative muse is hope. You find endless inspiration in the transformative power of optimistic expectation.",
-      "26": "Your joyful heart allows you to find happiness in life’s smallest victories and see the promise in all situations.",
-      "27": "Your hope-filled attitude is driven by your pursuit of the better future you seek for yourself and others.",
-      "28": "You’ve been so successful in your life that you expect nothing less than more success. You’re in it to win it.",
-      "29": "As a high achiever, you nimbly overcome obstacles to reach new heights and set new personal bests.",
-      "30": "You are a forward-moving force of nature who anticipates success with every step you take. Your eyes are always on the prize.",
-      "31": "Motivated by success, you are profoundly appreciative of the journeys you take to achieve your goals.",
-      "32": "Creative and innovative, the pursuit of greatness itself is what inspires you to keep striving and achieving.",
-      "33": "As familiar with success as you have become, you find great joy in the continuous rewards of hard work.",
-      "34": "A driven high achiever, you are fueled by great passion to continue succeeding in everything you do.",
-      "35": "You bask in the glow of applause and appreciation, and you strive to ensure that your work merits the positive recognition it receives.",
+      "7": "Your adventurous nature compels you to embrace the thrill of new experiences and bravely face the unknown. ",
+      "8": "You seek out exciting opportunities every chance you get. For you, every sunrise brings a new adventure.",
+      "9": "Your thankful nature ensures that you will always find excitement in life’s simplest joys and most profound moments.",
+      "10": "Your visionary spirit finds inspiration everywhere and uses it to spark surprising creative pursuits. For you, life is an art.",
+      "11": "Genuinely excited by life, you are able to find joy and inspiration in every pursuit. The more challenging, the better.",
+      "12": "Your passionate heart is fueled by excitement at every turn. You simply love life and find it endlessly entertaining",
+      "13": "You are a determined soul who welcomes challenges and achieves your goals with purposeful resolve.",
+      "14": "As a forward thinker, you anticipate moments to channel your purpose in every direction -- and with every decision.",
+      "15": "Determined yet contented, you are grateful for opportunities to explore your life’s purpose and express your gratitude.",
+      "16": "Your driven nature and creative mind delight in finding inspiration in the guiding light of your life’s purpose.",
+      "17": "Your joyful soul finds fulfilment in celebrating the purpose that underscores your personal and professional achievements.",
+      "18": "You pursue your purpose with passion and dedication until you achieve your goals and realize your ambitions.",
+      "19": "Your wholehearted embrace of optimism allows you to move forward and achieve your goals despite any challenging circumstances.",
+      "20": "As a hopeful dreamer, you anticipate brighter tomorrows and look forward to them with endless excitement",
+      "21": "You are thankful for the unwavering presence of hope in your life. You see reasons for optimism around every corner.",
+      "22": "Your creative muse is hope. You find endless inspiration in the transformative power of optimistic expectation.",
+      "23": "Your joyful heart allows you to find happiness in life’s smallest victories and see the promise in all situations.",
+      "24": "Your hope-filled attitude is driven by your pursuit of the better future you seek for yourself and others.",
+      "25": "As a high achiever, you nimbly overcome obstacles to reach new heights and set new personal bests.",
+      "26": "You are a forward-moving force of nature who anticipates success with every step you take. Your eyes are always on the prize.",
+      "27": "Motivated by success, you are profoundly appreciative of the journeys you take to achieve your goals.",
+      "28": "Creative and innovative, the pursuit of greatness itself is what inspires you to keep striving and achieving.",
+      "29": "As familiar with success as you have become, you find great joy in the continuous rewards of hard work.",
+      "30": "A driven high achiever, you are fueled by great passion to continue succeeding in everything you do.",
+      "31": "You thrive on recognition, and your quest for it allows you to face any hurdles in your pursuit of success.",
+      "32": "As a high achiever, you seek validation for your efforts and recognition for your many accomplishments.",
+      "33": "Your grateful nature keeps you humble as you accept recognition for your successes. You never take applause for granted. ",
+      "34": "As an inspired artist, you are driven to continue your winning streak by the affirming gaze of recognition.",
+      "35": "You find great joy in achieving your goals and revel in the warm glow of recognition for your efforts.",
       "36": "A passionate pursuer of many goals, you thrive on the recognition you receive when you achieve them."
   }
 };
@@ -97,12 +97,12 @@ const colors = [
 { love: "#f68b9c" },
 { recognition: "#faffd1" },
 { success: "#0cffc7" },
-{ purpose: "#d253ff" },
+{ purpose: "#8038ab" },
 { hope: "#ffeebf" },
 { excitement: "#dffeff" },
 { joy: "#ffc3e0" },
 { inspiration: "#9300ff" },
-{ gratitude: "#82c2ff" },
+{ gratitude: "#016acb" },
 { anticipation: "#38B0DD" },
 { passion: "#89ffbf" },
 { fear: "#ffb34b" }
@@ -110,30 +110,29 @@ const colors = [
 
 const trueColors = [
   { love: "#DD524E" },
-  { excitement: "#7CF2F6" },
-  { purpose: "#7A2791" },
-  { hope: "#FFBB00" },
-  { success: "#006850" },
   { recognition: "#D6B036" },
-  { fear: "#FF7222" },
-  { anticipation: "#38B0DD" },
-  { gratitude: "#003E78" },
-  { inspiration: "#BF77F5" },
+  { success: "#006850" },
+  { purpose: "#3e0a4f" },
+  { hope: "#FFBB00" },
+  { excitement: "#7CF2F6" },
   { joy: "#ED88AD" },
-  { passion: "#019C60" }
+  { inspiration: "#BF77F5" },
+  { gratitude: "#003E78" },
+  { anticipation: "#38B0DD" },
+  { passion: "#019C60"},
+  { fear: "#FF7222" }
 ]
-
 
 const baseColors = [
 { love: "#840012" },
 { recognition: "#d19d00" },
 { success: "#012b2d" },
-{ purpose: "#3f0015" },
+{ purpose: "#26022f" },
 { hope: "#db9100" },
 { excitement: "#015e78" },
 { joy: "#c90065" },
 { inspiration: "#fc95ff" },
-{ gratitude: "#0039a2" },
+{ gratitude: "#002c55" },
 { anticipation: "#0484c4" },
 { passion: "#003541" },
 { fear: "#8a2800" }
@@ -868,7 +867,7 @@ document.querySelector('.next[data-next="7"]').addEventListener('click', () => {
       if (nextButton) {
           nextButton.click();  // Simulate a click on the button
       }
-  },6000); // 7-second delay
+  },9000); // 9-second delay
 });
 
 
