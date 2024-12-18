@@ -13,6 +13,101 @@ var locations = [
   { id: 11, name: "PASSION", color: "#019C60" }
 ];
 
+const emotionData = {
+  emotion_message: {
+      "FEAR": "Feelings of uncertainty or danger",
+      "ANTICIPATION": "Looking forward to something that is about to happen",
+      "GRATITUDE": "Being thankful and appreciative for the good things in your life",
+      "INSPIRATION": "The driving force that sparks creativity, innovation, and new ideas",
+      "JOY": "Feelings of great pleasure or happiness",
+      "PASSION": "Intense desire or enthusiasm for a pursuit",
+      "LOVE": "Profound connection and affection for someone or something",
+      "EXCITEMENT": "Anticipation, thrill, or eagerness for something to happen",
+      "PURPOSE": "Determination to make something happen or get something done",
+      "HOPE": "Belief in the possibility of a positive outcome",
+      "SUCCESS": "Attainment of a desired outcome; feelings of accomplishment",
+      "RECOGNITION": "Acknowledgment or appreciation of an achievement"
+  },
+
+  emotion_pairs: {
+      "1": ["LOVE", "FEAR"],
+      "2": ["LOVE", "ANTICIPATION"],
+      "3": ["LOVE", "GRATITUDE"],
+      "4": ["LOVE", "INSPIRATION"],
+      "5": ["LOVE", "JOY"],
+      "6": ["LOVE", "PASSION"],
+      "7": ["EXCITEMENT", "FEAR"],
+      "8": ["EXCITEMENT", "ANTICIPATION"],
+      "9": ["EXCITEMENT", "GRATITUDE"],
+      "10": ["EXCITEMENT", "INSPIRATION"],
+      "11": ["EXCITEMENT", "JOY"],
+      "12": ["EXCITEMENT", "PASSION"],
+      "13": ["PURPOSE", "FEAR"],
+      "14": ["PURPOSE", "ANTICIPATION"],
+      "15": ["PURPOSE", "GRATITUDE"],
+      "16": ["PURPOSE", "INSPIRATION"],
+      "17": ["PURPOSE", "JOY"],
+      "18": ["PURPOSE", "PASSION"],
+      "19": ["HOPE", "FEAR"],
+      "20": ["HOPE", "ANTICIPATION"],
+      "21": ["HOPE", "GRATITUDE"],
+      "22": ["HOPE", "INSPIRATION"],
+      "23": ["HOPE", "JOY"],
+      "24": ["HOPE", "PASSION"],
+      "25": ["SUCCESS", "FEAR"],
+      "26": ["SUCCESS", "ANTICIPATION"],
+      "27": ["SUCCESS", "GRATITUDE"],
+      "28": ["SUCCESS", "INSPIRATION"],
+      "29": ["SUCCESS", "JOY"],
+      "30": ["SUCCESS", "PASSION"],
+      "31": ["RECOGNITION", "FEAR"],
+      "32": ["RECOGNITION", "ANTICIPATION"],
+      "33": ["RECOGNITION", "GRATITUDE"],
+      "34": ["RECOGNITION", "INSPIRATION"],
+      "35": ["RECOGNITION", "JOY"],
+      "36": ["RECOGNITION", "PASSION"]
+  },
+
+  combinationMessages: {
+      "1": "You are absolutely unstoppable when you use the power of love to transform uncertainties into strengths.",
+      "2": "Your heart overflows with love, and you innately trust in the power of positivity to attract amazing experiences.",
+      "3": "Your loving heart allows you to cherish the connections you hold dear and compels you to express your thankfulness for them.",
+      "4": "You know that when you open your heart to possibilities, your creativity will make purposeful connections.",
+      "5": "Your energy is infectious. When you share your happiness with others, your positive spirit creates memorable moments.",
+      "6": "Your passionate spirit ignites profound connections, prompting you to channel your boundless energy into a variety of pursuits.",
+      "7": "Your adventurous nature compels you to embrace the thrill of new experiences and bravely face the unknown. ",
+      "8": "You seek out exciting opportunities every chance you get. For you, every sunrise brings a new adventure.",
+      "9": "Your thankful nature ensures that you will always find excitement in life’s simplest joys and most profound moments.",
+      "10": "Your visionary spirit finds inspiration everywhere and uses it to spark surprising creative pursuits. For you, life is an art.",
+      "11": "Genuinely excited by life, you are able to find joy and inspiration in every pursuit. The more challenging, the better.",
+      "12": "Your passionate heart is fueled by excitement at every turn. You simply love life and find it endlessly entertaining",
+      "13": "You are a determined soul who welcomes challenges and achieves your goals with purposeful resolve.",
+      "14": "As a forward thinker, you anticipate moments to channel your purpose in every direction -- and with every decision.",
+      "15": "Determined yet contented, you are grateful for opportunities to explore your life’s purpose and express your gratitude.",
+      "16": "Your driven nature and creative mind delight in finding inspiration in the guiding light of your life’s purpose.",
+      "17": "Your joyful soul finds fulfilment in celebrating the purpose that underscores your personal and professional achievements.",
+      "18": "You pursue your purpose with passion and dedication until you achieve your goals and realize your ambitions.",
+      "19": "Your wholehearted embrace of optimism allows you to move forward and achieve your goals despite any challenging circumstances.",
+      "20": "As a hopeful dreamer, you anticipate brighter tomorrows and look forward to them with endless excitement",
+      "21": "You are thankful for the unwavering presence of hope in your life. You see reasons for optimism around every corner.",
+      "22": "Your creative muse is hope. You find endless inspiration in the transformative power of optimistic expectation.",
+      "23": "Your joyful heart allows you to find happiness in life’s smallest victories and see the promise in all situations.",
+      "24": "Your hope-filled attitude is driven by your pursuit of the better future you seek for yourself and others.",
+      "25": "As a high achiever, you nimbly overcome obstacles to reach new heights and set new personal bests.",
+      "26": "You are a forward-moving force of nature who anticipates success with every step you take. Your eyes are always on the prize.",
+      "27": "Motivated by success, you are profoundly appreciative of the journeys you take to achieve your goals.",
+      "28": "Creative and innovative, the pursuit of greatness itself is what inspires you to keep striving and achieving.",
+      "29": "As familiar with success as you have become, you find great joy in the continuous rewards of hard work.",
+      "30": "A driven high achiever, you are fueled by great passion to continue succeeding in everything you do.",
+      "31": "You thrive on recognition, and your quest for it allows you to face any hurdles in your pursuit of success.",
+      "32": "As a high achiever, you seek validation for your efforts and recognition for your many accomplishments.",
+      "33": "Your grateful nature keeps you humble as you accept recognition for your successes. You never take applause for granted. ",
+      "34": "As an inspired artist, you are driven to continue your winning streak by the affirming gaze of recognition.",
+      "35": "You find great joy in achieving your goals and revel in the warm glow of recognition for your efforts.",
+      "36": "A passionate pursuer of many goals, you thrive on the recognition you receive when you achieve them."
+  }
+};
+
 var firstChord = null;  // Currently selected first chord
 var secondChord = null; // Currently selected second chord
 
@@ -52,7 +147,8 @@ fetch('/flows.json')
     svg.selectAll("path.chord")
         .style("fill-opacity", "0.7")
         .style("stroke-opacity", "1");
-  
+    
+    document.getElementById('chord_pair_message').style.display = 'none';
     // Reset indices
     firstChord = null;
     secondChord = null;
@@ -242,35 +338,6 @@ g.append("text")
     return locations[i].name; // Set the text for each arc
   });
 
-
-
-
-// g.append("svg:text")
-// .each(function(d) {
-//   d.angle = (d.startAngle + d.endAngle) / 2;
-// })
-//     .attr("dy", ".35em")
-//     .attr("class", "titles")
-//     .style("font-size", "30px")
-//     .style("font-family", "Gotham, sans-serif")  // Change font family to Gotham
-//     .style("font-weight", "bold")               // Set font weight to bold
-//     .attr("fill", "#FFF")
-//     .attr("text-anchor", function(d) {
-//       return d.angle > Math.PI ? "end" : "start";  // Text alignment (left or right)
-//     })
-// .attr("transform", function(d) {
-//   return (
-//     "rotate(" + ((d.angle * 180) / Math.PI - 90) + ")" +  // Rotate to align with arc
-//     "translate(" + (innerRadius + 100) + ",0)" +           // Translate to outer radius + offset
-//     (d.angle > Math.PI ? "rotate(180)" : "")              // Flip text for readability on the left side
-//   );
-// })
-// .text(function(d, i) {
-//   return locations[i].name;
-// });
-
-
-
 /*//////////////////////////////////////////////////////////
 //////////////// Initiate inner chords /////////////////////
 //////////////////////////////////////////////////////////*/
@@ -343,7 +410,7 @@ grads.append("stop")
   });
 
 
-    /*//////////////////////////////////////////////////////////
+/*//////////////////////////////////////////////////////////
 ////////////////// Extra Functions /////////////////////////
 //////////////////////////////////////////////////////////*/
 
@@ -415,6 +482,13 @@ function highlightChords(index) {
           // Highlight only the connection between firstChord and secondChord
           hideAllChords();
           highlightConnection(firstChord, secondChord);
+
+          chordEmotion1 = getChordNameById(firstChord)
+          console.log("chord emo1: " + chordEmotion1);
+          chordEmotion2 = getChordNameById(secondChord)
+          console.log("chord emo2: " + chordEmotion2);
+          findEmotionPairMessage(chordEmotion1, chordEmotion2, emotionData);
+
         } else {
           console.log(`No connection found between: ${firstChord} and ${secondChord}`);
           // No connection found, hide all connections
@@ -446,6 +520,13 @@ function highlightChords(index) {
               // Highlight only the connection between firstChord and secondChord
               hideAllChords();
               highlightConnection(firstChord, secondChord);
+
+              chordEmotion1 = getChordNameById(firstChord)
+              console.log("chord emo1: " + chordEmotion1);
+              chordEmotion2 = getChordNameById(secondChord)
+              console.log("chord emo2: " + chordEmotion2);
+              findEmotionPairMessage(chordEmotion1, chordEmotion2, emotionData);
+
           } else {
               console.log(`No connection found between: ${firstChord} and ${secondChord}`);
               // No connection found, hide all connections
@@ -508,6 +589,7 @@ return flows.some(flow =>
 }
 
 function hideAllChords() {
+  document.getElementById('chord_pair_message').style.display = 'none';
   svg.selectAll("path.chord")
       .style("fill-opacity", "0")
       .style("stroke-opacity", "0");
@@ -680,3 +762,29 @@ function sendChordData() {
     socket.send(JSON.stringify(data));
   }
 }
+
+function findEmotionPairMessage(emotion1, emotion2, data) {
+  console.log(`Searching for combination between ${emotion1} and ${emotion2}`);
+  
+  const emotionPairKey = Object.keys(data.emotion_pairs).find(key => {
+    const pair = data.emotion_pairs[key];
+    console.log("pair: " + pair);  // Log the current pair from the data
+    console.log("pair1: " + pair[0]);  // Log the first emotion in the pair
+    console.log("pair2: " + pair[1]);  // Log the second emotion in the pair
+
+    // Check if the pair matches either order
+    return (pair[0] === emotion1 && pair[1] === emotion2) || (pair[0] === emotion2 && pair[1] === emotion1);
+  });
+
+  if (!emotionPairKey) {
+    console.log("No matching pair found.");
+  }
+
+  const combinationMessage = data.combinationMessages[emotionPairKey] || "Combined emotion message not found.";
+  console.log(`Combination Key: ${emotionPairKey} Combo Message: ${combinationMessage}`);
+
+  // Display the combination message on the page
+  document.getElementById('chord_pair_message').style.display = 'block';
+  document.getElementById('chord_pair_message').innerText = combinationMessage;
+}
+

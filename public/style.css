@@ -203,7 +203,8 @@ section.outgoing {
 }
 
 #chart {
-  scale: 0.65;
+  scale: 0.6;
+  padding-bottom: 60px;
   overflow: visible;
 }
 
@@ -563,6 +564,13 @@ img#load {
   padding: 0 18%;
 }
 
+#chord_pair_message {
+  font-size: 17px;
+  color: white;
+  bottom: 0;
+  position: absolute;
+  padding: 0 16%;
+}
 
 .button-container {
   display: flex; /* Enables flexbox layout */
