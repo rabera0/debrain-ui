@@ -203,14 +203,24 @@ section.outgoing {
 }
 
 #chart {
-  scale: 0.6;
-  padding-bottom: 60px;
+  scale: 0.55;
+  padding-bottom: 15%;
   overflow: visible;
 }
 
 #chart-svg {
   overflow: visible;
 }
+
+#chord_pair_message {
+  font-size: 17px;
+  color: white;
+  bottom: 0;
+  position: absolute;
+  padding: 3% 0;
+  max-width: 540px;
+}
+
 
 h1, h2, h3, h4, h5, p {
   color: white;
@@ -564,13 +574,6 @@ img#load {
   padding: 0 18%;
 }
 
-#chord_pair_message {
-  font-size: 17px;
-  color: white;
-  bottom: 0;
-  position: absolute;
-  padding: 0 16%;
-}
 
 .button-container {
   display: flex; /* Enables flexbox layout */
